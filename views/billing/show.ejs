@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=Sh, initial-scale=1.0">
+  <title>Show Billing Information</title>
+</head>
+<body>
+  <%- include('../partials/_navbar.ejs') %>
+
+  <h1><%= billing.name %> Information</h1>
+  <p>Billing ID: <%= billing.id %></p>
+  <p>Billing BIN: <%= billing.bin %></p>
+  <p>Billing PCN: <%= billing.pcn %></p>
+  <p>Billing GRP: <%= billing.grp %></p>
+
+  <a href="/billing/<% billing._id %>/edit">Edit <%= billing.name %></a>
+  <a href="/billing/<% billing._id %>/edit">Edit <%= billing.name %></a>
+  <form action="/billing/<%= billing._id %>/soft?_method=DELETE" method="POST">
+    <button type="submit">Inactivate <%= billing.name %></button>
+  </form>
+
+  <button onclick="window.history.black()">Go Back</button>
+</body>
+</html>

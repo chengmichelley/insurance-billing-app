@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create a New Billing</title>
+</head>
+<body>
+  <%- include('../partials/_navbar.ejs') %>
+  <h1>Create a New Billing</h1>
+  <form>
+    <label for="id">ID</label>
+    <input type="text" id="id" name="id"/>
+
+    <label for="bin">BIN</label>
+    <input type="bin" id="bin" name="bin" required/>
+
+    <label for="pcn">PCN</label>
+    <input type="pcn" id="pcn" name="pcn" required/>
+
+    <label for="grp">GRP</label>
+    <input type="grp" id="grp" name="grp"/>
+    
+    <button type="submit">Add Billing</button>
+  </form>
+</body>
+</html>

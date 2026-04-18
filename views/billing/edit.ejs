@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editing a Billing</title>
+</head>
+<body>
+    <%- include('../partials/_navbar.ejs') %>
+    <h1>Editing the <%= billing.name %></h1>
+    <form action="/billing/<%= billing._id%>?_method=PUT" method="POST">
+      <label for="id">ID</label>
+      <input type="text" id="id" name="id"/>
+
+      <label for="bin">BIN</label>
+      <input type="bin" id="bin" name="bin" required/>
+
+      <label for="pcn">PCN</label>
+      <input type="pcn" id="pcn" name="pcn" required/>
+
+      <label for="grp">GRP</label>
+      <input type="grp" id="grp" name="grp"/>
+
+      <button type="submit">Edit Billing</button>
+    </form>
+  
+</body>
+</html>

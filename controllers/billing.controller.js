@@ -1,18 +1,119 @@
-const express= require('express')
-const router= express.Router()
-const Billing= require('../models/billing')
+const express = require("express");
+const router = express.Router();
+const Billing = require("../models/billing");
 
-// I.N.D.U.C.E.S (RESTful Routes)
+// =======================
+// INDEX
+// =======================
+router.get("/", async (req, res) => {
+  try {
+    const billing = await Billing.find({});
+    res.render("billing/index.ejs", { billing });
+  } catch (error) {
+    res.status(400).render("error.ejs", { err: error.message });
+  }
+});
 
-// ** Index - GET /fruits - get all all the fruits and send back a page
-// ** New - GET /fruits/new - send a form to create a new fruit
-// ** Delete - Delete /fruits/:fruitId - delete some fruits based on the param passed
-// ** Update - Put /fruits/:fruitId  - update some fruits based on the param passed and req.body
-// ** Create - Post /fruits - take data from the fruits/new form and add to the data
-// ** Edit - GET /fruits/:fruitId/edit - edit a specific fruit
-// ** Show - GET /fruits/:fruitId - show one specific fruit
+// =======================
+// NEW
+// =======================
+router.get("/new", (req, res) => {
+  res.render("billing/new.ejs");
+});
 
-// Extra Routes 
-// GET /fruits/:fruitId/confirm_delete -> Show a confirmation for deleting an item
-// 
-module.exports = router
+// =======================
+// CREATE
+// =======================
+router.post("/", async (req, res) => {
+  try {
+    await Billing.create(req.body);
+    res.redirect("/billing");
+  } catch (error) {
+    res.status(400).render("error.ejs", { err: error.message });
+  }
+});
+
+// =======================
+// EDIT
+// =======================
+router.get("/:id/edit", async (req, res) => {
+  try {
+    const billing = await Billing.findById(req.params.id);
+
+    if (!billing) throw new Error("Billing not found");
+
+    res.render("billing/edit.ejs", { billing });
+  } catch (error) {
+    res.render("error.ejs", { err: error.message });
+  }
+});
+
+// =======================
+// UPDATE
+// =======================
+router.put("/:id", async (req, res) => {
+  try {
+    await Billing.findByIdAndUpdate(req.params.id, req.body);
+    res.redirect(`/billing/${req.params.id}`);
+  } catch (error) {
+    res.render("error.ejs", { err: error.message });
+  }
+});
+
+// =======================
+// DELETE
+// =======================
+router.delete("/:id", async (req, res) => {
+  try {
+    await Billing.findByIdAndDelete(req.params.id);
+    res.redirect("/billing");
+  } catch (error) {
+    res.render("error.ejs", { err: error.message });
+  }
+});
+
+// =======================
+// SOFT DELETE (INACTIVATE)
+// =======================
+router.put("/:id/inactivate", async (req, res) => {
+  try {
+    await Billing.findByIdAndUpdate(req.params.id, {
+      isInactivated: true,
+    });
+    res.redirect("/billing");
+  } catch (error) {
+    res.render("error.ejs", { err: error.message });
+  }
+});
+
+// =======================
+// CONFIRM DELETE
+// =======================
+router.get("/:id/confirm_delete", async (req, res) => {
+  try {
+    const billing = await Billing.findById(req.params.id);
+
+    if (!billing) throw new Error("Billing not found");
+
+    res.render("billing/billing_delete_confirm_cancel.ejs", { billing });
+  } catch (error) {
+    res.render("error.ejs", { err: error.message });
+  }
+});
+
+// =======================
+// SHOW
+// =======================
+router.get("/:id", async (req, res) => {
+  try {
+    const billing = await Billing.findById(req.params.id);
+
+    if (!billing) throw new Error("Billing not found");
+
+    res.render("billing/show.ejs", { billing });
+  } catch (error) {
+    res.render("error.ejs", { err: error.message });
+  }
+});
+
+module.exports = router;
