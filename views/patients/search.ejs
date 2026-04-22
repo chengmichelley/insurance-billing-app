@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search for a Patient</title>
+</head>
+<body>
+  <%- include('../partials/_navbar.ejs') %>
+  <h1>Search for a Patient</h1>
+  <form action ='/patients/search' method="GET">
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" name="firstName" autofocus placeholder="First Name"/>
+
+    <label for="lastName">Last Name:</label>
+    <input type="text" id="lastName" name="lastName"/>
+
+    <label for="dob">Date of Birth:</label>
+    <input type="text" id="dob" name="dob" required/>
+
+    <button type="submit">Find Patient</button>
+  </form>
+
+  <% if(err) { %>
+    <p><%= err %></p>
+  <% } %>
+
+  <% if (results && results.length > 0) { %>
+  <h2>Matching Patients:</h2>
+  <ul>
+    <% results.forEach(patient => { %>
+      <li>
+        <strong><%= patient.firstName %> <%= patient.lastName %></strong><br>
+        (DOB: <%= patient.dob %>)
+        <br>
+        <a href="/patients/select/<%= patient._id %>">Create Bill</a>
+      </li>
+    <% }) %>
+  </ul>
+  <% } %>
+<% if (results && results.length === 0 && (typeof firstName !== 'undefined' || typeof dob !== 'undefined')) { %>
+  <hr>
+  <p>No patients found. <a href="/patients/new">Add a New Patient!</a></p>
+<% } %>
+</body>
+</html>

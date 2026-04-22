@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to the Pharmacy Billing App</title>
+</head>
+<body>
+  <%- include('partials/_navbar.ejs')%>
+  <h1>Welcome to the Pharmacy Billing App!</h1>
+  <% if(user) {%>
+    <a href="/patients/search">Go to Patient Search</a>
+  <% } else { %>
+    <p>Please <a href="/auth/sign-in">Sign In</a> or <a href="/auth/sign-up">Sign Up</a> with your Administrator.</p>
+  <% } %>
+</body>
+</html>

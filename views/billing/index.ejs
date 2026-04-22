@@ -3,17 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Billing</title>
+  <title>Patient Billing Records</title>
 </head>
 <body>
     <%- include('../partials/_navbar.ejs') %>
-    <h1>All Billing Insurances</h1>
+    <h1>Insurance Plans for <%= activePatient.firstName %> <%= activePatient.lastName %></h1>
+    <div>
+      <a href="/patients/<%= activePatient._id %>/billing/new" class="button">Add a New Insurance Plan</a>
+      
+      <% if (billing && billing.length > 0) { %>
+      <a href="/patients/<%= activePatient._id %>/billing/<%= billing[0]._id %>/recommendation?medType=generic" class="button" style="background-color: green; color: white;">
+      Get Best Plan Recommendation
+    </a>
+  <% } %>
+    </div>
     <ul>
-      <% billing.forEach(billing=> { %>
-        <a href="/billing/<% billing._id%>">
-          <%= billing.name %>
-        </a>
-      <% }) %>
+
+      <% if( billing && billing.length > 0) { %>
+        <% billing.forEach(b=> { %>
+          <li>
+            <a href="/patients/<%= activePatient._id %>/billing/<%= b._id %>">
+              <%= b.providerName %> 
+              <% if(b.isInactivated) { %> (Inactive) <% } %>
+            </a>
+            <br>
+            <small>Member ID: <%= b.memberId %> | Type: <%= b.coverageType %></small>
+          </li>
+        <% }) %>
+      <% } else { %>
+        <li>
+          <p>No active insurance records found for this patient.</p>
+        </li>
+      <% } %>  
     </ul>
+    <a href="/patients/search">Back to Patient Search</a>
 </body>
 </html>

@@ -1,14 +1,18 @@
-const express = require("express");
-const router = express.Router();
-const Billing = require("../models/billing");
+const express = require('express');
+const router = express.Router({ mergeParams: true });
+const Billing = require('../models/billing');
+const Patient = require('../models/patient');
+const patientSelected = require('../middleware/patientSelected');
+const { recommend } = require('../logic/recommendation');
+const authRequired = require('../middleware/authRequired');
 
 // =======================
 // INDEX
 // =======================
 router.get("/", async (req, res) => {
   try {
-    const billing = await Billing.find({});
-    res.render("billing/index.ejs", { billing });
+    const billing = await Billing.find({ patient: req.params.patientId });
+    res.render("billing/index.ejs", { billing, patientId: req.params.patientId });
   } catch (error) {
     res.status(400).render("error.ejs", { err: error.message });
   }
@@ -17,8 +21,13 @@ router.get("/", async (req, res) => {
 // =======================
 // NEW
 // =======================
-router.get("/new", (req, res) => {
-  res.render("billing/new.ejs");
+router.get("/new", async (req, res) => {
+  const patientId = req.params.patientId;
+  const patient = await Patient.findById(patientId)
+  if(!patient) {
+      throw new Error(('Patient not found. Please try again!'));
+  }
+  res.render("billing/new.ejs", { patient });
 });
 
 // =======================
@@ -26,10 +35,34 @@ router.get("/new", (req, res) => {
 // =======================
 router.post("/", async (req, res) => {
   try {
-    await Billing.create(req.body);
-    res.redirect("/billing");
+    req.body.isInactivated = !!req.body.isInactivated;
+    
+    const bData = { ...req.body, patient: req.params.patientId };
+    await Billing.create(bData);
+    res.redirect(`/patients/${req.params.patientId}/billing`);
   } catch (error) {
     res.status(400).render("error.ejs", { err: error.message });
+  }
+});
+
+// =======================
+// RECOMMENDATION
+// =======================
+
+router.get('/:id/recommendation', async (req, res)=> {
+  try {
+    const medType = req.query.medType || 'generic';
+    if(!medType) {
+            throw new Error('Med Type not found. Please try again!');
+    }
+    const results = await recommend(req.params.id, medType);
+  
+    res.render('billing/recommendation.ejs', {
+      results,
+      medType
+    });
+  } catch (error) {
+    res.render('error.ejs', { err: error.message })
   }
 });
 
@@ -54,7 +87,7 @@ router.get("/:id/edit", async (req, res) => {
 router.put("/:id", async (req, res) => {
   try {
     await Billing.findByIdAndUpdate(req.params.id, req.body);
-    res.redirect(`/billing/${req.params.id}`);
+    res.redirect(`/patients/${req.params.patientId}/billing/${req.params.id}`);
   } catch (error) {
     res.render("error.ejs", { err: error.message });
   }
@@ -66,7 +99,7 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     await Billing.findByIdAndDelete(req.params.id);
-    res.redirect("/billing");
+    res.redirect(`/patients/${req.params.patientId}/billing`);
   } catch (error) {
     res.render("error.ejs", { err: error.message });
   }
@@ -80,7 +113,7 @@ router.put("/:id/inactivate", async (req, res) => {
     await Billing.findByIdAndUpdate(req.params.id, {
       isInactivated: true,
     });
-    res.redirect("/billing");
+    res.redirect(`/patients/${req.params.patientId}/billing`);
   } catch (error) {
     res.render("error.ejs", { err: error.message });
   }

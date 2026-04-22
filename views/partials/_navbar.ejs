@@ -2,7 +2,17 @@
 
 <nav>
   <a href="/">Home</a>
-  <a href="/billing">Billing</a>
-  <a href="/billing/billing._id">Billing Profile</a>
-  <a href="/billing/insurance-information">Billing Insurance Information</a>
+  <% if(user) { %>
+    <a href="/patients/search">Patient Search</a>
+    <% if(activePatient) {%>
+      <span>Active: <%= activePatient.firstName %> <%= activePatient.lastName %>
+        <small>(DOB: <%= activePatient.dob %> )</small>
+        <a href="/patients/clear-selection">Switch Patient</a>
+      </span>
+    <% } %>
+    <a href="/auth/sign-out">Logout <%= user.username %></a>
+  <% } else { %>
+    <a href="/auth/sign-up">Sign-Up</a>
+    <a href="/auth/sign-in">Sign-In</a>
+  <% } %>
 </nav>

@@ -8,18 +8,35 @@
 <body>
   <%- include('../partials/_navbar.ejs') %>
 
-  <h1><%= billing.name %> Information</h1>
-  <p>Billing ID: <%= billing.id %></p>
+  <h1><%= billing.providerName %> Information</h1>
+  <h3>Patient: <%= activePatient.firstName %> <%= activePatient.lastName %></h3>
+
+  <p>Provider Name: <%= billing.providerName %></p>
+  <p>Billing Member ID: <%= billing.memberId %></p>
   <p>Billing BIN: <%= billing.bin %></p>
   <p>Billing PCN: <%= billing.pcn %></p>
-  <p>Billing GRP: <%= billing.grp %></p>
+  <p>Billing Group: <%= billing.group %></p>
+  <p>Coverage Type: <%= billing.coverageType %></p>
+  <p>Priority: <%= billing.priority %></p>
+  <p>Status: <%= billing.isInactivated ? 'Inactive' : 'Active' %></p>
+  
+  <div>
+  <a href="/patients/<%= activePatient._id %>/billing/<%= billing._id %>/edit">Edit Record</a> | 
+    
+    <a href="/patients/<%= activePatient._id %>/billing/<%= billing._id %>/recommendation?medType=generic">
+      Get Recommendation
+    </a>
 
-  <a href="/billing/<% billing._id %>/edit">Edit <%= billing.name %></a>
-  <a href="/billing/<% billing._id %>/edit">Edit <%= billing.name %></a>
-  <form action="/billing/<%= billing._id %>/soft?_method=DELETE" method="POST">
-    <button type="submit">Inactivate <%= billing.name %></button>
-  </form>
+    <form action="/patients/<%= activePatient._id %>/billing/<%= billing._id %>/inactivate?_method=PUT" method="POST">
+      <button type="submit" <%= billing.isInactivated ? 'disabled' : '' %>>
+    Inactivate <%= billing.providerName %>
+  </button>
+    </form>
 
-  <button onclick="window.history.black()">Go Back</button>
+    <form action="/patients/<%= activePatient._id %>/billing/<%= billing._id %>/confirm_delete" method="GET">
+       <button type="submit" style="color: red;">Delete Record</button>
+    </form>
+  </div>
+  <a href="/patients/<%= activePatient._id %>/billing">Go Back to List</a>
 </body>
 </html>

@@ -7,21 +7,41 @@
 </head>
 <body>
     <%- include('../partials/_navbar.ejs') %>
-    <h1>Editing the <%= billing.name %></h1>
-    <form action="/billing/<%= billing._id%>?_method=PUT" method="POST">
-      <label for="id">ID</label>
-      <input type="text" id="id" name="id"/>
+    <h1>Editing  <%= billing.providerName %></h1>
+    <form action="/patients/<%= billing.patient %>/billing/<%= billing._id%>?_method=PUT" method="POST">
 
-      <label for="bin">BIN</label>
-      <input type="bin" id="bin" name="bin" required/>
+      <label for="providerName">Provider Name:</label>
+      <input type="text" id="providerName" name="providerName" value="<%= billing.providerName %>"/>
 
-      <label for="pcn">PCN</label>
-      <input type="pcn" id="pcn" name="pcn" required/>
+      <label for="memberId">Member ID:</label>
+      <input type="text" id="memberId" name="memberId" value="<%= billing.memberId %>"/>
 
-      <label for="grp">GRP</label>
-      <input type="grp" id="grp" name="grp"/>
+      <label for="bin">BIN:</label>
+      <input type="text" id="bin" name="bin" value="<%= billing.bin %>" required/>
 
-      <button type="submit">Edit Billing</button>
+      <label for="pcn">PCN:</label>
+      <input type="text" id="pcn" name="pcn" value="<%= billing.pcn %>" required/>
+
+      <label for="group">Group:</label>
+      <input type="text" id="group" name="group" value="<%= billing.group %>"/>
+
+      <label for="coverageType">Coverage Type:</label>
+      <select name="coverageType" required>
+        <option value="primary" <%= billing.coverageType === 'primary' ? 'selected' : '' %>>Primary</option>
+        <option value="secondary" <%= billing.coverageType === 'secondary' ? 'selected' : '' %>>Secondary</option>
+        <option value="medicaid" <%= billing.coverageType === 'medicaid' ? 'selected' : '' %>>Medicaid</option>
+        <option value="medicare" <%= billing.coverageType === 'medicare' ? 'selected' : '' %>>Medicare</option>
+        <option value="commercial" <%= billing.coverageType === 'commercial' ? 'selected' : '' %>>Commercial</option>
+      </select>
+
+      <label for="priority">Priority:</label>
+      <input type="number" id="priority" name="priority" value="<%= billing.priority %>" min="0" max="100"/>
+
+      <label for="isInactivated">Inactivated:</label>
+      <input type="checkbox" id="isInactivated" name="isInactivated" <%= billing.isInactivated ? 'checked' : '' %>/>
+
+      <button type="submit">Update Billing</button>
+      <a href="/patients/<%= billing.patient %>/billing/<%= billing._id %>">Cancel</a>
     </form>
   
 </body>

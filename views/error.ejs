@@ -6,9 +6,13 @@
     <title>Error Page</title>
   </head>
   <body>
-    <h1>You have encountered and error!</h1>
-    <p><strong>Error message:</strong>
-    <%= err %></p>
+     <%- include('./partials/_navbar.ejs') %>
+    <h1>You have encountered an error!</h1>
+      <p><strong>Error message:</strong>
+        <%= typeof err !== 'undefined' ? err: 'An unknown error occurred!' %>
+      </p>
+
+    <button onClick="window.history.back()">Go Back</button>
+
   </body>
-  <button onClick="window.history.back()">Go Back</button>
 </html>

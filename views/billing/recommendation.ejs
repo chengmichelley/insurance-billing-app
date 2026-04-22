@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Billing Recommendation</title>
+</head>
+<body>
+  <%- include('../partials/_navbar.ejs') %>
+
+  <h1>Insurance Selection Recommendation <%= medType %></h1>
+    <% if(results && results.length > 0) { %>
+      <form action="/patients/<%= results[0]?.insurance?.patient %>/billing/<%= results[0]?.insurance?._id %>/recommendation" method="GET">
+        <select name="medType" onchange="this.form.submit()">
+          <option value="generic" <%= medType === 'generic' ? 'selected' : '' %>>Generic</option>
+          <option value="brand" <%= medType === 'brand' ? 'selected' : '' %>>Brand</option>
+        </select>
+      </form>
+    <ul>
+    <% results.forEach (r=> { %>
+      <li>
+        Plan: <%= r.insurance.providerName %><br>
+        Coverage: <%= r.insurance.coverageType %><br>
+        Score: <%= r.score %><br>
+        Note: <%= r.note %><br>
+      </li>
+      <% }) %>
+    </ul>
+      <a href="/patients/<%= results[0]?.insurance?.patient %>/billing">Back to Billing List</a>
+
+    <% } else { %>
+      <p>No insurance records found for this patient.</p>
+    <% } %>
+</body>
+</html>
