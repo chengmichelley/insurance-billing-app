@@ -9,7 +9,7 @@
     <%- include('../partials/_navbar.ejs') %>
     <h1>Insurance Plans for <%= activePatient.firstName %> <%= activePatient.lastName %></h1>
     <div>
-      <a href="/patients/<%= activePatient._id %>/billing/new" class="button">Add a New Insurance Plan</a>
+      <a href="/patients/select/<%= activePatient._id %>" class="button">Add a New Insurance Plan</a>
       
       <% if (billing && billing.length > 0) { %>
       <a href="/patients/<%= activePatient._id %>/billing/<%= billing[0]._id %>/recommendation?medType=generic" class="button" style="background-color: green; color: white;">
@@ -36,6 +36,7 @@
         </li>
       <% } %>  
     </ul>
+    <a href="/patients/<%= activePatient._id %>">Back to <%= activePatient.firstName %> <%= activePatient.lastName %>'s Profile</a> |
     <a href="/patients/search">Back to Patient Search</a>
 </body>
 </html>

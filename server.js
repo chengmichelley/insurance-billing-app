@@ -2,30 +2,22 @@ require("dotenv").config();
 require("./db/connection");
 
 const express = require("express");
-
 const app = express();
-
 const PORT = process.env.PORT || 3000;
-
 const methodOverride = require("method-override");
-
 const morgan = require("morgan");
 
 const billingController = require("./controllers/billings");
-
 const patientController = require("./controllers/patients")
-
 const authRoutes = require("./controllers/auth");
-
 const userRoutes = require("./controllers/users");
 
 const session = require("express-session");
-
 const MongoStore = require("connect-mongo").default;
 
 const authRequired = require("./middleware/authRequired");
-
 const viewData = require("./middleware/viewData");
+const isAdmin = require("./middleware/isAdmin");
 
 // =======================
 
@@ -34,13 +26,9 @@ const viewData = require("./middleware/viewData");
 // =======================
 
 app.use(express.urlencoded({ extended: true }));
-
 app.use(express.json());
-
 app.use(methodOverride("_method"));
-
 app.use(express.static("public"));
-
 app.use(morgan("dev"));
 
 // =======================
@@ -68,7 +56,6 @@ app.use(
 );
 
 app.use(viewData);
-
 app.use("/auth", authRoutes);
 
 app.get("/", (req, res) => {
@@ -76,9 +63,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/patients", authRequired, patientController);
-
 app.use("/patients/:patientId/billing", authRequired, billingController);
-
 app.use("/user", authRequired, userRoutes);
 
 

@@ -38,6 +38,7 @@ router.get("/search", async (req, res) => {
     res.render("patients/search.ejs", {
       results,
       err: req.query.error || null,
+      message: req.query.message || null,
       firstName: req.query.firstName || '',
       lastName: req.query.lastName || '',
       dob: req.query.dob || '',

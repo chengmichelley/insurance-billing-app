@@ -2,12 +2,14 @@ const express = require('express')
 const router = express.Router()
 const User = require('../models/user')
 const bcrypt = require('bcrypt')
+const authRequired = require('../middleware/authRequired')
+const isAdmin = require('../middleware/isAdmin')
 
-router.get('/sign-up', (req, res)=> {
+router.get('/sign-up', authRequired, isAdmin, (req, res)=> {
   res.render('auth/sign-up.ejs', { err: ''})
 })
 
-router.post('/sign-up', async (req, res)=> {
+router.post('/sign-up', authRequired, isAdmin, async (req, res)=> {
   try {
     const { username, password, confirmPassword } = req.body
 
@@ -21,20 +23,14 @@ router.post('/sign-up', async (req, res)=> {
 
     const hashedPassword = bcrypt.hashSync(password, 8);
 
-    const user = await User.create({
+    await User.create({
       username,
-      hashedPassword
+      hashedPassword,
+      role: 'user'
     })
 
-    req.session.user = {
-      _id: user._id,
-      username: user.username
-    }
-
-    req.session.save(()=> {
-      res.redirect(`/patients/search`)
-    })
-
+    res.redirect(`/patients/search?message=Staff member ${ username } created successfully!`)
+  
   } catch (error) {
     res.render('auth/sign-up', { err: error.message })
   }
@@ -53,22 +49,25 @@ router.post('/sign-in', async (req, res)=> {
     );
     
     if(!foundUser){
-      throw new Error(`User with username ${username} does not exist. Please sign up!`)
+      throw new Error(`Invalid Username.`)
     }
 
     const isValidPassword = bcrypt.compareSync(password, foundUser.hashedPassword)
 
     if(!isValidPassword){
-      throw new Error('Password is incorrect. Please try again!')
+      throw new Error('Invalid Password.')
     }
 
     req.session.user = {
       _id: foundUser._id,
-      username: foundUser.username
+      username: foundUser.username,
+      role: foundUser.role
     }
 
     req.session.save(()=> {
-      res.redirect(`/patients/search`);
+      const redirectTo = req.session.returnTo || '/patients/search';
+      delete req.session.returnTo;
+      res.redirect(redirectTo);
     })
   } catch (error) {
     res.render('auth/sign-in', { err: error.message })

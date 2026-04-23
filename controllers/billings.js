@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
     const activePatient = await Patient.findById(req.params.patientId);
     if(!activePatient) throw new Error('Patient not Found!')
 
-    res.render("billing/index.ejs", { billing, activePatient });
+    res.render("billings/index.ejs", { billing, activePatient });
   } catch (error) {
     res.status(400).render("error.ejs", { err: error.message });
   }
@@ -30,7 +30,7 @@ router.get("/new", patientSelected,  async (req, res) => {
   if(!activePatient) {
       throw new Error(('Patient not found. Please try again!'));
   }
-  res.render("billing/new.ejs", { activePatient });
+  res.render("billings/new.ejs", { activePatient });
 });
 
 // =======================
@@ -60,7 +60,7 @@ router.get('/:id/recommendation', async (req, res)=> {
     }
     const results = await recommend(req.params.id, medType);
   
-    res.render('billing/recommendation.ejs', {
+    res.render('billings/recommendation.ejs', {
       results,
       medType
     });
@@ -80,7 +80,7 @@ router.get("/:id/edit", async (req, res) => {
     const activePatient = await Patient.findById(req.params.patientId);
     if(!activePatient) throw new Error('Patient not found')
 
-    res.render("billing/edit.ejs", { billing, activePatient });
+    res.render("billings/edit.ejs", { billing, activePatient });
   } catch (error) {
     res.render("error.ejs", { err: error.message });
   }
@@ -135,7 +135,7 @@ router.get("/:id/confirm_delete", async (req, res) => {
 
     if (!billing) throw new Error("Billing not found");
 
-    res.render("billing/billing_delete_confirm_cancel.ejs", { billing });
+    res.render("billings/billing_delete_confirm_cancel.ejs", { billing });
   } catch (error) {
     res.render("error.ejs", { err: error.message });
   }
@@ -152,7 +152,7 @@ router.get("/:id", async (req, res) => {
     const activePatient = await Patient.findById(req.params.patientId);
     if(!activePatient) throw new Error('Patient not found')
 
-    res.render("billing/show.ejs", { billing, activePatient });
+    res.render("billings/show.ejs", { billing, activePatient });
   } catch (error) {
     res.render("error.ejs", { err: error.message });
   }

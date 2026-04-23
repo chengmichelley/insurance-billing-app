@@ -21,6 +21,10 @@
     <button type="submit">Find Patient</button>
   </form>
 
+  <% if(typeof message !== 'undefined' && message) { %>
+    <%= message %>
+  <% } %>
+
   <% if(err) { %>
     <p><%= err %></p>
   <% } %>

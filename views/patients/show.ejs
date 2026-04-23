@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=Sh, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Patient Profile</title>
 </head>
 <body>
@@ -15,24 +15,28 @@
   <br>
   
   <div>
-  <a href="/patients/<%= patient._id %>/billing">View Insurance & Billings</a> | 
+    <a href="/patients/<%= patient._id %>/billing">View Insurance & Billings</a> |
+    
+    <a href="/patients/select/<%= patient._id %>">
+  Add New Insurance Plan</a> |
     
     <a href="/patients/<%= patient._id %>/edit">
       Edit Patient | <%= patient.firstName %> <%= patient.lastName %>
     </a>
-
-    <a href="/patients/select/<%= patient._id %>">Select a Patient for New Billing</a>
   </div>
+
+  <br>
 
   <div>
 
     <form action="/patients/<%= patient._id %>/inactivate?_method=PUT" method="POST">
       <button type="submit" <%= patient.isInactivated ? 'disabled' : '' %>>
     Inactivate Patient Record <%= patient.firstName %><%= patient.lastName %>
-  </button>
+      </button>
     </form>
-
   </div>
+
+  <br>
   <a href="/patients/search">Back to Search</a>
 </body>
 </html>

@@ -3,6 +3,10 @@
   <a href="/">Home</a>
   <% if(user) { %>
     | <a href="/patients/search">Patient Search</a>
+
+    <% if(user.role === 'admin') { %>
+      | <a href="/auth/sign-up">Register a New Staff Member</a>
+    <% } %>
   <% } %>
   </div>
 
@@ -20,7 +24,6 @@
       <span>User | <%= user.username %></span>
     | <a href="/auth/sign-out">Logout <%= user.username %></a>
   <% } else { %>
-    <a href="/auth/sign-up">Sign-Up</a> |
     <a href="/auth/sign-in">Sign-In</a>
   <% } %>
   </div>
