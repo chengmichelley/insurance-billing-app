@@ -35,7 +35,7 @@ const billingSchema = new mongoose.Schema(
 
     priority: {
       type: Number,
-      default: 100,
+      default: 0,
     },
 
     isInactivated: {

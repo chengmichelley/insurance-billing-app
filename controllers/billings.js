@@ -12,7 +12,10 @@ const authRequired = require('../middleware/authRequired');
 router.get("/", async (req, res) => {
   try {
     const billing = await Billing.find({ patient: req.params.patientId });
-    res.render("billing/index.ejs", { billing, patientId: req.params.patientId });
+    const activePatient = await Patient.findById(req.params.patientId);
+    if(!activePatient) throw new Error('Patient not Found!')
+
+    res.render("billing/index.ejs", { billing, activePatient });
   } catch (error) {
     res.status(400).render("error.ejs", { err: error.message });
   }
@@ -21,13 +24,13 @@ router.get("/", async (req, res) => {
 // =======================
 // NEW
 // =======================
-router.get("/new", async (req, res) => {
+router.get("/new", patientSelected,  async (req, res) => {
   const patientId = req.params.patientId;
-  const patient = await Patient.findById(patientId)
-  if(!patient) {
+  const activePatient = await Patient.findById(patientId)
+  if(!activePatient) {
       throw new Error(('Patient not found. Please try again!'));
   }
-  res.render("billing/new.ejs", { patient });
+  res.render("billing/new.ejs", { activePatient });
 });
 
 // =======================
@@ -36,7 +39,7 @@ router.get("/new", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     req.body.isInactivated = !!req.body.isInactivated;
-    
+
     const bData = { ...req.body, patient: req.params.patientId };
     await Billing.create(bData);
     res.redirect(`/patients/${req.params.patientId}/billing`);
@@ -72,10 +75,12 @@ router.get('/:id/recommendation', async (req, res)=> {
 router.get("/:id/edit", async (req, res) => {
   try {
     const billing = await Billing.findById(req.params.id);
+    if(!billing) throw new Error("Billing not found");
 
-    if (!billing) throw new Error("Billing not found");
+    const activePatient = await Patient.findById(req.params.patientId);
+    if(!activePatient) throw new Error('Patient not found')
 
-    res.render("billing/edit.ejs", { billing });
+    res.render("billing/edit.ejs", { billing, activePatient });
   } catch (error) {
     res.render("error.ejs", { err: error.message });
   }
@@ -86,6 +91,8 @@ router.get("/:id/edit", async (req, res) => {
 // =======================
 router.put("/:id", async (req, res) => {
   try {
+    req.body.isInactivated = !!req.body.isInactivated;
+
     await Billing.findByIdAndUpdate(req.params.id, req.body);
     res.redirect(`/patients/${req.params.patientId}/billing/${req.params.id}`);
   } catch (error) {
@@ -140,10 +147,12 @@ router.get("/:id/confirm_delete", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const billing = await Billing.findById(req.params.id);
+    if(!billing) throw new Error("Billing not found");
 
-    if (!billing) throw new Error("Billing not found");
+    const activePatient = await Patient.findById(req.params.patientId);
+    if(!activePatient) throw new Error('Patient not found')
 
-    res.render("billing/show.ejs", { billing });
+    res.render("billing/show.ejs", { billing, activePatient });
   } catch (error) {
     res.render("error.ejs", { err: error.message });
   }

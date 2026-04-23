@@ -1,18 +1,27 @@
-<link rel="stylesheet" href="/stylesheet/style.css"/>
-
 <nav>
+  <div class="nav-left">
   <a href="/">Home</a>
   <% if(user) { %>
-    <a href="/patients/search">Patient Search</a>
-    <% if(activePatient) {%>
-      <span>Active: <%= activePatient.firstName %> <%= activePatient.lastName %>
+    | <a href="/patients/search">Patient Search</a>
+  <% } %>
+  </div>
+
+  <div class="nav-center">
+    <% if(user && activePatient) {%>
+      <span class="active-content">Active: <%= activePatient.firstName %> <%= activePatient.lastName %>
         <small>(DOB: <%= activePatient.dob %> )</small>
-        <a href="/patients/clear-selection">Switch Patient</a>
+        | <a href="/patients/clear-selection">Switch Patient</a>
       </span>
     <% } %>
-    <a href="/auth/sign-out">Logout <%= user.username %></a>
+  </div>
+
+  <div class="nav-right">
+    <% if(user) { %>
+      <span>User | <%= user.username %></span>
+    | <a href="/auth/sign-out">Logout <%= user.username %></a>
   <% } else { %>
-    <a href="/auth/sign-up">Sign-Up</a>
+    <a href="/auth/sign-up">Sign-Up</a> |
     <a href="/auth/sign-in">Sign-In</a>
   <% } %>
+  </div>
 </nav>

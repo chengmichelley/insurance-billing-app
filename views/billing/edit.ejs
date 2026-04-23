@@ -38,7 +38,7 @@
       <input type="number" id="priority" name="priority" value="<%= billing.priority %>" min="0" max="100"/>
 
       <label for="isInactivated">Inactivated:</label>
-      <input type="checkbox" id="isInactivated" name="isInactivated" <%= billing.isInactivated ? 'checked' : '' %>/>
+      <input type="checkbox" id="isInactivated" name="isInactivated" value="true" <%= billing.isInactivated ? 'checked' : '' %>/>
 
       <button type="submit">Update Billing</button>
       <a href="/patients/<%= billing.patient %>/billing/<%= billing._id %>">Cancel</a>

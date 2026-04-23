@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=Sh, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Show Billing Information</title>
 </head>
 <body>
   <%- include('../partials/_navbar.ejs') %>
 
-  <h1><%= billing.providerName %> Information</h1>
+  <h1><%= billing.providerName || 'Insurance' %> Information</h1>
   <h3>Patient: <%= activePatient.firstName %> <%= activePatient.lastName %></h3>
 
   <p>Provider Name: <%= billing.providerName %></p>
@@ -32,11 +32,8 @@
     Inactivate <%= billing.providerName %>
   </button>
     </form>
-
-    <form action="/patients/<%= activePatient._id %>/billing/<%= billing._id %>/confirm_delete" method="GET">
-       <button type="submit" style="color: red;">Delete Record</button>
-    </form>
   </div>
+  <a href="/patients/<%= activePatient._id %>/billing/<%= billing._id %>/confirm_delete">Delete Billing</a>
   <a href="/patients/<%= activePatient._id %>/billing">Go Back to List</a>
 </body>
 </html>

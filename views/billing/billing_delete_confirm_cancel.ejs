@@ -8,9 +8,10 @@
 <body>
   <%- include('../partials/_navbar.ejs') %>
   <h1>Are you sure you want to delete this billing for for <%= billing.providerName %>?</h1>
+  <p>This will permanently remove the record with <strong>Member ID: <%= billing.memberId %></strong>.</p>
 
   <form action="/patients/<%= billing.patient %>/billing/<%= billing._id %>?_method=DELETE" method="POST">
-    <button type="submit">Confirm Delete <%= billing.providerName %></button>
+    <button type="submit">Confirm Delete <%= billing.providerName || 'this unknown provider'%></button>
   </form>
   <a href="/patients/<%= billing.patient %>/billing/<%= billing._id %>">Cancel & Go Back</a>
 </body>

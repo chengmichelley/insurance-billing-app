@@ -23,7 +23,7 @@
         <% billing.forEach(b=> { %>
           <li>
             <a href="/patients/<%= activePatient._id %>/billing/<%= b._id %>">
-              <%= b.providerName %> 
+              <%= b.providerName || 'Unknown Provider' %> 
               <% if(b.isInactivated) { %> (Inactive) <% } %>
             </a>
             <br>

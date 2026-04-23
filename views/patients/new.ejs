@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add a New Patient</title>
+</head>
+<body>
+  <%- include('../partials/_navbar.ejs') %>
+  <h1>Add a New Patient</h1>
+  <form action="/patients/" method="POST">
+
+    <label for="firstName">First Name</label>
+    <input type="text" id="firstName" name="firstName" placeholder="First Name" required/>
+
+    <label for="lastName">Last Name:</label>
+    <input type="text" id="lastName" name="lastName" placeholder="Last Name" required/>
+
+    <label for="dob">Date of Birth:</label>
+    <input type="tel" id="dob" name="dob" placeholder="MM/DD/YYYY" maxlength="10" oninput="formatDate(this)" required/>
+
+    <button type="submit">Add New Patient</button>
+    <br>
+    <a href="/patients/search">Cancel</a>
+  </form>
+
+  <script>
+    let lastValue = '';
+
+    function formatDate(input) {
+      let v = input.value.replace(/\D/g, '');
+
+      if(input.value.length < lastValue.length) {
+        lastValue = input.value;
+        return;
+      }
+
+      let finalValue = '';
+      if(v.length > 0) {
+        finalValue = v.slice(0, 2); 
+        if(v.length > 2) {
+          finalValue += '/' + v.slice(2,4);
+          if(v.length > 4) {
+            finalValue += '/' + v.slice(4, 8);
+          }
+        }
+      }
+      input.value = finalValue;
+      lastValue = finalValue;
+    }
+  </script>
+</body>
+</html>

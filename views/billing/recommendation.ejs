@@ -17,8 +17,11 @@
         </select>
       </form>
     <ul>
-    <% results.forEach (r=> { %>
+    <% results.forEach ((r, index)=> { %>
       <li>
+        <% if (index === 0) { %>
+          <span>★ Recommended Primary Billing ★</span>
+        <% } %>
         Plan: <%= r.insurance.providerName %><br>
         Coverage: <%= r.insurance.coverageType %><br>
         Score: <%= r.score %><br>
@@ -26,10 +29,10 @@
       </li>
       <% }) %>
     </ul>
-      <a href="/patients/<%= results[0]?.insurance?.patient %>/billing">Back to Billing List</a>
-
     <% } else { %>
       <p>No insurance records found for this patient.</p>
     <% } %>
+    <a href="/patients/<%= results.length > 0 ? results[0].insurance.patient : '' %>/billing">Back to Billing List</a>
+
 </body>
 </html>
