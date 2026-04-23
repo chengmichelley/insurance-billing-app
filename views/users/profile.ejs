@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile</title>
+</head>
+<body>
+  <%- include('../partials/_navbar.ejs') %>
+  <h1>User Settings</h1>
+  
+  <% if(typeof message !== 'undefined' && message) { %>
+    <%= message %>
+  <% } %>
+
+  <% if(err) { %>
+    <%= err %>
+  <% } %>
+
+  <p>Username: <%= user.username %></p>
+  <p>Role: <%= user.role.toUpperCase() %></p>
+
+  <hr>
+  <h3>Update Password</h3>
+  <div>
+    <form action="/user/profile/password?_method=PUT" method="POST">
+      <label>New Password:</label>
+      <input type="password" name="password" required>
+      <br>
+      <label>Confirm Password:</label>
+      <input type="password" name="confirmPassword" required>
+      <button type="submit">Update Password</button>
+    </form>
+  </div>
+</body>
+</html>

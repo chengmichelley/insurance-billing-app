@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff Directory</title>
+</head>
+<body>
+    <%- include('../partials/_navbar.ejs') %>
+    <h1>Staff Directory</h1>
+    <p>Manage Administrative Roles & System Access</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Rolee</th>
+          <th>Account Created</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% users.forEach(u=> { %>
+          <tr>
+            <td>
+              <%= u.username %>
+              <% if(u._id.toString() === user._id.toString()) { %>
+                (You)
+              <% } %>
+            </td>
+            <td><%= u.role.toUpperCase() %></td>
+            <td><%= new Date(u.createdAt).toLocaleDateString() %></td>
+            <td>
+              <% if(u._id.toString() !== user._id.toString()) { %>
+                <!-- Update Role Form -->
+
+                <form action="/user/<%= u._id %>/role?_method=PUT" method="POST">
+                  <select name="role">
+                    <option value="user" <%= u.role === 'user' ? 'selected' : '' %>>User</option>
+                    <option value="admin"<%= u.role === 'admin' ? 'selected' : '' %>>Admin</option>
+                  </select>
+                  <button type="submit">Update Role!</button>
+                </form>
+
+                <!-- Delete Role Form -->
+
+                <form action="/user/<%= u._id %>?_method=DELETE" method="POST">
+                  <button type="submit" onClick="return confirm('Are you sure you want to PERMANENTLY remove this staff member?' )">Delete Staff!</button>
+                </form>
+
+              <% } else { %>
+                <p>Manage in My Settings</p>
+              <% } %>
+            </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    
+  <br>
+  <a href="/auth/sign-up">Register a New Staff Member</a>
+      
+</body>
+</html>

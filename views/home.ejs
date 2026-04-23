@@ -3,15 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome to the Pharmacy Billing App</title>
+  <title>Pharmacy Billing Dashboard</title>
 </head>
 <body>
   <%- include('partials/_navbar.ejs')%>
-  <h1>Welcome to the Pharmacy Billing App!</h1>
-  <% if(user) {%>
-    <a href="/patients/search">Go to Patient Search</a>
-  <% } else { %>
-    <p>Please <a href="/auth/sign-in">Sign In</a> or <a href="/auth/sign-up">Sign Up</a> with your Administrator.</p>
-  <% } %>
+  <h1>Pharmacy Billing Management System</h1>
+
+  <% if(user) { %>
+    <h2>Welcome back <%= user.username %>!</h2>
+    <p>Current role | <%= user.role.toUpperCase() %></p>
+    <div>
+      <a href="/patients/search">Start a Patient Search</a>
+      <a href="/patients/new">Add a New Patient</a>
+    </div>
+
+    <% if(user.role === 'admin') { %>
+      <h3>Administrator Tools</h3>
+      <div>
+        <a href="/user">View Staff Directory to Manage</a>
+        <a href="/auth/sign-up">Register a New Staff Member</a>
+      </div>
+    <% } %>
+    
+    <% } else { %>
+      <h2>Please Log in to manage patient billing & insurance.</h2>
+        <div>
+          <a href="/auth/sign-in">Sign In</a> |
+          <p>Contact Administrator to Request Access</p>
+        </div>
+    <% } %>
 </body>
 </html>
