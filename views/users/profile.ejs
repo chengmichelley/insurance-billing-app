@@ -3,33 +3,58 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Profile</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <title>My Profile | <%= user.username %></title>
 </head>
 <body>
   <%- include('../partials/_navbar.ejs') %>
-  <h1>User Settings</h1>
-  
-  <% if(typeof message !== 'undefined' && message) { %>
-    <%= message %>
-  <% } %>
 
-  <% if(err) { %>
-    <%= err %>
-  <% } %>
+  <div class="form-container" style="max-width: 500px;">
+    <div class="settings-header" style="margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem;">
+      <h1>Account Settings</h1>
+      <p style="color: var(--secondary);">Manage your security and profile details.</p>
+    </div>
+    
+    <% if(typeof message !== 'undefined' && message) { %>
+      <div class="badge status-paid" style="display: block; text-align: center; margin-bottom: 1rem; padding: 10px;">
+        <%= message %>
+      </div>
+    <% } %>
 
-  <p>Username: <%= user.username %></p>
-  <p>Role: <%= user.role.toUpperCase() %></p>
+    <% if(typeof err !== 'undefined' && err) { %>
+      <div class="error-msg" style="text-align: center; margin-bottom: 1rem;">
+        <%= err %>
+      </div>
+    <% } %>
 
-  <hr>
-  <h3>Update Password</h3>
-  <div>
+    <div style="background: var(--bg-main); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+      <p style="margin: 0 0 10px 0;"><strong>Username:</strong> <%= user.username %></p>
+      <p style="margin: 0;">
+        <strong>System Role:</strong> 
+        <span class="badge status-pending" style="font-size: 0.7rem; margin-left: 5px;">
+          <%= user.role.toUpperCase() %>
+        </span>
+      </p>
+    </div>
+
+    <h3 style="font-size: 0.9rem; text-transform: uppercase; color: var(--secondary); margin-bottom: 1.5rem;">
+      Security Update
+    </h3>
+    
     <form action="/user/profile/password?_method=PUT" method="POST">
-      <label>New Password:</label>
-      <input type="password" name="password" required>
-      <br>
-      <label>Confirm Password:</label>
-      <input type="password" name="confirmPassword" required>
-      <button type="submit">Update Password</button>
+      <div class="form-group">
+        <label for="password">New Security Password</label>
+        <input type="password" id="password" name="password" required placeholder="Enter new password">
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm New Password</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Repeat new password">
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary btn-block">Update Account Password</button>
+      </div>
     </form>
   </div>
 </body>

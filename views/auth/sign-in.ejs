@@ -3,24 +3,37 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/stylesheets/style.css">
     <title>Sign In</title>
   </head>
   <body>
     <%- include('../partials/_navbar.ejs') %>
-    <h1>Sign In</h1>
-    <% if(err) { %>
-      <p style="color:red;font-style:italic;"><%= err %></p>
-    <% } %>
-    <form action="/auth/sign-in" method="POST">
-      <div>
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required autofocus placeholder="Username"/>
+
+    <div class="auth-container">
+      
+      <div class="auth-card">
+        <h1>Sign In</h1>
+
+        <% if(err) { %>
+          <p class="error-msg"><%= err %></p>
+        <% } %>
+
+        <form action="/auth/sign-in" method="POST">
+          
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required autofocus placeholder="Username"/>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required placeholder="Enter your password"/>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+        </form>
+
       </div>
-      <div>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required placeholder="Enter a password"/>
-      </div>
-      <button type="submit">Sign In</button>
-    </form>
+    </div>
   </body>
 </html>

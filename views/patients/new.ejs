@@ -3,38 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Add a New Patient</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <title>Add Patient | Billing System</title>
 </head>
 <body>
   <%- include('../partials/_navbar.ejs') %>
-  <h1>Add a New Patient</h1>
-  <form action="/patients/" method="POST">
 
-    <label for="firstName">First Name</label>
-    <input type="text" id="firstName" name="firstName" placeholder="First Name" required/>
+  <div class="form-container" style="max-width: 450px;">
+    <h1>Add a New Patient</h1>
+    <p style="color: var(--secondary); margin-bottom: 2rem;">Enter patient details to begin insurance verification.</p>
 
-    <label for="lastName">Last Name:</label>
-    <input type="text" id="lastName" name="lastName" placeholder="Last Name" required/>
+    <form action="/patients/" method="POST">
+      
+      <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input type="text" id="firstName" name="firstName" placeholder="e.g. John" required autofocus/>
+      </div>
 
-    <label for="dob">Date of Birth:</label>
-    <input type="tel" id="dob" name="dob" placeholder="MM/DD/YYYY" maxlength="10" oninput="formatDate(this)" required/>
+      <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input type="text" id="lastName" name="lastName" placeholder="e.g. Doe" required/>
+      </div>
 
-    <button type="submit">Add New Patient</button>
-    <br>
-    <a href="/patients/search">Cancel</a>
-  </form>
+      <div class="form-group">
+        <label for="dob">Date of Birth</label>
+        <input type="tel" id="dob" name="dob" placeholder="MM/DD/YYYY" maxlength="10" oninput="formatDate(this)" required/>
+      </div>
+
+      <div class="form-actions" style="flex-direction: column; gap: 10px;">
+        <button type="submit" class="btn btn-primary btn-block">Create Patient Profile</button>
+        <a href="/patients/search" class="btn btn-outline btn-block" style="text-align: center;">Cancel</a>
+      </div>
+    </form>
+  </div>
 
   <script>
     let lastValue = '';
-
     function formatDate(input) {
       let v = input.value.replace(/\D/g, '');
-
       if(input.value.length < lastValue.length) {
         lastValue = input.value;
         return;
       }
-
       let finalValue = '';
       if(v.length > 0) {
         finalValue = v.slice(0, 2); 

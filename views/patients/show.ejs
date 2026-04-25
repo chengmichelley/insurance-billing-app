@@ -3,40 +3,75 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Patient Profile</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <title>Patient Profile | <%= patient.firstName %></title>
 </head>
 <body>
   <%- include('../partials/_navbar.ejs') %>
 
-  <h1>Patient Profile | <%= patient.firstName %> <%= patient.lastName %></h1>
-  <p>DOB: <%= patient.dob %></p>
-  <p>Status: <%= patient.isInactivated ? '❌ Inactive' : '✅ Active' %></p>
-
-  <br>
-  
-  <div>
-    <a href="/patients/<%= patient._id %>/billing">View Insurance & Billings</a> |
+  <div class="main-content" style="max-width: 900px; margin: 0 auto;">
     
-    <a href="/patients/select/<%= patient._id %>">
-  Add New Insurance Plan</a> |
-    
-    <a href="/patients/<%= patient._id %>/edit">
-      Edit Patient | <%= patient.firstName %> <%= patient.lastName %>
-    </a>
+    <div class="profile-card">
+      <div class="profile-header" style="background: var(--text-dark); color: white; padding: 2rem; display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <h1 style="margin: 0; color: white;"><%= patient.firstName %> <%= patient.lastName %></h1>
+          <p style="margin: 5px 0 0 0; color: #94a3b8; font-size: 0.9rem;">Patient ID: <%= patient._id.toString().slice(-6).toUpperCase() %></p>
+        </div>
+        <div class="badge <%= patient.isInactivated ? 'status-denied' : 'status-paid' %>" style="font-size: 0.9rem; padding: 8px 16px;">
+          <%= patient.isInactivated ? '❌ INACTIVE' : '✅ ACTIVE' %>
+        </div>
+      </div>
+
+      <div class="profile-body" style="padding: 2rem; background: white;">
+        <div class="info-grid" style="margin-bottom: 2.5rem; box-shadow: none; border: none; padding: 0;">
+          <div class="info-item">
+            <label>First Name</label>
+            <span><%= patient.firstName %></span>
+          </div>
+          <div class="info-item">
+            <label>Last Name</label>
+            <span><%= patient.lastName %></span>
+          </div>
+          <div class="info-item">
+            <label>Date of Birth</label>
+            <span><%= patient.dob %></span>
+          </div>
+        </div>
+
+        <h3 style="font-size: 0.9rem; text-transform: uppercase; color: var(--secondary); border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 1.5rem;">
+          Clinical Billing Actions
+        </h3>
+        <div class="dashboard-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-bottom: 3rem;">
+          <a href="/patients/<%= patient._id %>/billing" class="action-card" style="padding: 1.5rem;">
+            <span style="font-size: 1.5rem; margin-bottom: 10px; display: block;">📋</span>
+            <strong>View Insurance</strong>
+            <p style="font-size: 0.8rem; color: var(--secondary); margin: 5px 0 0 0;">Manage plans & verify codes</p>
+          </a>
+          <a href="/patients/select/<%= patient._id %>" class="action-card" style="padding: 1.5rem;">
+            <span style="font-size: 1.5rem; margin-bottom: 10px; display: block;">➕</span>
+            <strong>Add New Plan</strong>
+            <p style="font-size: 0.8rem; color: var(--secondary); margin: 5px 0 0 0;">Add secondary or medicare</p>
+          </a>
+        </div>
+
+        <h3 style="font-size: 0.9rem; text-transform: uppercase; color: var(--secondary); border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 1.5rem;">
+          Administrative Tools
+        </h3>
+        <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+          <a href="/patients/<%= patient._id %>/edit" class="btn btn-outline">
+            ✏️ Edit Patient Details
+          </a>
+          
+          <form action="/patients/<%= patient._id %>/inactivate?_method=PUT" method="POST" style="margin: 0;">
+            <button type="submit" class="btn btn-outline" style="border-color: var(--warning); color: var(--warning);" <%= patient.isInactivated ? 'disabled' : '' %>>
+              🚫 Inactivate Record
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <a href="/patients/search" style="color: var(--secondary); text-decoration: none; font-size: 0.9rem;">← Back to Search</a>
   </div>
-
-  <br>
-
-  <div>
-
-    <form action="/patients/<%= patient._id %>/inactivate?_method=PUT" method="POST">
-      <button type="submit" <%= patient.isInactivated ? 'disabled' : '' %>>
-    Inactivate Patient Record <%= patient.firstName %><%= patient.lastName %>
-      </button>
-    </form>
-  </div>
-
-  <br>
-  <a href="/patients/search">Back to Search</a>
 </body>
 </html>

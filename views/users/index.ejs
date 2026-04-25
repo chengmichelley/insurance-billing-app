@@ -3,63 +3,77 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Staff Directory</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <title>Staff Directory | Admin</title>
 </head>
 <body>
     <%- include('../partials/_navbar.ejs') %>
-    <h1>Staff Directory</h1>
-    <p>Manage Administrative Roles & System Access</p>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Username</th>
-          <th>Rolee</th>
-          <th>Account Created</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
+    <div class="main-content">
+      <div class="detail-header" style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2rem;">
+        <div>
+          <h1>Staff Directory</h1>
+          <p style="color: var(--secondary);">Manage administrative roles and system access.</p>
+        </div>
+        <a href="/auth/sign-up" class="btn btn-primary">+ Register New Staff</a>
+      </div>
 
-      <tbody>
-        <% users.forEach(u=> { %>
+      <table class="billing-table">
+        <thead>
           <tr>
-            <td>
-              <%= u.username %>
-              <% if(u._id.toString() === user._id.toString()) { %>
-                (You)
-              <% } %>
-            </td>
-            <td><%= u.role.toUpperCase() %></td>
-            <td><%= new Date(u.createdAt).toLocaleDateString() %></td>
-            <td>
-              <% if(u._id.toString() !== user._id.toString()) { %>
-                <!-- Update Role Form -->
+            <th>Username</th>
+            <th>Role</th>
+            <th>Account Created</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
 
-                <form action="/user/<%= u._id %>/role?_method=PUT" method="POST">
-                  <select name="role">
-                    <option value="user" <%= u.role === 'user' ? 'selected' : '' %>>User</option>
-                    <option value="admin"<%= u.role === 'admin' ? 'selected' : '' %>>Admin</option>
-                  </select>
-                  <button type="submit">Update Role!</button>
-                </form>
+        <tbody>
+          <% users.forEach(u=> { %>
+            <tr>
+              <td>
+                <strong style="color: var(--text-dark);"><%= u.username %></strong>
+                <% if(u._id.toString() === user._id.toString()) { %>
+                  <span class="badge status-paid" style="font-size: 0.65rem; margin-left: 5px;">YOU</span>
+                <% } %>
+              </td>
+              <td>
+                <span class="badge <%= u.role === 'admin' ? 'status-paid' : 'status-pending' %>">
+                  <%= u.role.toUpperCase() %>
+                </span>
+              </td>
+              <td style="color: var(--secondary); font-size: 0.9rem;">
+                <%= new Date(u.createdAt).toLocaleDateString() %>
+              </td>
+              <td>
+                <% if(u._id.toString() !== user._id.toString()) { %>
+                  <div style="display: flex; gap: 15px; align-items: center;">
+                    
+                    <form action="/user/<%= u._id %>/role?_method=PUT" method="POST" style="display: flex; gap: 5px; margin: 0;">
+                      <select name="role" style="padding: 4px 8px; width: auto; font-size: 0.85rem;">
+                        <option value="user" <%= u.role === 'user' ? 'selected' : '' %>>User</option>
+                        <option value="admin"<%= u.role === 'admin' ? 'selected' : '' %>>Admin</option>
+                      </select>
+                      <button type="submit" class="btn btn-outline" style="padding: 4px 8px; font-size: 0.75rem;">Update</button>
+                    </form>
 
-                <!-- Delete Role Form -->
+                    <form action="/user/<%= u._id %>?_method=DELETE" method="POST" style="margin: 0;">
+                      <button type="submit" class="btn btn-outline" 
+                              style="padding: 4px 8px; font-size: 0.75rem; border-color: var(--danger); color: var(--danger);"
+                              onClick="return confirm('PERMANENTLY remove this staff member?')">
+                        Delete
+                      </button>
+                    </form>
 
-                <form action="/user/<%= u._id %>?_method=DELETE" method="POST">
-                  <button type="submit" onClick="return confirm('Are you sure you want to PERMANENTLY remove this staff member?' )">Delete Staff!</button>
-                </form>
-
-              <% } else { %>
-                <p>Manage in My Settings</p>
-              <% } %>
-            </td>
-        </tr>
-        <% }) %>
-      </tbody>
-    </table>
-    
-  <br>
-  <a href="/auth/sign-up">Register a New Staff Member</a>
-      
+                  </div>
+                <% } else { %>
+                  <a href="/user/profile" style="font-size: 0.85rem; color: var(--primary);">Manage in My Settings</a>
+                <% } %>
+              </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
 </body>
 </html>

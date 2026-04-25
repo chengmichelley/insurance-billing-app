@@ -3,16 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Delete Confirmation</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <title>Confirm Deletion</title>
 </head>
 <body>
   <%- include('../partials/_navbar.ejs') %>
-  <h1>Are you sure you want to delete this billing for for <%= billing.providerName %>?</h1>
-  <p>This will permanently remove the record with <strong>Member ID: <%= billing.memberId %></strong>.</p>
 
-  <form action="/patients/<%= billing.patient %>/billing/<%= billing._id %>?_method=DELETE" method="POST">
-    <button type="submit">Confirm Delete <%= billing.providerName || 'this unknown provider'%></button>
-  </form>
-  <a href="/patients/<%= billing.patient %>/billing/<%= billing._id %>">Cancel & Go Back</a>
+  <div class="confirm-container">
+    
+    <div class="confirm-card">
+      <h1>Confirm Deletion</h1>
+      
+      <p>
+        Are you sure you want to delete the billing record for 
+        <strong><%= billing.providerName %></strong>?<br>
+        This will permanently remove <strong>Member ID: <%= billing.memberId %></strong>.
+      </p>
+
+      <div class="confirm-actions">
+        <form action="/patients/<%= billing.patient %>/billing/<%= billing._id %>?_method=DELETE" method="POST" style="width: 100%;">
+          <button type="submit" class="btn btn-danger btn-block">
+            Confirm Delete
+          </button>
+        </form>
+
+        <a href="/patients/<%= billing.patient %>/billing/<%= billing._id %>" class="btn btn-outline btn-block">
+          Cancel & Go Back
+        </a>
+      </div>
+      
+    </div>
+  </div>
 </body>
 </html>

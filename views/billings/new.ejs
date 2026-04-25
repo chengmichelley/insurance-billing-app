@@ -3,46 +3,72 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Add New Insurance</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <title>Add Insurance | <%= activePatient.firstName %></title>
 </head>
 <body>
   <%- include('../partials/_navbar.ejs') %>
-  <h1>Add New Insurance for <%= activePatient.firstName %> <%= activePatient.lastName %></h1>
-  <form action="/patients/<%= activePatient._id %>/billing" method="POST">
-    
-    <label for="providerName">Provider Name:</label>
-    <input type="text" id="providerName" name="providerName" placeholder="e.g., CVS Caremark"/>
 
-    <label for="memberId">Member ID:</label>
-    <input type="text" id="memberId" name="memberId" required/>
+  <div class="form-container">
+    <h1>New Insurance Plan</h1>
+    <p style="color: var(--secondary); margin-bottom: 2rem;">
+      Adding coverage for: <strong><%= activePatient.firstName %> <%= activePatient.lastName %></strong>
+    </p>
 
-    <label for="bin">BIN:</label>
-    <input type="text" id="bin" name="bin" required/>
+    <form action="/patients/<%= activePatient._id %>/billing" method="POST">
+      
+      <div class="form-group">
+        <label for="providerName">Provider Name</label>
+        <input type="text" id="providerName" name="providerName" placeholder="e.g., CVS Caremark"/>
+      </div>
 
-    <label for="pcn">PCN:</label>
-    <input type="text" id="pcn" name="pcn" required/>
+      <div class="form-group">
+        <label for="memberId">Member ID</label>
+        <input type="text" id="memberId" name="memberId" required placeholder="Enter Member ID"/>
+      </div>
 
-    <label for="group">Group:</label>
-    <input type="text" id="group" name="group"/>
+      <div class="form-row">
+        <div class="form-group" style="flex: 1;">
+          <label for="bin">BIN</label>
+          <input type="text" id="bin" name="bin" required placeholder="6 digits"/>
+        </div>
+        <div class="form-group" style="flex: 1;">
+          <label for="pcn">PCN</label>
+          <input type="text" id="pcn" name="pcn" required placeholder="PCN string"/>
+        </div>
+      </div>
 
-    <label for="coverageType">Coverage Type:</label>
-    <select name="coverageType" required>
-      <option value="primary">Primary</option>
-      <option value="secondary">Secondary</option>
-      <option value="medicaid">Medicaid</option>
-      <option value="medicare">Medicare</option>
-      <option value="commercial">Commercial</option>
-    </select>
+      <div class="form-group">
+        <label for="group">Group</label>
+        <input type="text" id="group" name="group" placeholder="Group Number"/>
+      </div>
 
-    <label for="priority">Priority:</label>
-    <input type="number" id="priority" name="priority" min="0" max="100" value="0"/>
+      <div class="form-group">
+        <label for="coverageType">Coverage Type</label>
+        <select name="coverageType" required>
+          <option value="primary">Primary</option>
+          <option value="secondary">Secondary</option>
+          <option value="medicaid">Medicaid</option>
+          <option value="medicare">Medicare</option>
+          <option value="commercial">Commercial</option>
+        </select>
+      </div>
 
-    <label for="isInactivated">Inactivated:</label>
-    <input type="checkbox" id="isInactivated" name="isInactivated" />
+      <div class="form-group">
+        <label for="priority">Priority (0-100)</label>
+        <input type="number" id="priority" name="priority" min="0" max="100" value="0"/>
+      </div>
 
-    <button type="submit">Save Insurance Plan</button>
-    <br>
-    <a href="/patients/<%= activePatient._id %>/billing">Cancel</a>
-  </form>
+      <div class="checkbox-group">
+        <input type="checkbox" id="isInactivated" name="isInactivated" />
+        <label for="isInactivated" style="margin-bottom: 0;">Mark as Inactive</label>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Save Insurance Plan</button>
+        <a href="/patients/<%= activePatient._id %>/billing" class="btn btn-outline">Cancel</a>
+      </div>
+    </form>
+  </div>
 </body>
 </html>

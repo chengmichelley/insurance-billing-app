@@ -3,41 +3,56 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Edit a Patient</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <title>Edit Patient | <%= patient.firstName %></title>
 </head>
 <body>
   <%- include('../partials/_navbar.ejs') %>
-  <h1>Edit a Patient | <%= patient.firstName %> <%= patient.lastName%></h1>
-  <form action="/patients/<%= patient._id %>?_method=PUT" method="POST">
 
-    <label for="firstName">First Name</label>
-    <input type="text" id="firstName" name="firstName" placeholder="First Name" value="<%= patient.firstName %>" required/>
+  <div class="form-container" style="max-width: 500px;">
+    <h1>Edit Patient Profile</h1>
+    <p style="color: var(--secondary); margin-bottom: 1.5rem;">
+      Updating records for <strong><%= patient.firstName %> <%= patient.lastName %></strong>
+    </p>
 
-    <label for="lastName">Last Name:</label>
-    <input type="text" id="lastName" name="lastName" placeholder="Last Name" value="<%= patient.lastName %>" required/>
+    <form action="/patients/<%= patient._id %>?_method=PUT" method="POST">
 
-    <label for="dob">Date of Birth:</label>
-    <input type="tel" id="dob" name="dob" placeholder="MM/DD/YYYY" maxlength="10" oninput="formatDate(this)" value="<%= patient.dob %>" required/>
+      <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input type="text" id="firstName" name="firstName" placeholder="First Name" value="<%= patient.firstName %>" required/>
+      </div>
 
-    <label for="isInactivated">Patient Status:</label>
-    <input type="checkbox" id="isInactivated" name="isInactivated" value="true" <%= patient.isInactivated ? 'checked' : '' %>>
+      <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input type="text" id="lastName" name="lastName" placeholder="Last Name" value="<%= patient.lastName %>" required/>
+      </div>
 
-    <button type="submit">Update Patient!</button>
-    <br>
-    <a href="/patients/<%= patient._id %>">Cancel</a>
-  </form>
+      <div class="form-group">
+        <label for="dob">Date of Birth</label>
+        <input type="tel" id="dob" name="dob" placeholder="MM/DD/YYYY" maxlength="10" oninput="formatDate(this)" value="<%= patient.dob %>" required/>
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="isInactivated" name="isInactivated" value="true" <%= patient.isInactivated ? 'checked' : '' %>>
+        <label for="isInactivated" style="margin-bottom: 0;">Mark Patient as Inactive</label>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Update Patient</button>
+        <a href="/patients/<%= patient._id %>" class="btn btn-outline">Cancel</a>
+      </div>
+    </form>
+  </div>
 
   <script>
     let lastValue = '<%= patient.dob %>';
 
     function formatDate(input) {
       let v = input.value.replace(/\D/g, '');
-
       if(input.value.length < lastValue.length) {
         lastValue = input.value;
         return;
       }
-
       let finalValue = '';
       if(v.length > 0) {
         finalValue = v.slice(0, 2); 
@@ -48,7 +63,6 @@
           }
         }
       }
-
       input.value = finalValue;
       lastValue = finalValue;
     }

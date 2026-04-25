@@ -3,34 +3,67 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pharmacy Billing Dashboard</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <title>Dashboard | Billing System</title>
 </head>
 <body>
   <%- include('partials/_navbar.ejs')%>
-  <h1>Pharmacy Billing Management System</h1>
 
-  <% if(user) { %>
-    <h2>Welcome back <%= user.username %>!</h2>
-    <p>Current role | <%= user.role.toUpperCase() %></p>
-    <div>
-      <a href="/patients/search">Start a Patient Search</a>
-      <a href="/patients/new">Add a New Patient</a>
-    </div>
-
-    <% if(user.role === 'admin') { %>
-      <h3>Administrator Tools</h3>
-      <div>
-        <a href="/user">View Staff Directory to Manage</a>
-        <a href="/auth/sign-up">Register a New Staff Member</a>
+  <div class="main-content" style="max-width: 1000px; margin: 0 auto;">
+    
+    <% if(user) { %>
+      <div class="hero-section" style="background: white; padding: 3rem; border-radius: 12px; border: 1px solid var(--border); text-align: center; margin-bottom: 2.5rem;">
+        <h1 style="margin-bottom: 0.5rem;">Pharmacy Billing Management</h1>
+        <p style="color: var(--secondary); font-size: 1.1rem;">
+          Welcome back, <strong><%= user.username %></strong>. 
+          Role: <span class="badge status-pending"><%= user.role.toUpperCase() %></span>
+        </p>
       </div>
-    <% } %>
+
+      <div class="dashboard-grid">
+        <a href="/patients/search" class="action-card">
+          <span style="font-size: 2.5rem; margin-bottom: 1rem; display: block;">🔍</span>
+          <h3>Patient Search</h3>
+          <p style="color: var(--secondary); font-size: 0.9rem;">Find records and manage billing plans.</p>
+        </a>
+
+        <a href="/patients/new" class="action-card">
+          <span style="font-size: 2.5rem; margin-bottom: 1rem; display: block;">👤</span>
+          <h3>New Patient</h3>
+          <p style="color: var(--secondary); font-size: 0.9rem;">Create profile for insurance verification.</p>
+        </a>
+      </div>
+
+      <% if(user.role === 'admin') { %>
+        <div style="margin-top: 4rem; padding-top: 2rem; border-top: 2px dashed var(--border);">
+          <h2 style="margin-bottom: 1.5rem; font-size: 1.2rem; color: var(--secondary); text-transform: uppercase;">🛡️ Administrator Tools</h2>
+          <div class="dashboard-grid">
+            <a href="/user" class="action-card">
+              <span style="font-size: 2.5rem; margin-bottom: 1rem; display: block;">📋</span>
+              <h3>Staff Directory</h3>
+              <p style="color: var(--secondary); font-size: 0.9rem;">Manage user roles and permissions.</p>
+            </a>
+            <a href="/auth/sign-up" class="action-card">
+              <span style="font-size: 2.5rem; margin-bottom: 1rem; display: block;">➕</span>
+              <h3>Register Staff</h3>
+              <p style="color: var(--secondary); font-size: 0.9rem;">Add new members to the system.</p>
+            </a>
+          </div>
+        </div>
+      <% } %>
     
     <% } else { %>
-      <h2>Please Log in to manage patient billing & insurance.</h2>
-        <div>
-          <a href="/auth/sign-in">Sign In</a> |
-          <p>Contact Administrator to Request Access</p>
-        </div>
+      <div class="hero-section" style="background: white; padding: 5rem 2rem; border-radius: 12px; border: 1px solid var(--border); text-align: center;">
+        <h1 style="margin-bottom: 1.5rem;">Secure Billing Portal</h1>
+        <p style="margin-bottom: 2.5rem; color: var(--secondary); max-width: 500px; margin-left: auto; margin-right: auto;">
+          Please sign in to manage patient billing, verify insurance plans, and access sensitive clinical data.
+        </p>
+        <a href="/auth/sign-in" class="btn btn-primary" style="padding: 1rem 3rem;">Sign In to Dashboard</a>
+        <p style="margin-top: 2rem; font-size: 0.85rem; color: var(--secondary);">
+          New staff? Contact your administrator for system access.
+        </p>
+      </div>
     <% } %>
+  </div>
 </body>
 </html>

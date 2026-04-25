@@ -1,18 +1,34 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Error Page</title>
-  </head>
-  <body>
-     <%- include('./partials/_navbar.ejs') %>
-    <h1>You have encountered an error!</h1>
-      <p><strong>Error message:</strong>
-        <%= typeof err !== 'undefined' ? err: 'An unknown error occurred!' %>
-      </p>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <title>System Error | Billing App</title>
+</head>
+<body>
+  <%- include('./partials/_navbar.ejs') %>
 
-    <button onClick="window.history.back()">Go Back</button>
+  <div class="error-container">
+    
+    <div class="error-card">
+      <div class="error-icon" style="font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
+      <h1>System Alert</h1>
+      
+      <div class="error-msg" style="text-align: left; margin: 1.5rem 0;">
+        <strong style="display: block; margin-bottom: 5px; text-transform: uppercase; font-size: 0.75rem;">Error Details:</strong>
+        <%= typeof err !== 'undefined' ? err : 'An unknown error occurred!' %>
+      </div>
 
-  </body>
+      <div class="form-actions" style="flex-direction: column; gap: 10px;">
+        <button class="btn btn-primary btn-block" onClick="window.history.back()">
+          ← Return to Previous Page
+        </button>
+        <a href="/" class="btn btn-outline btn-block" style="text-align: center;">
+          Go to Home Dashboard
+        </a>
+      </div>
+    </div>
+  </div>
+</body>
 </html>

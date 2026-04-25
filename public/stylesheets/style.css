@@ -1,0 +1,298 @@
+/* =========================================
+   1. VARIABLES & GLOBAL RESET
+   ========================================= */
+:root {
+  --primary: #1a56db;
+  --secondary: #64748b;
+  --success: #059669;
+  --warning: #d97706;
+  --danger: #dc2626;
+  --bg-main: #f1f5f9;
+  --bg-card: #ffffff;
+  --border: #e2e8f0;
+  --text-dark: #1e293b;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-dark);
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* =========================================
+   2. NAVIGATION BAR
+   ========================================= */
+nav {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--text-dark);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+nav a {
+  color: #94a3b8;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+nav a:hover {
+  color: white;
+}
+
+.nav-left, .nav-right {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.nav-center {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.active-content {
+  background: #334155;
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--primary);
+  font-weight: 500;
+  color: #60a5fa;
+}
+
+/* =========================================
+   3. LAYOUT CONTAINERS
+   ========================================= */
+.main-content {
+  width: 100%;
+  max-width: 1000px;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-container, .auth-card, .profile-card, .confirm-card {
+  background: var(--bg-card);
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+  margin: 1rem auto;
+}
+
+h1, h2, h3 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+/* =========================================
+   4. FORMS & INPUTS
+   ========================================= */
+.form-group {
+  width: 100%;
+  margin-bottom: 1.25rem;
+  text-align: left;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+input, select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1rem;
+}
+
+.checkbox-group input {
+  width: auto;
+}
+
+/* =========================================
+   5. BUTTONS
+   ========================================= */
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  display: inline-block;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white !important;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--secondary);
+}
+
+.btn-danger {
+  background: var(--danger);
+  color: white !important;
+}
+
+.btn-block {
+  width: 100%;
+  display: block;
+  margin-top: 0.5rem;
+}
+
+/* =========================================
+   6. BADGES & STATUS
+   ========================================= */
+.badge {
+  padding: 6px 12px !important;
+  border-radius: 999px !important;
+  font-size: 0.75rem !important;
+  font-weight: 800 !important;
+  display: inline-flex !important;
+  text-transform: uppercase !important;
+}
+
+.status-paid {
+  background: #dcfce7 !important;
+  color: #166534 !important;
+  border: 1px solid #bbf7d0;
+}
+
+.status-pending {
+  background: #fef3c7 !important;
+  color: #92400e !important;
+  border: 1px solid #fde68a;
+}
+
+.status-denied {
+  background: #fee2e2 !important;
+  color: #991b1b !important;
+  border: 1px solid #fecaca;
+}
+
+/* =========================================
+   7. LISTS & TABLES
+   ========================================= */
+.record-list {
+  width: 100%;
+  max-width: 600px;
+}
+
+.record-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  width: 100%;
+  text-align: left;
+}
+
+.billing-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg-card);
+  margin: 1.5rem 0;
+}
+
+.billing-table th, .billing-table td {
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+}
+
+/* =========================================
+   8. DASHBOARD & GRIDS
+   ========================================= */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.action-card {
+  background: var(--bg-card);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s;
+  text-align: center;
+}
+
+.action-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary);
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.info-item label {
+  color: var(--secondary);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+}
+
+.info-item span {
+  font-weight: 600;
+  display: block;
+}
+
+.error-msg {
+  background: #fee2e2;
+  color: var(--danger);
+  padding: 0.75rem;
+  border-radius: 6px;
+  border: 1px solid #fecaca;
+  width: 100%;
+  text-align: center;
+}

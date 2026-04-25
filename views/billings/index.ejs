@@ -3,40 +3,59 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Patient Billing Records</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <title>Billing Records | <%= activePatient.firstName %></title>
 </head>
 <body>
     <%- include('../partials/_navbar.ejs') %>
-    <h1>Insurance Plans for <%= activePatient.firstName %> <%= activePatient.lastName %></h1>
-    <div>
-      <a href="/patients/select/<%= activePatient._id %>" class="button">Add a New Insurance Plan</a>
-      
-      <% if (billing && billing.length > 0) { %>
-      <a href="/patients/<%= activePatient._id %>/billing/<%= billing[0]._id %>/recommendation?medType=generic" class="button" style="background-color: green; color: white;">
-      Get Best Plan Recommendation
-    </a>
-  <% } %>
-    </div>
-    <ul>
 
-      <% if( billing && billing.length > 0) { %>
-        <% billing.forEach(b=> { %>
-          <li>
-            <a href="/patients/<%= activePatient._id %>/billing/<%= b._id %>">
-              <%= b.providerName || 'Unknown Provider' %> 
-              <% if(b.isInactivated) { %> (Inactive) <% } %>
-            </a>
-            <br>
-            <small>Member ID: <%= b.memberId %> | Type: <%= b.coverageType %></small>
-          </li>
-        <% }) %>
-      <% } else { %>
-        <li>
-          <p>No active insurance records found for this patient.</p>
-        </li>
-      <% } %>  
-    </ul>
-    <a href="/patients/<%= activePatient._id %>">Back to <%= activePatient.firstName %> <%= activePatient.lastName %>'s Profile</a> |
-    <a href="/patients/search">Back to Patient Search</a>
+    <div class="main-content">
+      <h1>Insurance Plans for <%= activePatient.firstName %> <%= activePatient.lastName %></h1>
+      
+      <div class="header-actions" style="margin-bottom: 2rem; display: flex; gap: 1rem;">
+        <a href="/patients/select/<%= activePatient._id %>" class="btn btn-primary">
+          + Add New Insurance Plan
+        </a>
+        
+        <% if (billing && billing.length > 0) { %>
+          <a href="/patients/<%= activePatient._id %>/billing/<%= billing[0]._id %>/recommendation?medType=generic" class="btn status-paid" style="text-decoration: none; border: 1px solid var(--success);">
+            ✨ Get Best Plan Recommendation
+          </a>
+        <% } %>
+      </div>
+
+      <div class="record-list">
+        <% if( billing && billing.length > 0) { %>
+          <% billing.forEach(b => { %>
+            <div class="record-card" style="margin-bottom: 1rem; position: relative;">
+              <a href="/patients/<%= activePatient._id %>/billing/<%= b._id %>" style="text-decoration: none; display: block;">
+                
+                <span class="record-title" style="font-size: 1.2rem; font-weight: 700; color: var(--primary); display: block;">
+                  <%= b.providerName || 'Unknown Provider' %>
+                  <% if(b.isInactivated) { %> 
+                    <span class="badge status-denied" style="margin-left: 10px;">Inactive</span> 
+                  <% } %>
+                </span>
+
+                <div class="record-meta" style="margin-top: 5px; color: var(--secondary); font-size: 0.9rem;">
+                  <strong>Member ID:</strong> <%= b.memberId %> | 
+                  <strong>Type:</strong> <%= b.coverageType.toUpperCase() %>
+                </div>
+              </a>
+            </div>
+          <% }) %>
+        <% } else { %>
+          <div class="form-container" style="text-align: center; padding: 3rem;">
+            <p>No insurance records found for this patient.</p>
+            <a href="/patients/select/<%= activePatient._id %>" class="btn btn-outline">Add First Plan</a>
+          </div>
+        <% } %>  
+      </div>
+
+      <div style="margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--border);">
+        <a href="/patients/<%= activePatient._id %>" class="btn btn-outline">Back to Profile</a>
+        <a href="/patients/search" class="btn btn-outline">Search Another Patient</a>
+      </div>
+    </div>
 </body>
 </html>
