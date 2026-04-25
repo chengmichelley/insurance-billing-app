@@ -37,13 +37,13 @@
       <% if(user.role === 'admin') { %>
         <div style="margin-top: 4rem; padding-top: 2rem; border-top: 2px dashed var(--border);">
           <h2 style="margin-bottom: 1.5rem; font-size: 1.2rem; color: var(--secondary); text-transform: uppercase;">🛡️ Administrator Tools</h2>
-          <div class="dashboard-grid">
-            <a href="/user" class="action-card">
+          <div class="admin-grid">
+            <a href="/user" class="tool-card">
               <span style="font-size: 2.5rem; margin-bottom: 1rem; display: block;">📋</span>
               <h3>Staff Directory</h3>
               <p style="color: var(--secondary); font-size: 0.9rem;">Manage user roles and permissions.</p>
             </a>
-            <a href="/auth/sign-up" class="action-card">
+            <a href="/auth/sign-up" class="tool-card">
               <span style="font-size: 2.5rem; margin-bottom: 1rem; display: block;">➕</span>
               <h3>Register Staff</h3>
               <p style="color: var(--secondary); font-size: 0.9rem;">Add new members to the system.</p>

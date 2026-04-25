@@ -296,3 +296,22 @@ input, select {
   width: 100%;
   text-align: center;
 }
+
+.admin-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.tool-card {
+  flex: 1;
+  min-width: 250px;
+  max-width: 400px;
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
