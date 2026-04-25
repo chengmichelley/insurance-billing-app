@@ -45,15 +45,17 @@
     <% if (results && results.length > 0) { %>
       <h2 style="margin-bottom: 1rem; color: var(--secondary); font-size: 1.2rem;">Matching Patients</h2>
       <div class="record-list">
-        <% results.forEach(patient => { %>
+        <% results.forEach(p => { %>
           <div class="record-card" style="margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
-            <div class="patient-info">
-              <strong style="font-size: 1.1rem; color: var(--primary);"><%= patient.firstName %> <%= patient.lastName %></strong>
-              <p style="margin: 5px 0 0 0; color: var(--secondary); font-size: 0.9rem;">DOB: <%= patient.dob %></p>
+            <div class="p-info">
+              <strong style="font-size: 1.1rem; color: var(--primary);"><%= p.firstName %> <%= p.lastName %></strong>
+              <p style="margin: 5px 0 0 0; color: var(--secondary); font-size: 0.9rem;">
+                DOB: <%= p.dob %> | Status: <%= p.isInactivated ? 'Inactive' : 'Active' %>
+              </p>
             </div>
-            <div class="form-actions" style="margin: 0; gap: 10px;">
-              <a href="/patients/<%= patient._id %>" class="btn btn-outline" style="font-size: 0.8rem; padding: 8px 12px;">View Profile</a>
-              <a href="/patients/select/<%= patient._id %>" class="btn btn-primary" style="font-size: 0.8rem; padding: 8px 12px;">+ New Bill</a>
+            <div style="display: flex; gap: 10px;">
+              <a href="/patients/<%= p._id %>" class="btn btn-outline" style="font-size: 0.8rem; padding: 8px 12px;">View Profile</a>
+              <a href="/patients/<%= p._id %>/billing/new" class="btn btn-primary" style="font-size: 0.8rem; padding: 8px 12px;">+ Add Insurance</a>
             </div>
           </div>
         <% }) %>
@@ -62,8 +64,8 @@
 
     <% if (results && results.length === 0 && (typeof firstName !== 'undefined' || typeof dob !== 'undefined')) { %>
       <div class="form-container" style="text-align: center; border: 2px dashed var(--border); background: transparent; box-shadow: none;">
-        <p>No patients found matching those details.</p>
-        <a href="/patients/new" class="btn btn-primary">Add a New Patient Profile</a>
+        <p style="margin-bottom: 1.5rem;">No patients found matching those details.</p>
+        <a href="/patients/new" class="btn btn-primary">Create New Patient Profile</a>
       </div>
     <% } %>
   </div>

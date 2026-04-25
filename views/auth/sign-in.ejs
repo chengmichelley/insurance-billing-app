@@ -4,25 +4,26 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/stylesheets/style.css">
-    <title>Sign In</title>
+    <title>Sign In | Billing System</title>
   </head>
   <body>
     <%- include('../partials/_navbar.ejs') %>
 
     <div class="auth-container">
-      
       <div class="auth-card">
         <h1>Sign In</h1>
+        <p style="color: var(--secondary); text-align: center; margin-bottom: 2rem; font-size: 0.9rem;">
+          Access the secure pharmacy billing portal.
+        </p>
 
-        <% if(err) { %>
+        <% if(locals.err) { %>
           <p class="error-msg"><%= err %></p>
         <% } %>
 
         <form action="/auth/sign-in" method="POST">
-          
           <div class="form-group">
             <label for="username">Username</label>
-            <input type="text" id="username" name="username" required autofocus placeholder="Username"/>
+            <input type="text" id="username" name="username" required autofocus placeholder="Enter your username"/>
           </div>
 
           <div class="form-group">
@@ -30,9 +31,12 @@
             <input type="password" id="password" name="password" required placeholder="Enter your password"/>
           </div>
 
-          <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+          <button type="submit" class="btn btn-primary btn-block">Sign In to Dashboard</button>
         </form>
 
+        <p style="margin-top: 1.5rem; text-align: center; font-size: 0.85rem; color: var(--secondary);">
+          New staff member? <a href="/auth/sign-up" style="color: var(--primary);">Create an account</a>
+        </p>
       </div>
     </div>
   </body>

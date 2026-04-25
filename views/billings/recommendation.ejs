@@ -11,43 +11,40 @@
 
   <div class="main-content" style="max-width: 800px; margin: 0 auto;">
     
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem;">
-      <h1 style="margin: 0;">Insurance Recommendation</h1>
-      
-      <form action="/patients/<%= results[0]?.insurance?.patient %>/billing/<%= results[0]?.insurance?._id %>/recommendation" method="GET" style="display: flex; align-items: center; gap: 10px;">
-        <label style="font-weight: 600; font-size: 0.9rem; margin: 0;">Medication:</label>
-        <select name="medType" onchange="this.form.submit()" style="width: auto; padding: 6px 12px;">
-          <option value="generic" <%= medType === 'generic' ? 'selected' : '' %>>Generic</option>
-          <option value="brand" <%= medType === 'brand' ? 'selected' : '' %>>Brand</option>
-        </select>
-      </form>
+    <div style="margin-bottom: 2.5rem; text-align: center;">
+      <h1>Insurance Recommendation</h1>
+      <p style="color: var(--secondary);">Optimal billing order based on relationship and coverage type.</p>
     </div>
 
     <% if(results && results.length > 0) { %>
       <div class="record-list">
-        <% results.forEach ((r, index)=> { %>
+        <% results.forEach((r, index) => { %>
           
-          <div class="record-card <%= index === 0 ? 'winner-card' : '' %>" style="margin-bottom: 1.5rem; padding: 2rem;">
+            <div class="record-card <%= index === 0 ? 'winner-card' : '' %>" style="margin-bottom: 1.5rem; padding: 2rem;">
             
             <% if (index === 0) { %>
-              <span class="winner-badge" style="margin-bottom: 1rem; display: inline-block;">★ Recommended Primary ★</span>
+              <span class="badge status-paid" style="margin-bottom: 1rem; display: inline-block;">★ RECOMMENDED PRIMARY ★</span>
             <% } %>
 
             <div style="display: flex; justify-content: space-between; align-items: flex-start;">
               <div>
                 <h3 style="margin: 0; font-size: 1.4rem;"><%= r.insurance.providerName %></h3>
                 <p style="color: var(--secondary); margin: 5px 0 1rem 0;">
-                  Coverage: <strong><%= r.insurance.coverageType.toUpperCase() %></strong>
+                  Plan Label: <strong><%= r.label %></strong>
                 </p>
               </div>
-              <div class="badge status-paid" style="font-size: 1rem; padding: 8px 16px;">
-                Score: <%= r.score %>%
+              <div class="badge status-pending" style="font-size: 0.9rem;">
+                Rank Score: <%= r.score %>
               </div>
             </div>
 
-            <div style="background: white; padding: 1rem; border-left: 4px solid var(--primary); border-radius: 4px; margin-top: 1rem;">
-              <strong style="font-size: 0.8rem; text-transform: uppercase; color: var(--secondary); display: block; margin-bottom: 5px;">Analysis Note</strong>
-              <p style="margin: 0; font-style: italic;"><%= r.note %></p>
+            <div style="background: var(--bg-main); padding: 1rem; border-left: 4px solid var(--primary); border-radius: 4px; margin-top: 1rem;">
+              <strong style="font-size: 0.75rem; text-transform: uppercase; color: var(--secondary); display: block; margin-bottom: 5px;">Billing Logic</strong>
+              <p style="margin: 0; font-size: 0.9rem;">
+                This plan is ranked as <strong><%= r.label %></strong> because it is a 
+                <strong><%= r.insurance.coverageType %></strong> plan held by the 
+                <strong><%= r.insurance.relationship %></strong>.
+              </p>
             </div>
           </div>
 
@@ -55,7 +52,7 @@
       </div>
     <% } else { %>
       <div class="form-container" style="text-align: center; padding: 4rem;">
-        <p>No insurance records found for this patient.</p>
+        <p>No active insurance records found to rank.</p>
       </div>
     <% } %>
 

@@ -39,11 +39,19 @@
         <span><%= billing.group || 'N/A' %></span>
       </div>
       <div class="info-item">
-        <label>Coverage Type</label>
-        <span class="badge status-pending" style="background: #e0f2fe; color: #0369a1;"><%= billing.coverageType.toUpperCase() %></span>
+        <label>Plan State</label>
+        <span><%= billing.state || 'National' %></span>
       </div>
       <div class="info-item">
-        <label>Priority</label>
+        <label>Coverage Type</label>
+        <span class="badge" style="background: #e0f2fe; color: #0369a1; text-transform: uppercase;"><%= billing.coverageType %></span>
+      </div>
+      <div class="info-item">
+        <label>Relationship</label>
+        <span style="text-transform: capitalize;"><%= billing.relationship %></span>
+      </div>
+      <div class="info-item">
+        <label>Manual Boost</label>
         <span><%= billing.priority %></span>
       </div>
       <div class="info-item">
@@ -58,14 +66,10 @@
       <a href="/patients/<%= activePatient._id %>/billing/<%= billing._id %>/edit" class="btn btn-primary">
         Edit Record
       </a>
-      
-      <a href="/patients/<%= activePatient._id %>/billing/<%= billing._id %>/recommendation?medType=generic" class="btn btn-outline">
-        ✨ Get Recommendation
-      </a>
 
       <form action="/patients/<%= activePatient._id %>/billing/<%= billing._id %>/inactivate?_method=PUT" method="POST" style="margin: 0;">
         <button type="submit" class="btn btn-outline" style="border-color: var(--warning); color: var(--warning);" <%= billing.isInactivated ? 'disabled' : '' %>>
-          Inactivate Plan
+          <%= billing.isInactivated ? 'Plan is Inactive' : 'Inactivate Plan' %>
         </button>
       </form>
     </div>

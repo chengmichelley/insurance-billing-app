@@ -6,27 +6,26 @@
 
       <% if(user.role === 'admin') { %>
         <a href="/user">Staff Directory</a>
-        <a href="/auth/sign-up">Register New Staff</a>
       <% } %>
     <% } %>
   </div>
 
   <div class="nav-center">
-    <% if(user && activePatient) {%>
+    <% if(user && typeof activePatient !== 'undefined' && activePatient) { %>
       <span class="active-content">
-        Active: <%= activePatient.firstName %> <%= activePatient.lastName %>
-        <small>(DOB: <%= activePatient.dob %>)</small>
-        <a href="/patients/clear-selection" style="margin-left: 10px; color: white; text-decoration: underline; font-size: 0.8rem;">Switch</a>
+        Active: <strong><%= activePatient.firstName %> <%= activePatient.lastName %></strong>
+        <small style="opacity: 0.8; margin-left: 5px;">(<%= activePatient.dob %>)</small>
+        <a href="/patients/clear-selection" style="margin-left: 10px; color: #fff; text-decoration: underline; font-size: 0.75rem;">Switch</a>
       </span>
     <% } %>
   </div>
 
   <div class="nav-right">
     <% if(user) { %>
-      <span style="font-size: 0.85rem; border-right: 1px solid #475569; padding-right: 10px; margin-right: 10px;">
+      <a href="/user/profile" style="font-size: 0.85rem; border-right: 1px solid #475569; padding-right: 10px; margin-right: 10px;">
         User: <strong><%= user.username %></strong>
-      </span>
-      <a href="/auth/sign-out">Logout</a>
+      </a>
+      <a href="/auth/sign-out" style="color: #f87171;">Logout</a>
     <% } else { %>
       <a href="/auth/sign-in">Sign-In</a>
     <% } %>

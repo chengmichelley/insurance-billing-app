@@ -1,7 +1,8 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Patient = require('../models/patient');
-const authRequired = require('../middleware/authRequired');
+const Patient = require("../models/patient");
+const authRequired = require("../middleware/authRequired");
+const { recommend } = require("../logic/recommendation");
 
 router.use(authRequired);
 
@@ -28,25 +29,27 @@ router.get("/search", async (req, res) => {
       const query = {};
       if (firstName) query.firstName = new RegExp(firstName, "i");
       if (lastName) query.lastName = new RegExp(lastName, "i");
-      if (dob) {
-        query.dob = dob;
-      }
+      if (dob) query.dob = dob;
 
       results = await Patient.find(query);
     }
 
     res.render("patients/search.ejs", {
       results,
-      err: req.query.error || null,
+      firstName: firstName || "",
+      lastName: lastName || "",
+      dob: dob || "",
       message: req.query.message || null,
-      firstName: req.query.firstName || '',
-      lastName: req.query.lastName || '',
-      dob: req.query.dob || '',
+      err: req.query.error || null,
     });
   } catch (error) {
-    res
-      .status(400)
-      .render("patients/search.ejs", { results: [], err: error.message });
+    res.status(400).render("patients/search.ejs", {
+      results: [],
+      err: error.message,
+      firstName: "",
+      lastName: "",
+      dob: "",
+    });
   }
 });
 
@@ -99,9 +102,7 @@ router.get("/clear-selection", async (req, res) => {
 router.get("/:id/edit", async (req, res) => {
   try {
     const foundPatient = await Patient.findById(req.params.id);
-
-    if (!foundPatient) throw new Error("patient not found");
-
+    if (!foundPatient) throw new Error("Patient not found");
     res.render("patients/edit.ejs", { patient: foundPatient });
   } catch (error) {
     res.render("error.ejs", { err: error.message });
@@ -113,9 +114,7 @@ router.get("/:id/edit", async (req, res) => {
 // =======================
 router.put("/:id", async (req, res) => {
   try {
-
-    req.body.isInactivated = req.body.isInactivated === 'true';
-
+    req.body.isInactivated = req.body.isInactivated === "true";
     await Patient.findByIdAndUpdate(req.params.id, req.body);
     res.redirect(`/patients/${req.params.id}`);
   } catch (error) {
@@ -128,9 +127,7 @@ router.put("/:id", async (req, res) => {
 // =======================
 router.put("/:id/inactivate", async (req, res) => {
   try {
-    await Patient.findByIdAndUpdate(req.params.id, {
-      isInactivated: true,
-    });
+    await Patient.findByIdAndUpdate(req.params.id, { isInactivated: true });
     res.redirect(`/patients/${req.params.id}`);
   } catch (error) {
     res.render("error.ejs", { err: error.message });
@@ -140,13 +137,23 @@ router.put("/:id/inactivate", async (req, res) => {
 // =======================
 // SHOW
 // =======================
+// =======================
+// SHOW
+// =======================
 router.get("/:id", async (req, res) => {
   try {
     const patient = await Patient.findById(req.params.id);
-
     if (!patient) throw new Error("Patient not found");
 
-    res.render("patients/show.ejs", { patient });
+    req.session.selectedPatientId = patient._id; 
+
+    const ranked = await recommend(patient._id);
+    const primaryInsurance = ranked.length > 0 ? ranked[0] : null;
+
+    res.render("patients/show.ejs", {
+      patient,
+      primaryInsurance,
+    });
   } catch (error) {
     res.render("error.ejs", { err: error.message });
   }

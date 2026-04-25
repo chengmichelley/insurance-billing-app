@@ -9,32 +9,34 @@
 <body>
   <%- include('../partials/_navbar.ejs') %>
 
-  <div class="form-container" style="max-width: 450px;">
-    <h1>Add a New Patient</h1>
-    <p style="color: var(--secondary); margin-bottom: 2rem;">Enter patient details to begin insurance verification.</p>
+  <div class="main-content">
+    <div class="form-container" style="max-width: 450px;">
+      <h1>Add a New Patient</h1>
+      <p style="color: var(--secondary); margin-bottom: 2rem; text-align: center;">Enter patient details to begin insurance verification.</p>
 
-    <form action="/patients/" method="POST">
-      
-      <div class="form-group">
-        <label for="firstName">First Name</label>
-        <input type="text" id="firstName" name="firstName" placeholder="e.g. John" required autofocus/>
-      </div>
+      <form action="/patients/" method="POST">
+        
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" name="firstName" placeholder="e.g. John" required autofocus/>
+        </div>
 
-      <div class="form-group">
-        <label for="lastName">Last Name</label>
-        <input type="text" id="lastName" name="lastName" placeholder="e.g. Doe" required/>
-      </div>
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input type="text" id="lastName" name="lastName" placeholder="e.g. Doe" required/>
+        </div>
 
-      <div class="form-group">
-        <label for="dob">Date of Birth</label>
-        <input type="tel" id="dob" name="dob" placeholder="MM/DD/YYYY" maxlength="10" oninput="formatDate(this)" required/>
-      </div>
+        <div class="form-group">
+          <label for="dob">Date of Birth</label>
+          <input type="tel" id="dob" name="dob" placeholder="MM/DD/YYYY" maxlength="10" oninput="formatDate(this)" required/>
+        </div>
 
-      <div class="form-actions" style="flex-direction: column; gap: 10px;">
-        <button type="submit" class="btn btn-primary btn-block">Create Patient Profile</button>
-        <a href="/patients/search" class="btn btn-outline btn-block" style="text-align: center;">Cancel</a>
-      </div>
-    </form>
+        <div class="form-actions" style="display: flex; flex-direction: column; gap: 10px; margin-top: 2rem;">
+          <button type="submit" class="btn btn-primary btn-block">Create Patient Profile</button>
+          <a href="/patients/search" class="btn btn-outline btn-block">Cancel</a>
+        </div>
+      </form>
+    </div>
   </div>
 
   <script>

@@ -1,79 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/stylesheets/style.css">
-  <title>Staff Directory | Admin</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <title>Staff Directory | Admin</title>
 </head>
 <body>
     <%- include('../partials/_navbar.ejs') %>
 
     <div class="main-content">
-      <div class="detail-header" style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2rem;">
-        <div>
-          <h1>Staff Directory</h1>
-          <p style="color: var(--secondary);">Manage administrative roles and system access.</p>
+        <div class="detail-header">
+            <div class="header-text">
+                <h1>Staff Directory</h1>
+                <p>Manage administrative roles and system access.</p>
+            </div>
+            <a href="/auth/sign-up" class="btn btn-primary">+ Register New Staff</a>
         </div>
-        <a href="/auth/sign-up" class="btn btn-primary">+ Register New Staff</a>
-      </div>
 
-      <table class="billing-table">
-        <thead>
-          <tr>
-            <th>Username</th>
-            <th>Role</th>
-            <th>Account Created</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <% users.forEach(u=> { %>
-            <tr>
-              <td>
-                <strong style="color: var(--text-dark);"><%= u.username %></strong>
-                <% if(u._id.toString() === user._id.toString()) { %>
-                  <span class="badge status-paid" style="font-size: 0.65rem; margin-left: 5px;">YOU</span>
-                <% } %>
-              </td>
-              <td>
-                <span class="badge <%= u.role === 'admin' ? 'status-paid' : 'status-pending' %>">
-                  <%= u.role.toUpperCase() %>
-                </span>
-              </td>
-              <td style="color: var(--secondary); font-size: 0.9rem;">
-                <%= new Date(u.createdAt).toLocaleDateString() %>
-              </td>
-              <td>
-                <% if(u._id.toString() !== user._id.toString()) { %>
-                  <div style="display: flex; gap: 15px; align-items: center;">
-                    
-                    <form action="/user/<%= u._id %>/role?_method=PUT" method="POST" style="display: flex; gap: 5px; margin: 0;">
-                      <select name="role" style="padding: 4px 8px; width: auto; font-size: 0.85rem;">
-                        <option value="user" <%= u.role === 'user' ? 'selected' : '' %>>User</option>
-                        <option value="admin"<%= u.role === 'admin' ? 'selected' : '' %>>Admin</option>
-                      </select>
-                      <button type="submit" class="btn btn-outline" style="padding: 4px 8px; font-size: 0.75rem;">Update</button>
-                    </form>
-
-                    <form action="/user/<%= u._id %>?_method=DELETE" method="POST" style="margin: 0;">
-                      <button type="submit" class="btn btn-outline" 
-                              style="padding: 4px 8px; font-size: 0.75rem; border-color: var(--danger); color: var(--danger);"
-                              onClick="return confirm('PERMANENTLY remove this staff member?')">
-                        Delete
-                      </button>
-                    </form>
-
-                  </div>
-                <% } else { %>
-                  <a href="/user/profile" style="font-size: 0.85rem; color: var(--primary);">Manage in My Settings</a>
-                <% } %>
-              </td>
-          </tr>
-          <% }) %>
-        </tbody>
-      </table>
+        <div class="table-container">
+            <table class="billing-table">
+                <thead>
+                    <tr>
+                        <th class="text-left">Username</th>
+                        <th>Role</th>
+                        <th>Account Created</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% users.forEach(u => { %>
+                        <tr>
+                            <td class="text-left">
+                                <strong class="username-text"><%= u.username %></strong>
+                                <% if(u._id.toString() === user._id.toString()) { %>
+                                    <span class="badge badge-self current-user-badge">YOU</span>
+                                <% } %>
+                            </td>
+                            <td>
+                                <span class="badge <%= u.role === 'admin' ? 'status-paid' : 'status-pending' %>">
+                                    <%= u.role.toUpperCase() %>
+                                </span>
+                            </td>
+                            <td class="date-text">
+                                <%= new Date(u.createdAt).toLocaleDateString() %>
+                            </td>
+                            <td>
+                                <% if(u._id.toString() !== user._id.toString()) { %>
+                                    <div class="action-group">
+                                        <form action="/user/<%= u._id %>/role?_method=PUT" method="POST" class="role-form">
+                                            <select name="role" class="role-select">
+                                                <option value="user" <%= u.role === 'user' ? 'selected' : '' %>>User</option>
+                                                <option value="admin"<%= u.role === 'admin' ? 'selected' : '' %>>Admin</option>
+                                            </select>
+                                            <button type="submit" class="btn btn-outline btn-small">Save</button>
+                                        </form>
+                                        <form action="/user/<%= u._id %>?_method=DELETE" method="POST" class="delete-form">
+                                            <button type="submit" class="btn btn-outline btn-small btn-delete" onClick="return confirm('PERMANENTLY remove this staff member?')">
+                                                Delete
+                                            </button>
+                                        </form>
+                                    </div>
+                                <% } else { %>
+                                    <a href="/user/profile" class="settings-link">My Settings</a>
+                                <% } %>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
     </div>
 </body>
 </html>

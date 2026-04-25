@@ -21,13 +21,22 @@
 
         <div class="form-group">
           <label for="memberId">Member ID</label>
-          <input type="text" id="memberId" name="memberId" value="<%= billing.memberId %>"/>
+          <input 
+            type="text" 
+            id="memberId" 
+            name="memberId" 
+            value="<%= billing.memberId %>" 
+            required 
+            placeholder="8 - 12 digits" 
+            pattern="\w{8,12}" 
+            title="Member ID must be between 8 and 12 characters"
+          />
         </div>
 
         <div class="form-row">
           <div class="form-group" style="flex: 1;">
             <label for="bin">BIN</label>
-            <input type="text" id="bin" name="bin" value="<%= billing.bin %>" required/>
+            <input type="text" id="bin" name="bin" value="<%= billing.bin %>" required pattern="\d{6}" title="BIN must be 6 digits"/>
           </div>
           <div class="form-group" style="flex: 1;">
             <label for="pcn">PCN</label>
@@ -37,22 +46,94 @@
 
         <div class="form-group">
           <label for="group">Group</label>
-          <input type="text" id="group" name="group" value="<%= billing.group %>"/>
+          <input 
+            type="text" 
+            id="group" 
+            name="group" 
+            value="<%= billing.group %>" 
+            placeholder="5 - 10 digits" 
+            pattern="\d{5,10}" 
+            title="Group must be between 5 and 10 digits"
+          />
         </div>
 
         <div class="form-group">
-          <label for="coverageType">Coverage Type</label>
-          <select name="coverageType" required>
-            <option value="primary" <%= billing.coverageType === 'primary' ? 'selected' : '' %>>Primary</option>
-            <option value="secondary" <%= billing.coverageType === 'secondary' ? 'selected' : '' %>>Secondary</option>
-            <option value="medicaid" <%= billing.coverageType === 'medicaid' ? 'selected' : '' %>>Medicaid</option>
-            <option value="medicare" <%= billing.coverageType === 'medicare' ? 'selected' : '' %>>Medicare</option>
-            <option value="commercial" <%= billing.coverageType === 'commercial' ? 'selected' : '' %>>Commercial</option>
+          <label for="state">Plan State (Optional)</label>
+          <select name="state" id="state">
+            <option value="" <%= !billing.state ? 'selected' : '' %>>National / N/A</option>
+            <option value="AL" <%= billing.state === 'AL' ? 'selected' : '' %>>Alabama</option>
+            <option value="AK" <%= billing.state === 'AK' ? 'selected' : '' %>>Alaska</option>
+            <option value="AZ" <%= billing.state === 'AZ' ? 'selected' : '' %>>Arizona</option>
+            <option value="AR" <%= billing.state === 'AR' ? 'selected' : '' %>>Arkansas</option>
+            <option value="CA" <%= billing.state === 'CA' ? 'selected' : '' %>>California</option>
+            <option value="CO" <%= billing.state === 'CO' ? 'selected' : '' %>>Colorado</option>
+            <option value="CT" <%= billing.state === 'CT' ? 'selected' : '' %>>Connecticut</option>
+            <option value="DE" <%= billing.state === 'DE' ? 'selected' : '' %>>Delaware</option>
+            <option value="FL" <%= billing.state === 'FL' ? 'selected' : '' %>>Florida</option>
+            <option value="GA" <%= billing.state === 'GA' ? 'selected' : '' %>>Georgia</option>
+            <option value="HI" <%= billing.state === 'HI' ? 'selected' : '' %>>Hawaii</option>
+            <option value="ID" <%= billing.state === 'ID' ? 'selected' : '' %>>Idaho</option>
+            <option value="IL" <%= billing.state === 'IL' ? 'selected' : '' %>>Illinois</option>
+            <option value="IN" <%= billing.state === 'IN' ? 'selected' : '' %>>Indiana</option>
+            <option value="IA" <%= billing.state === 'IA' ? 'selected' : '' %>>Iowa</option>
+            <option value="KS" <%= billing.state === 'KS' ? 'selected' : '' %>>Kansas</option>
+            <option value="KY" <%= billing.state === 'KY' ? 'selected' : '' %>>Kentucky</option>
+            <option value="LA" <%= billing.state === 'LA' ? 'selected' : '' %>>Louisiana</option>
+            <option value="ME" <%= billing.state === 'ME' ? 'selected' : '' %>>Maine</option>
+            <option value="MD" <%= billing.state === 'MD' ? 'selected' : '' %>>Maryland</option>
+            <option value="MA" <%= billing.state === 'MA' ? 'selected' : '' %>>Massachusetts</option>
+            <option value="MI" <%= billing.state === 'MI' ? 'selected' : '' %>>Michigan</option>
+            <option value="MN" <%= billing.state === 'MN' ? 'selected' : '' %>>Minnesota</option>
+            <option value="MS" <%= billing.state === 'MS' ? 'selected' : '' %>>Mississippi</option>
+            <option value="MO" <%= billing.state === 'MO' ? 'selected' : '' %>>Missouri</option>
+            <option value="MT" <%= billing.state === 'MT' ? 'selected' : '' %>>Montana</option>
+            <option value="NE" <%= billing.state === 'NE' ? 'selected' : '' %>>Nebraska</option>
+            <option value="NV" <%= billing.state === 'NV' ? 'selected' : '' %>>Nevada</option>
+            <option value="NH" <%= billing.state === 'NH' ? 'selected' : '' %>>New Hampshire</option>
+            <option value="NJ" <%= billing.state === 'NJ' ? 'selected' : '' %>>New Jersey</option>
+            <option value="NM" <%= billing.state === 'NM' ? 'selected' : '' %>>New Mexico</option>
+            <option value="NY" <%= billing.state === 'NY' ? 'selected' : '' %>>New York</option>
+            <option value="NC" <%= billing.state === 'NC' ? 'selected' : '' %>>North Carolina</option>
+            <option value="ND" <%= billing.state === 'ND' ? 'selected' : '' %>>North Dakota</option>
+            <option value="OH" <%= billing.state === 'OH' ? 'selected' : '' %>>Ohio</option>
+            <option value="OK" <%= billing.state === 'OK' ? 'selected' : '' %>>Oklahoma</option>
+            <option value="OR" <%= billing.state === 'OR' ? 'selected' : '' %>>Oregon</option>
+            <option value="PA" <%= billing.state === 'PA' ? 'selected' : '' %>>Pennsylvania</option>
+            <option value="RI" <%= billing.state === 'RI' ? 'selected' : '' %>>Rhode Island</option>
+            <option value="SC" <%= billing.state === 'SC' ? 'selected' : '' %>>South Carolina</option>
+            <option value="SD" <%= billing.state === 'SD' ? 'selected' : '' %>>South Dakota</option>
+            <option value="TN" <%= billing.state === 'TN' ? 'selected' : '' %>>Tennessee</option>
+            <option value="TX" <%= billing.state === 'TX' ? 'selected' : '' %>>Texas</option>
+            <option value="UT" <%= billing.state === 'UT' ? 'selected' : '' %>>Utah</option>
+            <option value="VT" <%= billing.state === 'VT' ? 'selected' : '' %>>Vermont</option>
+            <option value="VA" <%= billing.state === 'VA' ? 'selected' : '' %>>Virginia</option>
+            <option value="WA" <%= billing.state === 'WA' ? 'selected' : '' %>>Washington</option>
+            <option value="WV" <%= billing.state === 'WV' ? 'selected' : '' %>>West Virginia</option>
+            <option value="WI" <%= billing.state === 'WI' ? 'selected' : '' %>>Wisconsin</option>
+            <option value="WY" <%= billing.state === 'WY' ? 'selected' : '' %>>Wyoming</option>
           </select>
         </div>
 
         <div class="form-group">
-          <label for="priority">Priority (0-100)</label>
+          <label for="coverageType">Coverage Type</label>
+          <select name="coverageType" id="coverageType" required>
+            <option value="commercial" <%= billing.coverageType === 'commercial' ? 'selected' : '' %>>Commercial (Private)</option>
+            <option value="medicare" <%= billing.coverageType === 'medicare' ? 'selected' : '' %>>Medicare</option>
+            <option value="medicaid" <%= billing.coverageType === 'medicaid' ? 'selected' : '' %>>Medicaid</option>
+            <option value="coupon" <%= billing.coverageType === 'coupon' ? 'selected' : '' %>>Discount Coupon/GoodRx</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="relationship">Patient Relationship</label>
+          <select name="relationship" id="relationship" required>
+            <option value="self" <%= billing.relationship === 'self' ? 'selected' : '' %>>Self (Subscriber)</option>
+            <option value="dependent" <%= billing.relationship === 'dependent' ? 'selected' : '' %>>Dependent (Spouse/Child)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="priority">Manual Boost (Optional)</label>
           <input type="number" id="priority" name="priority" value="<%= billing.priority %>" min="0" max="100"/>
         </div>
 
@@ -63,7 +144,7 @@
 
         <div class="form-actions">
           <button type="submit" class="btn btn-primary">Update Billing</button>
-          <a href="/patients/<%= billing.patient %>/billing/<%= billing._id %>" class="btn btn-outline">Cancel</a>
+          <a href="/patients/<%= billing.patient %>/billing" class="btn btn-outline">Cancel</a>
         </div>
       </form>
     </div>

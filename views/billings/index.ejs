@@ -13,33 +13,37 @@
       <h1>Insurance Plans for <%= activePatient.firstName %> <%= activePatient.lastName %></h1>
       
       <div class="header-actions" style="margin-bottom: 2rem; display: flex; gap: 1rem;">
-        <a href="/patients/select/<%= activePatient._id %>" class="btn btn-primary">
+        <a href="/patients/<%= activePatient._id %>/billing/new" class="btn btn-primary">
           + Add New Insurance Plan
         </a>
-        
-        <% if (billing && billing.length > 0) { %>
-          <a href="/patients/<%= activePatient._id %>/billing/<%= billing[0]._id %>/recommendation?medType=generic" class="btn status-paid" style="text-decoration: none; border: 1px solid var(--success);">
-            ✨ Get Best Plan Recommendation
-          </a>
-        <% } %>
       </div>
 
       <div class="record-list">
         <% if( billing && billing.length > 0) { %>
-          <% billing.forEach(b => { %>
+          <% billing.forEach(item => { %>
             <div class="record-card" style="margin-bottom: 1rem; position: relative;">
-              <a href="/patients/<%= activePatient._id %>/billing/<%= b._id %>" style="text-decoration: none; display: block;">
+              <a href="/patients/<%= activePatient._id %>/billing/<%= item.insurance._id %>" style="text-decoration: none; display: block;">
                 
-                <span class="record-title" style="font-size: 1.2rem; font-weight: 700; color: var(--primary); display: block;">
-                  <%= b.providerName || 'Unknown Provider' %>
-                  <% if(b.isInactivated) { %> 
-                    <span class="badge status-denied" style="margin-left: 10px;">Inactive</span> 
-                  <% } %>
-                </span>
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <span class="record-title" style="font-size: 1.2rem; font-weight: 700; color: var(--primary);">
+                    <%= item.insurance.providerName || 'Unknown Provider' %>
+                  </span>
+                  
+                  <div style="display: flex; gap: 5px;">
+                    <% if(item.insurance.isInactivated) { %> 
+                      <span class="badge status-denied">Inactive</span> 
+                    <% } else { %>
+                      <span class="badge <%= item.label === 'Primary' ? 'status-paid' : 'status-pending' %>">
+                        <%= item.label %>
+                      </span>
+                    <% } %>
+                  </div>
+                </div>
 
-                <div class="record-meta" style="margin-top: 5px; color: var(--secondary); font-size: 0.9rem;">
-                  <strong>Member ID:</strong> <%= b.memberId %> | 
-                  <strong>Type:</strong> <%= b.coverageType.toUpperCase() %>
+                <div class="record-meta">
+                  <strong>ID:</strong> <%= item.insurance.memberId %> | 
+                  <strong>Type:</strong> <%= item.insurance.coverageType.toUpperCase() %> 
+                  <% if(item.insurance.state) { %> | <strong>State:</strong> <%= item.insurance.state %><% } %>
                 </div>
               </a>
             </div>
@@ -47,7 +51,7 @@
         <% } else { %>
           <div class="form-container" style="text-align: center; padding: 3rem;">
             <p>No insurance records found for this patient.</p>
-            <a href="/patients/select/<%= activePatient._id %>" class="btn btn-outline">Add First Plan</a>
+            <a href="/patients/<%= activePatient._id %>/billing/new" class="btn btn-outline">Add First Plan</a>
           </div>
         <% } %>  
       </div>

@@ -1,58 +1,55 @@
-const Billing = require('../models/billing');
+const Billing = require("../models/billing");
 
-const calculateScore = (insurance, medType) => {
-  let score = insurance.priority || 0;
+const calculateScore = (ins) => {
+  let score = 0;
 
-  if(insurance.coverageType === 'medicaid') {
-    score += 10;
+  const typeWeights = {
+    commercial: 10,
+    medicare: 20,
+    medicaid: 30,
+    coupon: 40,
+  };
+
+  score += typeWeights[ins.coverageType] || 50;
+
+  if (ins.relationship === "self") {
+    score -= 5;
   }
 
-  if(medType === 'brand') {
-    score += 5;
-  }
-
-  if(insurance.coverageType === 'secondary') {
-    score += 3;
-  }
+  score -= ins.priority || 0;
 
   return score;
 };
 
-const generateNote = (insurance, medType) => {
-  if(insurance.coverageType === 'medicaid' && medType === 'brand') {
-    return 'PA likely required'
-  }
-
-  if(insurance.coverageType === 'primary') {
-    return 'Try first'
-  }
-
-  if(insurance.coverageType === 'secondary') {
-    return 'Try next if primary is rejected'
-  }
-
-  return 'Standard Billing'
-};
-
-const recommend = async (billingId, medType) => {
-  const currentBilling= await Billing.findById(billingId);
-  if(!currentBilling) 
-    return [];
-
+const recommend = async (patientId) => {
   const allInsurances = await Billing.find({
-    patient: currentBilling.patient,
-    isInactivated: { $ne: true }
+    patient: patientId,
+    isInactivated: { $ne: true },
   });
 
-  const ranked = allInsurances.map(ins =>({
+  const ranked = allInsurances.map((ins) => ({
     insurance: ins,
-    score: calculateScore(ins, medType),
-    note: generateNote(ins, medType)
+    score: calculateScore(ins),
   }));
 
-  ranked.sort((a, b)=> b.score - a.score);
+  ranked.sort((a, b) => a.score - b.score);
 
-  return ranked;
+  return ranked.map((item, index) => {
+    let label;
+    if (item.insurance.coverageType === "coupon") {
+      label = "Coupon";
+    } else if (item.insurance.coverageType === "medicaid") {
+      label = "Medicaid";
+    } else {
+      const labels = ["Primary", "Secondary", "Tertiary"];
+      label = labels[index] || "Additional";
+    }
+
+    return {
+      ...item,
+      label: label,
+    };
+  });
 };
 
 module.exports = { recommend };

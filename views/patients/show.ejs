@@ -39,17 +39,40 @@
         </div>
 
         <h3 style="font-size: 0.9rem; text-transform: uppercase; color: var(--secondary); border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 1.5rem;">
+          Current Coverage Summary
+        </h3>
+        <div class="record-card" style="margin-bottom: 2.5rem; border-left: 4px solid var(--primary);">
+          <% if (locals.primaryInsurance) { %>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <strong style="display: block; font-size: 1.1rem; color: var(--primary);">
+                  <%= primaryInsurance.insurance.providerName %>
+                </strong>
+                <span style="font-size: 0.85rem; color: var(--secondary);">
+                  ID: <%= primaryInsurance.insurance.memberId %> | BIN: <%= primaryInsurance.insurance.bin %>
+                </span>
+              </div>
+              <span class="badge status-paid">Primary</span>
+            </div>
+          <% } else { %>
+            <p style="margin: 0; font-size: 0.9rem; color: var(--secondary); font-style: italic;">
+              No active insurance plans found for this patient.
+            </p>
+          <% } %>
+        </div>
+
+        <h3 style="font-size: 0.9rem; text-transform: uppercase; color: var(--secondary); border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 1.5rem;">
           Clinical Billing Actions
         </h3>
         <div class="dashboard-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-bottom: 3rem;">
           <a href="/patients/<%= patient._id %>/billing" class="action-card" style="padding: 1.5rem;">
             <span style="font-size: 1.5rem; margin-bottom: 10px; display: block;">📋</span>
-            <strong>View Insurance</strong>
+            <strong>View All Insurance</strong>
             <p style="font-size: 0.8rem; color: var(--secondary); margin: 5px 0 0 0;">Manage plans & verify codes</p>
           </a>
-          <a href="/patients/select/<%= patient._id %>" class="action-card" style="padding: 1.5rem;">
+          <a href="/patients/<%= patient._id %>/billing/new" class="action-card" style="padding: 1.5rem;">
             <span style="font-size: 1.5rem; margin-bottom: 10px; display: block;">➕</span>
-            <strong>Add New Plan</strong>
+              <strong>Add New Plan</strong>
             <p style="font-size: 0.8rem; color: var(--secondary); margin: 5px 0 0 0;">Add secondary or medicare</p>
           </a>
         </div>

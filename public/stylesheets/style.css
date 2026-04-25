@@ -194,6 +194,16 @@ input, select {
   text-transform: uppercase !important;
 }
 
+.badge-self {
+  background-color: var(--primary) !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  padding: 4px 10px !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  letter-spacing: 0.5px;
+}
+
+
 .status-paid {
   background: #dcfce7 !important;
   color: #166534 !important;
@@ -315,3 +325,50 @@ input, select {
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
+.winner-card {
+  border: 2px solid var(--primary) !important;
+  box-shadow: 0 4px 12px rgba(26, 86, 219, 0.2);
+}
+
+@media (max-width: 600px) {
+    nav {
+        flex-direction: column;
+        padding: 1rem;
+        height: auto;
+    }
+
+    .nav-left, .nav-right {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .form-container, .auth-card, .profile-card {
+        padding: 1.5rem;
+        width: 95%;
+    }
+
+    .billing-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .detail-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .action-group {
+        flex-direction: column;
+        gap: 5px;
+    }
+}
