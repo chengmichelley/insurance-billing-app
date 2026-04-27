@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/stylesheets/style.css">
-  <title>Billing Recommendation</title>
+  <title>Billing Recommendation | PHARMABILL</title>
 </head>
 <body>
   <%- include('../partials/_navbar.ejs') %>
@@ -19,8 +19,7 @@
     <% if(results && results.length > 0) { %>
       <div class="record-list">
         <% results.forEach((r, index) => { %>
-          
-            <div class="record-card <%= index === 0 ? 'winner-card' : '' %>" style="margin-bottom: 1.5rem; padding: 2rem;">
+          <div class="record-card <%= index === 0 ? 'winner-card' : '' %>" style="margin-bottom: 1.5rem; padding: 2rem;">
             
             <% if (index === 0) { %>
               <span class="badge status-paid" style="margin-bottom: 1rem; display: inline-block;">★ RECOMMENDED PRIMARY ★</span>
@@ -47,7 +46,6 @@
               </p>
             </div>
           </div>
-
         <% }) %>
       </div>
     <% } else { %>
@@ -57,7 +55,7 @@
     <% } %>
 
     <div style="margin-top: 2rem;">
-      <a href="/patients/<%= results.length > 0 ? results[0].insurance.patient : '' %>/billing" class="btn btn-outline">
+      <a href="/patients/<%= activePatient._id %>/billing" class="btn btn-outline">
         ← Back to Billing List
       </a>
     </div>

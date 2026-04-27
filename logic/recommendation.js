@@ -1,4 +1,4 @@
-const Billing = require("../models/billing");
+const Insurance = require("../models/insurance");
 
 const calculateScore = (ins) => {
   let score = 0;
@@ -22,7 +22,7 @@ const calculateScore = (ins) => {
 };
 
 const recommend = async (patientId) => {
-  const allInsurances = await Billing.find({
+  const allInsurances = await Insurance.find({
     patient: patientId,
     isInactivated: { $ne: true },
   });
@@ -32,9 +32,11 @@ const recommend = async (patientId) => {
     score: calculateScore(ins),
   }));
 
+  // Lower score = higher billing priority
   ranked.sort((a, b) => a.score - b.score);
 
-  return ranked.map((item, index) => {
+  let labelIndex = 0;
+  return ranked.map((item) => {
     let label;
     if (item.insurance.coverageType === "coupon") {
       label = "Coupon";
@@ -42,12 +44,13 @@ const recommend = async (patientId) => {
       label = "Medicaid";
     } else {
       const labels = ["Primary", "Secondary", "Tertiary"];
-      label = labels[index] || "Additional";
+      label = labels[labelIndex] || "Additional";
+      labelIndex++;
     }
 
     return {
       ...item,
-      label: label,
+      label,
     };
   });
 };

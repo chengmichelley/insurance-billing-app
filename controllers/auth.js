@@ -27,7 +27,7 @@ router.post("/sign-up", authRequired, isAdmin, async (req, res) => {
     await User.create({
       username,
       hashedPassword,
-      role: "user",
+      role: "staff",
     });
 
     res.redirect(

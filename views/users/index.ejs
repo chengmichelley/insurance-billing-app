@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/stylesheets/style.css">
-    <title>Staff Directory | Admin</title>
+    <title>Staff Directory | PHARMABILL</title>
 </head>
 <body>
     <%- include('../partials/_navbar.ejs') %>
@@ -12,7 +12,7 @@
     <div class="main-content">
         <div class="detail-header" style="text-align: center; margin-bottom: 2.5rem; width: 70%;">
             <div class="header-text">
-                <h1>Staff Directory</h1>
+                <h1>Staff Directory | ADMIN</h1>
                 <p style="color: var(--secondary); margin-bottom: 1.5rem;">
                     Manage administrative roles and system access.
                 </p>
@@ -54,7 +54,7 @@
                                     <div style="display: flex; gap: 8px; align-items: center; justify-content: center;">
                                       <form action="/user/<%= u._id %>/role?_method=PUT" method="POST" style="display: flex; align-items: center; gap: 4px; margin: 0;">
                                         <select name="role" style="height: 32px; padding: 0 4px; width: 85px; font-size: 0.8rem; border: 1px solid var(--border); border-radius: 4px; background: white;">
-                                          <option value="user" <%= u.role === 'user' ? 'selected' : '' %>>User</option>
+                                          <option value="staff" <%= u.role === 'staff' ? 'selected' : '' %>>Staff</option>
                                           <option value="admin"<%= u.role === 'admin' ? 'selected' : '' %>>Admin</option>
                                         </select>
                                         <button type="submit" class="btn btn-outline" style="height: 32px; padding: 0 10px; font-size: 0.75rem; display: flex; align-items: center; justify-content: center;">Save</button>

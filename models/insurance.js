@@ -1,10 +1,9 @@
 const mongoose = require("mongoose");
 
-const billingSchema = new mongoose.Schema(
+const insuranceSchema = new mongoose.Schema(
   {
     providerName: {
       type: String,
-      required: false,
     },
     memberId: {
       type: String,
@@ -55,4 +54,4 @@ const billingSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-module.exports = mongoose.model("Billing", billingSchema);
+module.exports = mongoose.model("Insurance", insuranceSchema);

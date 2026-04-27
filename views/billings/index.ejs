@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/stylesheets/style.css">
-  <title>Billing Records | <%= activePatient.firstName %></title>
+  <title>Insurance Plans | PHARMABILL</title>
 </head>
 <body>
     <%- include('../partials/_navbar.ejs') %>
@@ -19,8 +19,8 @@
       </div>
 
       <div class="record-list">
-        <% if( billing && billing.length > 0) { %>
-          <% billing.forEach(item => { %>
+        <% if( insurance && insurance.length > 0) { %>
+          <% insurance.forEach(item => { %>
             <div class="record-card" style="margin-bottom: 1rem; position: relative;">
               <a href="/patients/<%= activePatient._id %>/billing/<%= item.insurance._id %>" style="text-decoration: none; display: block;">
                 

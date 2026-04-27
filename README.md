@@ -3,9 +3,10 @@
 
 PHARMABILL is a full-stack pharmacy workflow application that automates the Coordination of Benefits (COB) process by intelligently ranking patient insurance plans.
 
-Designed using real-world experience at CVS Pharmacy, PHARMABILL reduces trial-and-error billing at the pharmacy drop-off station—improving efficiency, accuracy, and patient experience.
+> 💊 **Real-World Origin**
+> Built from firsthand experience working at **CVS Pharmacy** — where insurance billing errors, trial-and-error claim submissions, and staff inefficiencies are daily realities.
 
-> “Taking the guesswork out of pharmacy billing.”
+> "Taking the guesswork out of pharmacy billing."
 
 ## 🚀 Live Application
 **[View PHARMABILL on Render](https://pharmabill.onrender.com)**
@@ -29,22 +30,20 @@ In retail pharmacy environments, the drop-off station is a critical bottleneck.
 
 Pharmacy staff must quickly:
 
-Enter prescription data
-Identify the correct insurance plan
-Process claims with limited or inconsistent information
+- Enter prescription data
+- Identify the correct insurance plan
+- Process claims with limited or inconsistent information
 
-Key Challenges
+**Key Challenges**
 
-Multiple insurance plans may share the same BIN but differ in PCN or group number
-Insurance selection often relies on trial-and-error
-Incorrect billing leads to:
-Claim rejections
-Triage rework
-Increased patient wait times
+- Multiple insurance plans may share the same BIN but differ in PCN or group number
+- Insurance selection often relies on trial-and-error
+- Incorrect billing leads to:
+  - Claim rejections
+  - Triage rework
+  - Increased patient wait times
 
 This creates operational inefficiencies and added pressure on pharmacy staff.
-
----
 
 ### 💡 The Solution
 
@@ -52,64 +51,39 @@ PHARMABILL introduces a rule-based recommendation engine that ranks insurance pl
 
 Instead of guessing, staff receive:
 
-Clear Primary / Secondary / Tertiary recommendations
-Intelligent prioritization based on patient and plan data
-The ability to manually override decisions when needed
-
----
+- Clear Primary / Secondary / Tertiary recommendations
+- Intelligent prioritization based on patient and plan data
+- The ability to manually override decisions when needed
 
 ## ✨ Core Features
 
 ### 🚀 Insurance Recommendation Engine
 
 Ranks plans using weighted factors:
-Relationship Status (Self vs Dependent)
-Coverage Type (Commercial, Medicare, Medicaid, Coupon)
-Manual Priority Boost
-Automatically assigns Primary, Secondary, Tertiary labels
+- Relationship Status (Self vs Dependent)
+- Coverage Type (Commercial, Medicare, Medicaid, Coupon)
+- Manual Priority Boost
+- Automatically assigns Primary, Secondary, Tertiary labels
 
 ### 👤 Patient-Centric Workflow
 
-Search or create patient profiles
-Manage multiple insurance plans per patient
-Persistent Active Patient Session across views
+- Search or create patient profiles
+- Manage multiple insurance plans per patient
+- Persistent Active Patient Session across views
 
 ### 🛡️ Role-Based Access Control
 
-Admin: Manage staff accounts and permissions
-Staff: Manage patients and insurance plans
+- Admin: Manage staff accounts and permissions
+- Staff: Manage patients and insurance plans
 
 ### 📦 Data Integrity Features
 
-Soft-delete (archiving) for insurance plans
-Structured schema for consistent data entry
-Designed to handle incomplete or ambiguous insurance data
+- Soft-delete (archiving) for insurance plans
+- Structured schema for consistent data entry
+- Designed to handle incomplete or ambiguous insurance data
 
 ---
 
-## 🏗️ System Architecture
-
-### Frontend
-
-EJS (server-rendered views)
-HTML5, CSS3
-
-### Backend
-
-Node.js
-Express.js
-
-### Database
-
-MongoDB
-Mongoose ODM
-
-### Authentication
-
-Session-based authentication
-Role-based authorization
-
----
 ## 🧠 How the Recommendation Engine Works
 
 PHARMABILL uses a scoring system to simulate real-world COB decision-making.
@@ -121,13 +95,11 @@ score = relationshipWeight + coverageWeight + manualBoost
 ```
 Plans are then sorted and labeled:
 
-Primary (highest score)
-Secondary
-Tertiary
+- Primary (highest score)
+- Secondary
+- Tertiary
 
 This reduces the need for repeated manual billing attempts.
-
----
 
 ### 🔄 Example Workflow
 
@@ -137,7 +109,21 @@ This reduces the need for repeated manual billing attempts.
 4. Select the top recommended plan
 5. If claim fails → proceed to next ranked option
 
----
+### 🏗️ System Flow
+
+```
+User (Technician)
+        ↓
+Frontend (EJS Views)
+        ↓
+Express Routes (Controller Logic)
+        ↓
+Recommendation Engine (Scoring Logic)
+        ↓
+MongoDB (Patient + Insurance Data)
+        ↓
+Ranked Insurance Plans → UI Display
+```
 
 ## ⚠️ Challenges & Tradeoffs
 
@@ -147,21 +133,17 @@ Insurance data is often incomplete or inconsistent.
 
 Approach:
 
-Flexible schema design
-Manual override capability
+- Flexible schema design
+- Manual override capability
 
 ### Accuracy vs Complexity
 
 A fully accurate COB system would require live payer integrations.
 
----
-
 ### Tradeoff:
 
-Implemented a rule-based approximation
-Focused on improving workflow efficiency rather than replacing adjudication systems
-
----
+- Implemented a rule-based approximation
+- Focused on improving workflow efficiency rather than replacing adjudication systems
 
 ### State Management
 
@@ -169,8 +151,8 @@ Maintaining patient context across multiple views was essential.
 
 ### Solution:
 
-Session-based active patient tracking
-Persistent UI indicator
+- Session-based active patient tracking
+- Persistent UI indicator
 
 ---
 
@@ -182,6 +164,8 @@ PHARMABILL is designed to:
 * 🔁 Decrease claim reprocessing cycles
 * 🧠 Support newer technicians with guided decision-making
 * 😊 Improve patient wait time and overall experience
+
+---
 
 ## 🛠️ How to Use
 
@@ -223,26 +207,39 @@ PHARMABILL is designed to:
 * Adjudication Simulator
   * Simulate real claim responses (e.g., Prior Authorization, Refill Too Soon)
 * Prescription Intake Module
-* Support script entry workflows
+  * Support script entry workflows
 * Medication API Integration
-* Identify generic vs brand medications
+  * Identify generic vs brand medications
 * Audit Logging
-* Track billing decisions and retries
-
----
+  * Track billing decisions and retries
 
 ## 🛠️ Tech Stack
 
-* JavaScript (ES6+)
-* Node.js
-* Express.js
-* MongoDB / Mongoose
-* EJS
-* Bcrypt.js
-* Express-Session
-* Connect-Mongo
-* Method-Override
-* Dotenv
+### Frontend
+
+- EJS (server-rendered views)
+- HTML5
+- CSS3
+
+### Backend
+
+- Node.js
+- Express.js
+- Method-Override
+- Dotenv
+
+### Database
+
+- MongoDB
+- Mongoose ODM
+- Connect-Mongo
+
+### Authentication
+
+- Session-based authentication
+- Role-based authorization
+- Bcrypt.js
+- Express-Session 
 
 ---
 

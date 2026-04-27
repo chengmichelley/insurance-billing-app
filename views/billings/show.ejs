@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/stylesheets/style.css">
-  <title>Billing Details | <%= billing.providerName %></title>
+  <title>Insurance Plan Details | PHARMABILL</title>
 </head>
 <body>
   <%- include('../partials/_navbar.ejs') %>
 
   <div class="main-content">
     <div class="detail-header">
-      <h1><%= billing.providerName || 'Insurance' %> Details</h1>
+      <h1><%= insurance.providerName || 'Insurance' %> Details</h1>
       <p style="color: var(--secondary);">
         Patient: <strong><%= activePatient.firstName %> <%= activePatient.lastName %></strong>
       </p>
@@ -20,63 +20,63 @@
     <div class="info-grid">
       <div class="info-item">
         <label>Provider Name</label>
-        <span><%= billing.providerName %></span>
+        <span><%= insurance.providerName %></span>
       </div>
       <div class="info-item">
         <label>Member ID</label>
-        <span><%= billing.memberId %></span>
+        <span><%= insurance.memberId %></span>
       </div>
       <div class="info-item">
         <label>BIN</label>
-        <span><%= billing.bin %></span>
+        <span><%= insurance.bin %></span>
       </div>
       <div class="info-item">
         <label>PCN</label>
-        <span><%= billing.pcn %></span>
+        <span><%= insurance.pcn %></span>
       </div>
       <div class="info-item">
         <label>Group</label>
-        <span><%= billing.group || 'N/A' %></span>
+        <span><%= insurance.group || 'N/A' %></span>
       </div>
       <div class="info-item">
         <label>Plan State</label>
-        <span><%= billing.state || 'National' %></span>
+        <span><%= insurance.state || 'National' %></span>
       </div>
       <div class="info-item">
         <label>Coverage Type</label>
-        <span class="badge" style="background: #e0f2fe; color: #0369a1; text-transform: uppercase;"><%= billing.coverageType %></span>
+        <span class="badge" style="background: #e0f2fe; color: #0369a1; text-transform: uppercase;"><%= insurance.coverageType %></span>
       </div>
       <div class="info-item">
         <label>Relationship</label>
-        <span style="text-transform: capitalize;"><%= billing.relationship %></span>
+        <span style="text-transform: capitalize;"><%= insurance.relationship %></span>
       </div>
       <div class="info-item">
         <label>Manual Boost</label>
-        <span><%= billing.priority %></span>
+        <span><%= insurance.priority %></span>
       </div>
       <div class="info-item">
         <label>Status</label>
-        <span class="badge <%= billing.isInactivated ? 'status-denied' : 'status-paid' %>">
-          <%= billing.isInactivated ? 'INACTIVE' : 'ACTIVE' %>
+        <span class="badge <%= insurance.isInactivated ? 'status-denied' : 'status-paid' %>">
+          <%= insurance.isInactivated ? 'INACTIVE' : 'ACTIVE' %>
         </span>
       </div>
     </div>
 
     <div class="action-bar" style="margin-top: 2rem; display: flex; gap: 1rem; align-items: center;">
-      <a href="/patients/<%= activePatient._id %>/billing/<%= billing._id %>/edit" class="btn btn-primary">
+      <a href="/patients/<%= activePatient._id %>/billing/<%= insurance._id %>/edit" class="btn btn-primary">
         Edit Record
       </a>
 
-      <form action="/patients/<%= activePatient._id %>/billing/<%= billing._id %>/inactivate?_method=PUT" method="POST" style="margin: 0;">
-        <button type="submit" class="btn btn-outline" style="border-color: var(--warning); color: var(--warning);" <%= billing.isInactivated ? 'disabled' : '' %>>
-          <%= billing.isInactivated ? 'Plan is Inactive' : 'Inactivate Plan' %>
+      <form action="/patients/<%= activePatient._id %>/billing/<%= insurance._id %>/inactivate?_method=PUT" method="POST" style="margin: 0;">
+        <button type="submit" class="btn btn-outline" style="border-color: var(--warning); color: var(--warning);" <%= insurance.isInactivated ? 'disabled' : '' %>>
+          <%= insurance.isInactivated ? 'Plan is Inactive' : 'Inactivate Plan' %>
         </button>
       </form>
     </div>
 
     <div style="margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--border);">
-      <a href="/patients/<%= activePatient._id %>/billing/<%= billing._id %>/confirm_delete" style="color: var(--danger); text-decoration: none; font-size: 0.9rem;">
-        Delete This Billing Record
+      <a href="/patients/<%= activePatient._id %>/billing/<%= insurance._id %>/confirm_delete" style="color: var(--danger); text-decoration: none; font-size: 0.9rem;">
+        Delete This Insurance Record
       </a>
       <span style="color: var(--border); margin: 0 10px;">|</span>
       <a href="/patients/<%= activePatient._id %>/billing" style="color: var(--secondary); text-decoration: none; font-size: 0.9rem;">

@@ -27,6 +27,9 @@ router.get("/profile", async (req, res) => {
 router.put("/profile/password", async (req, res) => {
   try {
     const { password, confirmPassword } = req.body;
+    if (password.length < 8) {
+      throw new Error("Password must be at least 8 characters.");
+    }
     if (password !== confirmPassword) {
       throw new Error("Passwords do not match!");
     }
@@ -68,7 +71,7 @@ router.get("/", async (req, res) => {
 // =======================
 router.put("/:id/role", async (req, res) => {
   try {
-    if (req.params.id === req.session.user._id) {
+    if (req.params.id === req.session.user._id.toString()) {
       throw new Error("Cannot change your own role.");
     }
 
@@ -84,7 +87,7 @@ router.put("/:id/role", async (req, res) => {
 // =======================
 router.delete("/:id", async (req, res) => {
   try {
-    if (req.params.id === req.session.user._id) {
+    if (req.params.id === req.session.user._id.toString()) {
       throw new Error("You cannot delete your own account.");
     }
 

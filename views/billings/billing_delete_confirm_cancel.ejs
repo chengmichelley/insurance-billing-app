@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/stylesheets/style.css">
-  <title>Confirm Deletion</title>
+  <title>Confirm Deletion | PHARMABILL</title>
 </head>
 <body>
   <%- include('../partials/_navbar.ejs') %>
@@ -14,21 +14,21 @@
       <h1 style="color: var(--danger);">Confirm Deletion</h1>
       
       <p style="margin-bottom: 2rem;">
-        Are you sure you want to delete the billing record for 
-        <strong><%= billing.providerName %></strong>?<br>
+        Are you sure you want to delete the insurance plan for 
+        <strong><%= insurance.providerName %></strong>?<br>
         <span style="color: var(--secondary); font-size: 0.9rem;">
-          This will permanently remove Member ID: <%= billing.memberId %>
+          This will permanently remove Member ID: <%= insurance.memberId %>
         </span>
       </p>
 
       <div class="confirm-actions" style="display: flex; flex-direction: column; gap: 1rem;">
-        <form action="/patients/<%= billing.patient %>/billing/<%= billing._id %>?_method=DELETE" method="POST">
+        <form action="/patients/<%= insurance.patient %>/billing/<%= insurance._id %>?_method=DELETE" method="POST">
           <button type="submit" class="btn btn-danger btn-block">
-            Permanently Delete Plan
+            Permanently Delete Insurance plan
           </button>
         </form>
 
-        <a href="/patients/<%= billing.patient %>/billing/<%= billing._id %>" class="btn btn-outline btn-block">
+        <a href="/patients/<%= insurance.patient %>/billing/<%= insurance._id %>" class="btn btn-outline btn-block">
           Cancel & Go Back
         </a>
       </div>

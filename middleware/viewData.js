@@ -6,7 +6,7 @@ const viewData = async (req, res, next) => {
   if(req.session.selectedPatientId) {
     try{
       const activePatient = await Patient.findById(req.session.selectedPatientId);
-      res.locals.activePatient = activePatient;
+      res.locals.activePatient = activePatient || null;
     } catch (error) {
       res.locals.activePatient = null;
     }

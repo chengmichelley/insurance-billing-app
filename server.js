@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3000;
 const methodOverride = require("method-override");
 const morgan = require("morgan");
 
-const billingController = require("./controllers/billings");
+const insuranceController = require("./controllers/insurances");
 const patientController = require("./controllers/patients")
 const authRoutes = require("./controllers/auth");
 const userRoutes = require("./controllers/users");
@@ -17,7 +17,6 @@ const MongoStore = require("connect-mongo").default;
 
 const authRequired = require("./middleware/authRequired");
 const viewData = require("./middleware/viewData");
-const isAdmin = require("./middleware/isAdmin");
 
 // =======================
 
@@ -63,7 +62,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/patients", authRequired, patientController);
-app.use("/patients/:patientId/billing", authRequired, billingController);
+app.use("/patients/:patientId/billing", authRequired, insuranceController);
 app.use("/user", authRequired, userRoutes);
 
 
