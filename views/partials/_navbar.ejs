@@ -1,24 +1,27 @@
 <nav>
   <div class="nav-left">
-    <a href="/">Home</a>
-    <% if(user) { %>
-      <a href="/patients/search">Patient Search</a>
+  <a href="/" style="display: flex; align-items: center; gap: 8px; font-weight: 700; color: white;">
+    <span style="font-size: 1.5rem;">💊</span>
+    <span style="letter-spacing: 0.5px;">PHARMA<span style="color: var(--primary);">BILL</span></span>
+  </a>
+  <a href="/patients/search" style="margin-left: 10px;">Patient Search</a>
 
-      <% if(user.role === 'admin') { %>
-        <a href="/user">Staff Directory</a>
-      <% } %>
-    <% } %>
-  </div>
+  <% if(user && user.role === 'admin') { %>
+    <a href="/user">Staff Directory</a>
+  <% } %>
+</div>
 
   <div class="nav-center">
-    <% if(user && typeof activePatient !== 'undefined' && activePatient) { %>
-      <span class="active-content">
+  <% if(user && typeof activePatient !== 'undefined' && activePatient) { %>
+    <span class="active-content" style="padding: 0;">
+      <a href="/patients/<%= activePatient._id %>" style="color: inherit; text-decoration: none; display: inline-block; padding: 6px 16px;">
         Active: <strong><%= activePatient.firstName %> <%= activePatient.lastName %></strong>
         <small style="opacity: 0.8; margin-left: 5px;">(<%= activePatient.dob %>)</small>
-        <a href="/patients/clear-selection" style="margin-left: 10px; color: #fff; text-decoration: underline; font-size: 0.75rem;">Switch</a>
-      </span>
-    <% } %>
-  </div>
+      </a>
+      <a href="/patients/clear-selection" style="margin-right: 12px; color: #fff; text-decoration: underline; font-size: 0.75rem;">Switch</a>
+    </span>
+  <% } %>
+</div>
 
   <div class="nav-right">
     <% if(user) { %>

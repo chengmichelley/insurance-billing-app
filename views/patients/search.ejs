@@ -4,25 +4,40 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/stylesheets/style.css">
-  <title>Patient Search</title>
+  <title>Patient Search | Billing System</title>
 </head>
 <body>
   <%- include('../partials/_navbar.ejs') %>
 
   <div class="main-content">
-    
-    <div class="form-container" style="margin-bottom: 2rem; max-width: 100%;">
+    <!-- Search Form Card (Centered & Narrow) -->
+    <div class="form-container" style="max-width: 500px;">
       <h1>Find a Patient</h1>
+      <p style="color: var(--secondary); margin-bottom: 2rem; text-align: center;">
+        Search by name or date of birth to manage billing.
+      </p>
+
+      <% if(typeof message !== 'undefined' && message) { %>
+        <div class="badge status-pending" style="display: block; text-align: center; margin-bottom: 1.5rem; width: 100%;">
+          <%= message %>
+        </div>
+      <% } %>
+
+      <% if(typeof err !== 'undefined' && err) { %>
+        <div class="error-msg" style="margin-bottom: 1.5rem;">
+          <%= err %>
+        </div>
+      <% } %>
+
       <form action='/patients/search' method="GET">
-        <div class="form-row">
-          <div class="form-group">
-            <label for="firstName">First Name</label>
-            <input type="text" id="firstName" name="firstName" autofocus placeholder="Search First Name" value="<%= typeof firstName !== 'undefined' ? firstName : '' %>"/>
-          </div>
-          <div class="form-group">
-            <label for="lastName">Last Name</label>
-            <input type="text" id="lastName" name="lastName" placeholder="Search Last Name" value="<%= typeof lastName !== 'undefined' ? lastName : '' %>"/>
-          </div>
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" name="firstName" autofocus placeholder="First name" value="<%= typeof firstName !== 'undefined' ? firstName : '' %>"/>
+        </div>
+
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input type="text" id="lastName" name="lastName" placeholder="Last name" value="<%= typeof lastName !== 'undefined' ? lastName : '' %>"/>
         </div>
 
         <div class="form-group">
@@ -30,42 +45,51 @@
           <input type="tel" id="dob" name="dob" maxlength="10" placeholder="MM/DD/YYYY" oninput="formatDate(this)" value="<%= typeof dob !== 'undefined' ? dob: '' %>" required/>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-block">Find Patient</button>
+        <div class="form-actions" style="display: flex; flex-direction: column; gap: 10px; margin-top: 2rem;">
+          <button type="submit" class="btn btn-primary btn-block">Find Patient Profile</button>
+          <a href="/patients/new" class="btn btn-outline btn-block">Create New Patient</a>
+        </div>
       </form>
-
-      <% if(typeof message !== 'undefined' && message) { %>
-        <p class="badge status-pending" style="display: block; margin-top: 1rem; text-align: center;"><%= message %></p>
-      <% } %>
-
-      <% if(err) { %>
-        <p class="error-msg" style="margin-top: 1rem;"><%= err %></p>
-      <% } %>
     </div>
 
     <% if (results && results.length > 0) { %>
-      <h2 style="margin-bottom: 1rem; color: var(--secondary); font-size: 1.2rem;">Matching Patients</h2>
-      <div class="record-list">
-        <% results.forEach(p => { %>
-          <div class="record-card" style="margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
-            <div class="p-info">
-              <strong style="font-size: 1.1rem; color: var(--primary);"><%= p.firstName %> <%= p.lastName %></strong>
-              <p style="margin: 5px 0 0 0; color: var(--secondary); font-size: 0.9rem;">
-                DOB: <%= p.dob %> | Status: <%= p.isInactivated ? 'Inactive' : 'Active' %>
-              </p>
-            </div>
-            <div style="display: flex; gap: 10px;">
-              <a href="/patients/<%= p._id %>" class="btn btn-outline" style="font-size: 0.8rem; padding: 8px 12px;">View Profile</a>
-              <a href="/patients/<%= p._id %>/billing/new" class="btn btn-primary" style="font-size: 0.8rem; padding: 8px 12px;">+ Add Insurance</a>
-            </div>
-          </div>
-        <% }) %>
-      </div>
-    <% } %>
+      <div style="margin-top: 3rem; width: 70%; margin-left: auto; margin-right: auto;">
+        
+        <h2 style="margin-bottom: 2rem; color: var(--secondary); font-size: 1.2rem; text-align: center; text-transform: uppercase; letter-spacing: 2px;">
+          Search Results
+        </h2>
 
-    <% if (results && results.length === 0 && (typeof firstName !== 'undefined' || typeof dob !== 'undefined')) { %>
-      <div class="form-container" style="text-align: center; border: 2px dashed var(--border); background: transparent; box-shadow: none;">
-        <p style="margin-bottom: 1.5rem;">No patients found matching those details.</p>
-        <a href="/patients/new" class="btn btn-primary">Create New Patient Profile</a>
+        <div class="record-list">
+          <% results.forEach(p => { %>
+            <div class="record-card">
+              
+              <div class="p-info">
+                <strong style="font-size: 1.2rem; color: var(--primary); display: block;">
+                  <%= p.firstName %> <%= p.lastName %>
+                </strong>
+                <p style="margin: 8px 0 0 0; color: var(--secondary); font-size: 1rem;">
+                  <strong>DOB:</strong> <%= p.dob %> 
+                  <span style="margin: 0 15px; color: var(--border);">|</span>
+                  <strong>Status:</strong> 
+                  <span class="badge <%= p.isInactivated ? 'status-denied' : 'status-paid' %>">
+                    <%= p.isInactivated ? 'INACTIVE' : 'ACTIVE' %>
+                  </span>
+                </p>
+              </div>
+
+              <div style="display: flex; gap: 15px;">
+                <a href="/patients/<%= p._id %>" class="btn btn-outline" style="padding: 10px 20px;">View Profile</a>
+                <a href="/patients/<%= p._id %>/billing/new" class="btn btn-primary" style="padding: 10px 20px;">+ Add Insurance</a>
+              </div>
+
+            </div>
+          <% }) %>
+        </div>
+      </div>
+
+    <% } else if (results && results.length === 0 && (typeof firstName !== 'undefined' || typeof dob !== 'undefined')) { %>
+      <div style="text-align: center; margin-top: 2rem; color: var(--secondary);">
+        <p>No matches found. Check the spelling or create a new profile.</p>
       </div>
     <% } %>
   </div>

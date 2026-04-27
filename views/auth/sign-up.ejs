@@ -34,9 +34,8 @@
             <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirm your password"/>
           </div>
 
-          <button type="submit" class="btn btn-primary btn-block"> <%= locals.user ? 'Create Staff' : 'Sign Up' %></button>
-
-          <% if (!locals.user) { %>
+            <button type="submit" class="btn btn-primary btn-block"> <%= locals.user ? 'Create Staff' : 'Sign Up' %></button>          
+            <% if (!locals.user) { %>
             <p style="margin-top: 1.5rem; text-align: center; font-size: 0.85rem; color: var(--secondary);">Already have an account? <a href="/auth/sign-in" style="color: var(--primary);">Sign in here</a></p>
           <% } %>
         </form>

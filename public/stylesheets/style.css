@@ -59,22 +59,43 @@ nav a:hover {
 
 .nav-left, .nav-right {
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem;
   align-items: center;
+}
+
+.nav-left a:first-child {
+  font-size: 1.1rem;
+  transition: opacity 0.2s;
+}
+
+.nav-left a:first-child:hover {
+  opacity: 0.8;
 }
 
 .nav-center {
   flex-grow: 1;
-  text-align: center;
+  display: flex;
+  justify-content: center;
 }
 
 .active-content {
   background: #334155;
-  padding: 6px 16px;
-  border-radius: 20px;
-  border: 1px solid var(--primary);
-  font-weight: 500;
+  padding: 0;
+  border-radius: 50px;
+  border: 2px solid var(--primary);
+  font-weight: 600;
   color: #60a5fa;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.active-content:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.3);
+  border-color: #93c5fd;
 }
 
 /* =========================================
@@ -82,7 +103,7 @@ nav a:hover {
    ========================================= */
 .main-content {
   width: 100%;
-  max-width: 1000px;
+  max-width: 1400px;
   padding: 2rem 1rem;
   display: flex;
   flex-direction: column;
@@ -102,6 +123,11 @@ nav a:hover {
 h1, h2, h3 {
   text-align: center;
   margin-bottom: 1.5rem;
+}
+
+.responsive-container {
+  width: 80%;
+  margin: 0 auto;
 }
 
 /* =========================================
@@ -203,7 +229,6 @@ input, select {
   letter-spacing: 0.5px;
 }
 
-
 .status-paid {
   background: #dcfce7 !important;
   color: #166534 !important;
@@ -227,17 +252,20 @@ input, select {
    ========================================= */
 .record-list {
   width: 100%;
-  max-width: 600px;
+  max-width: 100%;
 }
 
 .record-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 1.25rem;
+  padding: 1.5rem 2.5rem;
   margin-bottom: 1rem;
   width: 100%;
   text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .billing-table {
@@ -328,47 +356,64 @@ input, select {
 .winner-card {
   border: 2px solid var(--primary) !important;
   box-shadow: 0 4px 12px rgba(26, 86, 219, 0.2);
+  background-color: #f8faff;
 }
 
-@media (max-width: 600px) {
-    nav {
-        flex-direction: column;
-        padding: 1rem;
-        height: auto;
-    }
+/* =========================================
+   9. MOBILE RESPONSIVENESS
+   ========================================= */
 
-    .nav-left, .nav-right {
-        width: 100%;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 0.8rem;
-    }
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    padding: 1rem;
+    height: auto;
+  }
 
-    .form-row {
-        flex-direction: column;
-        gap: 0;
-    }
+  .nav-left, .nav-right {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
 
-    .form-container, .auth-card, .profile-card {
-        padding: 1.5rem;
-        width: 95%;
-    }
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
 
-    .billing-table {
-        display: block;
-        overflow-x: auto;
-        white-space: nowrap;
-    }
+  .form-container, .auth-card, .profile-card {
+    padding: 1.5rem;
+    width: 95%;
+  }
 
-    .detail-header {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 1rem;
-    }
+  .record-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+    padding: 1.5rem;
+  }
 
-    .action-group {
-        flex-direction: column;
-        gap: 5px;
-    }
+  .billing-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .detail-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .responsive-container {
+    width: 95%;
+  }
+
+  .record-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
 }

@@ -10,31 +10,35 @@
     <%- include('../partials/_navbar.ejs') %>
 
     <div class="main-content">
-        <div class="detail-header">
+        <div class="detail-header" style="text-align: center; margin-bottom: 2.5rem; width: 70%;">
             <div class="header-text">
                 <h1>Staff Directory</h1>
-                <p>Manage administrative roles and system access.</p>
+                <p style="color: var(--secondary); margin-bottom: 1.5rem;">
+                    Manage administrative roles and system access.
+                </p>
             </div>
-            <a href="/auth/sign-up" class="btn btn-primary">+ Register New Staff</a>
+            <div style="display: flex; justify-content: center;">
+                <a href="/auth/sign-up" class="btn btn-primary">+ Register New Staff</a>
+            </div>
         </div>
 
-        <div class="table-container">
+        <div class="table-container" style="width: 70%; margin: 0 auto;">
             <table class="billing-table">
                 <thead>
                     <tr>
-                        <th class="text-left">Username</th>
+                        <th style="text-align: left;">Username</th>
                         <th>Role</th>
                         <th>Account Created</th>
-                        <th>Actions</th>
+                        <th style="text-align: center;">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <% users.forEach(u => { %>
                         <tr>
-                            <td class="text-left">
-                                <strong class="username-text"><%= u.username %></strong>
+                            <td style="text-align: left;">
+                                <strong class="username-text" style="color: var(--text-dark);"><%= u.username %></strong>
                                 <% if(u._id.toString() === user._id.toString()) { %>
-                                    <span class="badge badge-self current-user-badge">YOU</span>
+                                    <span class="badge badge-self" style="font-size: 0.65rem; margin-left: 5px;">YOU</span>
                                 <% } %>
                             </td>
                             <td>
@@ -42,27 +46,32 @@
                                     <%= u.role.toUpperCase() %>
                                 </span>
                             </td>
-                            <td class="date-text">
+                            <td style="color: var(--secondary); font-size: 0.9rem;">
                                 <%= new Date(u.createdAt).toLocaleDateString() %>
                             </td>
-                            <td>
+                            <td style="text-align: center;">
                                 <% if(u._id.toString() !== user._id.toString()) { %>
-                                    <div class="action-group">
-                                        <form action="/user/<%= u._id %>/role?_method=PUT" method="POST" class="role-form">
-                                            <select name="role" class="role-select">
-                                                <option value="user" <%= u.role === 'user' ? 'selected' : '' %>>User</option>
-                                                <option value="admin"<%= u.role === 'admin' ? 'selected' : '' %>>Admin</option>
-                                            </select>
-                                            <button type="submit" class="btn btn-outline btn-small">Save</button>
-                                        </form>
-                                        <form action="/user/<%= u._id %>?_method=DELETE" method="POST" class="delete-form">
-                                            <button type="submit" class="btn btn-outline btn-small btn-delete" onClick="return confirm('PERMANENTLY remove this staff member?')">
-                                                Delete
-                                            </button>
-                                        </form>
+                                    <div style="display: flex; gap: 8px; align-items: center; justify-content: center;">
+                                      <form action="/user/<%= u._id %>/role?_method=PUT" method="POST" style="display: flex; align-items: center; gap: 4px; margin: 0;">
+                                        <select name="role" style="height: 32px; padding: 0 4px; width: 85px; font-size: 0.8rem; border: 1px solid var(--border); border-radius: 4px; background: white;">
+                                          <option value="user" <%= u.role === 'user' ? 'selected' : '' %>>User</option>
+                                          <option value="admin"<%= u.role === 'admin' ? 'selected' : '' %>>Admin</option>
+                                        </select>
+                                        <button type="submit" class="btn btn-outline" style="height: 32px; padding: 0 10px; font-size: 0.75rem; display: flex; align-items: center; justify-content: center;">Save</button>
+                                      </form>
+
+                                      <form action="/user/<%= u._id %>?_method=DELETE" method="POST" style="margin: 0; display: flex; align-items: center;">
+                                        <button type="submit" class="btn btn-outline" 
+                                                style="height: 32px; padding: 0 10px; font-size: 0.75rem; border-color: var(--danger); color: var(--danger); display: flex; align-items: center; justify-content: center;"
+                                                onClick="return confirm('PERMANENTLY remove this staff member?')">
+                                          Delete
+                                        </button>
+                                      </form>
                                     </div>
                                 <% } else { %>
-                                    <a href="/user/profile" class="settings-link">My Settings</a>
+                                    <div style="text-align: center;">
+                                      <a href="/user/profile" style="font-size: 0.85rem; font-weight: 600; color: var(--primary); text-decoration: none;">My Settings</a>
+                                    </div>
                                 <% } %>
                             </td>
                         </tr>
