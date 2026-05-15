@@ -194,11 +194,11 @@ PHARMABILL is designed to:
 
 | Dashboard View | Patient Search |
 | :--- | :--- |
-| ![Dashboard Screenshot](https://placeholder.com) | ![Search Screenshot](https://placeholder.com) |
+| ![Dashboard Screenshot](./public/images/PharmaBillDashboard.png) | ![Search Screenshot](./public/images/PharmaBillPatientSearch.png) |
 
 | Insurance Ranking | Patient Profile |
 | :--- | :--- |
-| ![Ranking Screenshot](https://placeholder.com) | ![Profile Screenshot](https://placeholder.com) |
+| ![Insurance Ranking Screenshot](./public/images/PharmaBillInsuranceRanking.png) | ![Profile Screenshot](./public/images/PharmaBillPatientProfile.png) |
 
 ---
 
