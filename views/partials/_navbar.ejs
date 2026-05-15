@@ -26,7 +26,7 @@
   <div class="nav-right">
     <% if(user) { %>
       <a href="/user/profile" style="font-size: 0.85rem; border-right: 1px solid #475569; padding-right: 10px; margin-right: 10px;">
-        User: <strong><%= user.username %></strong>
+        User: <strong><%= user.username.charAt(0).toUpperCase() + user.username.slice(1) %></strong>
       </a>
       <a href="/auth/sign-out" style="color: #f87171;">Logout</a>
     <% } else { %>

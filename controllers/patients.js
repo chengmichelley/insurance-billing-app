@@ -29,13 +29,25 @@ router.get("/search", async (req, res) => {
       const query = {};
       if (firstName) query.firstName = new RegExp(firstName, "i");
       if (lastName) query.lastName = new RegExp(lastName, "i");
-      if (dob) query.dob = dob;
+
+      if (dob) {
+        let digits = dob.replace(/\D/g, "");
+        if (digits.length === 8) {
+          query.dob = `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4, 8)}`;
+        } else {
+          query.dob = dob;
+        }
+      }
 
       results = await Patient.find(query);
+
+      if (results.length === 1) {
+        return res.redirect(`/patients/${results[0]._id}`);
+      }
     }
 
-    res.render("patients/search.ejs", {
-      results,
+    return res.render("patients/search.ejs", {
+      results: results, 
       firstName: firstName || "",
       lastName: lastName || "",
       dob: dob || "",
@@ -43,12 +55,13 @@ router.get("/search", async (req, res) => {
       err: req.query.error || null,
     });
   } catch (error) {
-    res.status(400).render("patients/search.ejs", {
+    return res.status(400).render("patients/search.ejs", {
       results: [],
       err: error.message,
-      firstName: "",
-      lastName: "",
-      dob: "",
+      firstName: req.query.firstName || "",
+      lastName: req.query.lastName || "",
+      dob: req.query.dob || "",
+      message: null,
     });
   }
 });
@@ -65,6 +78,12 @@ router.get("/new", async (req, res) => {
 // =======================
 router.post("/", async (req, res) => {
   try {
+    if (req.body.dob) {
+      let digits = req.body.dob.replace(/\D/g, "");
+      if (digits.length === 8) {
+        req.body.dob = `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4, 8)}`;
+      }
+    }
     const newPatient = await Patient.create(req.body);
     res.redirect(`/patients/${newPatient._id}`);
   } catch (error) {
@@ -115,6 +134,12 @@ router.get("/:id/edit", async (req, res) => {
 router.put("/:id", async (req, res) => {
   try {
     req.body.isInactivated = req.body.isInactivated === "true";
+    if (req.body.dob) {
+      let digits = req.body.dob.replace(/\D/g, "");
+      if (digits.length === 8) {
+        req.body.dob = `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4, 8)}`;
+      }
+    }
     await Patient.findByIdAndUpdate(req.params.id, req.body);
     res.redirect(`/patients/${req.params.id}`);
   } catch (error) {
@@ -145,7 +170,7 @@ router.get("/:id", async (req, res) => {
     const patient = await Patient.findById(req.params.id);
     if (!patient) throw new Error("Patient not found");
 
-    req.session.selectedPatientId = patient._id; 
+    req.session.selectedPatientId = patient._id;
 
     const ranked = await recommend(patient._id);
     const primaryInsurance = ranked.length > 0 ? ranked[0] : null;

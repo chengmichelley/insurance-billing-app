@@ -1,47 +1,60 @@
 require("dotenv").config();
 require("./db/connection");
-
+const crypto = require("crypto");
 const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 3000;
 const methodOverride = require("method-override");
 const morgan = require("morgan");
-
+const helmet = require("helmet");
 const insuranceController = require("./controllers/insurances");
-const patientController = require("./controllers/patients")
+const patientController = require("./controllers/patients");
 const authRoutes = require("./controllers/auth");
 const userRoutes = require("./controllers/users");
-
 const session = require("express-session");
 const MongoStore = require("connect-mongo").default;
-
 const authRequired = require("./middleware/authRequired");
 const viewData = require("./middleware/viewData");
 
 // =======================
-
-// MIDDLEWARE
-
+// MIDDLEWARE & SECURITY HEADERS
 // =======================
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride("_method"));
-app.use(express.static("public"));
 app.use(morgan("dev"));
 
+app.use((req, res, next) => {
+  res.locals.nonce = crypto.randomBytes(16).toString("base64");
+  next();
+});
+
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: [
+          "'self'",
+          (req, res) => `'nonce-${res.locals.nonce}'`,
+          "'unsafe-eval'",
+        ],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+      },
+    },
+  }),
+);
+
+app.use(express.static("public"));
+
 // =======================
-
-// VIEW ENGINE
-
+// VIEW ENGINE CONFIGURATION
 // =======================
-
 app.set("view engine", "ejs");
+app.set("view cache", true);
 
 // =======================
-
 // ROUTES
-
 // =======================
 app.use(
   session({
@@ -65,23 +78,16 @@ app.use("/patients", authRequired, patientController);
 app.use("/patients/:patientId/billing", authRequired, insuranceController);
 app.use("/user", authRequired, userRoutes);
 
-
 // =======================
-
 // 404 CATCH ALL
-
 // =======================
-
 app.get("*path", (req, res) => {
   res.render("error.ejs", { err: "Page Not Found" });
 });
 
 // =======================
-
 // SERVER START
-
 // =======================
-
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 });
