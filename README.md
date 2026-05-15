@@ -9,7 +9,7 @@ PHARMABILL is a full-stack pharmacy workflow application that automates the Coor
 > "Taking the guesswork out of pharmacy billing."
 
 ## 🚀 Live Application
-**[View PHARMABILL on Render](https://pharmabill.onrender.com)**
+**[View PHARMABILL on Heroku](https://pharmabill-288e20e5dbf0.herokuapp.com/)**
 
 ### 🔑 Demo Credentials
 Use these accounts to explore the different permission levels and workflows:
