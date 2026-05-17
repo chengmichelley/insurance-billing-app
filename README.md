@@ -181,21 +181,7 @@ Ranks plans using weighted factors:
 
 ### System Flow
 
-```
-User (Technician)
-        ↓
-Frontend (EJS Views)
-        ↓
-Express Routes (Controller Logic)
-        ↓
-Recommendation Engine (Scoring Logic)
-        ↓
-MongoDB (Patient + Insurance Data)
-        ↓
-Ranked Insurance Plans → UI Display
-        ↓
-User (Technician)
-```
+![PHARMABILL Architecture](./public/images/PharmaBillArch.png)
 
 ### 🔄 Example Workflow
 
