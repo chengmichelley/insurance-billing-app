@@ -53,7 +53,12 @@
       <% } %>
     
     <% } else { %>
-      <div class="hero-section" style="background: white; padding: 5rem 2rem; border-radius: var(--radius-card); border: 1px solid var(--border); text-align: center; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem;">
+      <div class="hero-section" style="background: white; padding: 4rem 2rem; border-radius: var(--radius-card); border: 1px solid var(--border); text-align: center; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem;">
+        
+        <div style="background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; padding: 1rem 1.5rem; border-radius: 8px; width: 100%; max-width: 600px; text-align: left; margin-bottom: 1rem; font-size: 0.875rem; line-height: 1.5;">
+          <strong>🎓 Academic Portfolio Notice:</strong> This website is a mock student sandbox application created strictly for educational web development testing. It is not an actual commercial medical utility, does not collect real patient information, and does not process real financial billing transactions. Do not enter sensitive corporate or personal data.
+        </div>
+
         <h1 style="margin: 0; text-align: center;">Secure Billing Portal</h1>
         <p style="color: var(--secondary); max-width: 500px; margin: 0 auto 1.5rem auto; font-size: 1rem;">
           Please sign in to manage patient billing, verify insurance plans, and access sensitive clinical data.
@@ -65,5 +70,8 @@
       </div>
     <% } %>
   </div>
+  
+  <%- include('partials/_footer.ejs') %>
+  
 </body>
 </html>
