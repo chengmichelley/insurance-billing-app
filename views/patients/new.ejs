@@ -28,7 +28,7 @@
 
         <div class="form-group">
           <label for="dob">Date of Birth</label>
-          <input type="tel" id="dob" name="dob" placeholder="MM/DD/YYYY" maxlength="10" required/>
+          <input type="tel" id="dob" name="dob" placeholder="MM/DD/YYYY" maxlength="10"/>
         </div>
 
         <div class="form-actions" style="display: flex; gap: 1rem; margin-top: 2rem;">
@@ -39,7 +39,9 @@
     </div>
   </div>
 
-  <%- include('partials/_footer.ejs') %>
+  <script src="/javascripts/dob-formatter.js" defer></script>
+
+  <%- include('../partials/_footer.ejs') %>
 
 </body>
 </html>

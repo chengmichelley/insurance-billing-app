@@ -32,7 +32,7 @@
 
         <div class="form-group">
           <label for="dob">Date of Birth</label>
-          <input type="tel" id="dob" name="dob" placeholder="MM/DD/YYYY" maxlength="10" data-initial-value="<%= patient.dob %>" value="<%= patient.dob %>" required/>
+          <input type="tel" id="dob" name="dob" placeholder="MM/DD/YYYY" maxlength="10" data-initial-value="<%= patient.dob %>" value="<%= patient.dob %>"/>
         </div>
 
         <div class="checkbox-group">
@@ -48,7 +48,7 @@
     </div>
   </div>
 
-  <script nonce="<%= nonce %>">
+  <script nonce="<%= typeof nonce !== 'undefined' ? nonce : '' %>">
     const dobInput = document.getElementById('dob');
     let lastValue = dobInput ? dobInput.dataset.initialValue : '';
 
@@ -79,7 +79,7 @@
     }
   </script>
 
-  <%- include('partials/_footer.ejs') %>
+  <%- include('../partials/_footer.ejs') %>
 
 </body>
 </html>

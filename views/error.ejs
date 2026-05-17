@@ -7,7 +7,7 @@
   <title>System Error | PHARMABILL</title>
 </head>
 <body>
-  <%- include('./partials/_navbar.ejs') %>
+  <%- include('partials/_navbar.ejs') %>
 
   <div class="main-content">
     <div class="form-container" style="text-align: center;">
@@ -32,7 +32,7 @@
     </div>
   </div>
 
-  <script nonce="<%= nonce %>">
+  <script nonce="<%= typeof nonce !== 'undefined' ? nonce : '' %>">
     const backBtn = document.getElementById('back-btn');
     if (backBtn) {
       backBtn.addEventListener('click', () => {

@@ -28,7 +28,7 @@ const recommend = async (patientId) => {
   });
 
   const ranked = allInsurances.map((ins) => ({
-    insurance: ins,
+    ...ins.toObject(),
     score: calculateScore(ins),
   }));
 
@@ -37,9 +37,9 @@ const recommend = async (patientId) => {
   let labelIndex = 0;
   return ranked.map((item) => {
     let label;
-    if (item.insurance.coverageType === "coupon") {
+    if (item.coverageType === "coupon") {
       label = "Coupon";
-    } else if (item.insurance.coverageType === "medicaid") {
+    } else if (item.coverageType === "medicaid") {
       label = "Medicaid";
     } else {
       const labels = ["Primary", "Secondary", "Tertiary"];

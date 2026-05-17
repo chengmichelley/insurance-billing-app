@@ -7,11 +7,11 @@
   <title>Dashboard | PHARMABILL</title>
 </head>
 <body>
-  <%- include('partials/_navbar.ejs')%>
+  <%- include('partials/_navbar.ejs') %>
 
   <div class="main-content" style="max-width: 1000px; width: 100%; margin: 0 auto; box-sizing: border-box;">
     
-    <% if(user) { %>
+    <% if(typeof user !== 'undefined' && user) { %>
       <div class="hero-section" style="background: white; padding: 2.5rem 2rem; border-radius: var(--radius-card); border: 1px solid var(--border); text-align: left; margin-bottom: 2.5rem; box-shadow: var(--shadow-sm);">
         <h1 style="margin-bottom: 0.25rem;">Pharmacy Billing Management</h1>
         <p style="color: var(--secondary); font-size: 1rem; margin: 0;">

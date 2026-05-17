@@ -1,8 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const Patient = require("../models/patient");
+const Insurance = require("../models/insurance");
 const authRequired = require("../middleware/authRequired");
 const { recommend } = require("../logic/recommendation");
+const insuranceRouter = require("./insurances");
 
 router.use(authRequired);
 
@@ -165,6 +167,11 @@ router.put("/:id/inactivate", async (req, res) => {
 });
 
 // =======================
+// INSURANCE ROUTER SUB-HANDOFF
+// =======================
+router.use("/:id/billing", insuranceRouter);
+
+// =======================
 // SHOW
 // =======================
 router.get("/:id", async (req, res) => {
@@ -175,7 +182,7 @@ router.get("/:id", async (req, res) => {
     req.session.selectedPatientId = patient._id;
 
     const ranked = await recommend(patient._id);
-    
+
     const primaryInsurance = ranked.length > 0 ? ranked[0] : null;
 
     res.render("patients/show.ejs", {

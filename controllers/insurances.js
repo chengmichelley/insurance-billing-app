@@ -13,10 +13,10 @@ router.use(authRequired);
 // =======================
 router.get("/", async (req, res) => {
   try {
-    const activePatient = await Patient.findById(req.params.patientId);
+    const activePatient = await Patient.findById(req.params.id);
     if (!activePatient) throw new Error("Patient not Found!");
 
-    const rankedInsurance = await recommend(req.params.patientId);
+    const rankedInsurance = await recommend(req.params.id);
 
     res.render("billings/index.ejs", {
       insurance: rankedInsurance,
@@ -32,7 +32,7 @@ router.get("/", async (req, res) => {
 // =======================
 router.get("/new", patientSelected, async (req, res) => {
   try {
-    const activePatient = await Patient.findById(req.params.patientId);
+    const activePatient = await Patient.findById(req.params.id);
     if (!activePatient) throw new Error("Patient not found. Please try again!");
 
     res.render("billings/new.ejs", { activePatient });
@@ -47,9 +47,9 @@ router.get("/new", patientSelected, async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     req.body.isInactivated = !!req.body.isInactivated;
-    const bData = { ...req.body, patient: req.params.patientId };
+    const bData = { ...req.body, patient: req.params.id };
     await Insurance.create(bData);
-    res.redirect(`/patients/${req.params.patientId}/billing`);
+    res.redirect(`/patients/${req.params.id}/billing`);
   } catch (error) {
     res.status(400).render("error.ejs", { err: error.message });
   }
@@ -60,10 +60,10 @@ router.post("/", async (req, res) => {
 // =======================
 router.get("/recommendation", async (req, res) => {
   try {
-    const activePatient = await Patient.findById(req.params.patientId);
+    const activePatient = await Patient.findById(req.params.id);
     if (!activePatient) throw new Error("Patient not found!");
 
-    const results = await recommend(req.params.patientId);
+    const results = await recommend(req.params.id);
     res.render("billings/recommendation.ejs", { results, activePatient });
   } catch (error) {
     res.status(400).render("error.ejs", { err: error.message });
@@ -73,12 +73,12 @@ router.get("/recommendation", async (req, res) => {
 // =======================
 // EDIT
 // =======================
-router.get("/:id/edit", async (req, res) => {
+router.get("/:insuranceId/edit", async (req, res) => {
   try {
-    const insurance = await Insurance.findById(req.params.id);
+    const insurance = await Insurance.findById(req.params.insuranceId);
     if (!insurance) throw new Error("Insurance plan not found.");
 
-    const activePatient = await Patient.findById(req.params.patientId);
+    const activePatient = await Patient.findById(req.params.id);
     if (!activePatient) throw new Error("Patient not found.");
 
     res.render("billings/edit.ejs", { insurance, activePatient });
@@ -90,11 +90,15 @@ router.get("/:id/edit", async (req, res) => {
 // =======================
 // UPDATE
 // =======================
-router.put("/:id", async (req, res) => {
+router.put("/:insuranceId", async (req, res) => {
   try {
     req.body.isInactivated = !!req.body.isInactivated;
-    await Insurance.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.redirect(`/patients/${req.params.patientId}/billing/${req.params.id}`);
+    await Insurance.findByIdAndUpdate(req.params.insuranceId, req.body, {
+      new: true,
+    });
+    res.redirect(
+      `/patients/${req.params.id}/billing/${req.params.insuranceId}`,
+    );
   } catch (error) {
     res.status(400).render("error.ejs", { err: error.message });
   }
@@ -103,14 +107,16 @@ router.put("/:id", async (req, res) => {
 // =======================
 // SOFT DELETE (INACTIVATE)
 // =======================
-router.put("/:id/inactivate", async (req, res) => {
+router.put("/:insuranceId/inactivate", async (req, res) => {
   try {
-    const insurance = await Insurance.findById(req.params.id);
+    const insurance = await Insurance.findById(req.params.insuranceId);
     if (!insurance) throw new Error("Insurance plan not found.");
 
     insurance.isInactivated = !insurance.isInactivated;
     await insurance.save();
-    res.redirect(`/patients/${req.params.patientId}/billing/${req.params.id}`);
+    res.redirect(
+      `/patients/${req.params.id}/billing/${req.params.insuranceId}`,
+    );
   } catch (error) {
     res.status(400).render("error.ejs", { err: error.message });
   }
@@ -119,9 +125,9 @@ router.put("/:id/inactivate", async (req, res) => {
 // =======================
 // CONFIRM DELETE
 // =======================
-router.get("/:id/confirm_delete", async (req, res) => {
+router.get("/:insuranceId/confirm_delete", async (req, res) => {
   try {
-    const insurance = await Insurance.findById(req.params.id);
+    const insurance = await Insurance.findById(req.params.insuranceId);
     if (!insurance) throw new Error("Insurance plan not found.");
 
     res.render("billings/billing_delete_confirm_cancel.ejs", { insurance });
@@ -133,12 +139,12 @@ router.get("/:id/confirm_delete", async (req, res) => {
 // =======================
 // SHOW
 // =======================
-router.get("/:id", async (req, res) => {
+router.get("/:insuranceId", async (req, res) => {
   try {
-    const insurance = await Insurance.findById(req.params.id);
+    const insurance = await Insurance.findById(req.params.insuranceId);
     if (!insurance) throw new Error("Insurance plan not found.");
 
-    const activePatient = await Patient.findById(req.params.patientId);
+    const activePatient = await Patient.findById(req.params.id);
     if (!activePatient) throw new Error("Patient not found.");
 
     res.render("billings/show.ejs", {
@@ -153,10 +159,10 @@ router.get("/:id", async (req, res) => {
 // =======================
 // DELETE
 // =======================
-router.delete("/:id", async (req, res) => {
+router.delete("/:insuranceId", async (req, res) => {
   try {
-    await Insurance.findByIdAndDelete(req.params.id);
-    res.redirect(`/patients/${req.params.patientId}/billing`);
+    await Insurance.findByIdAndDelete(req.params.insuranceId);
+    res.redirect(`/patients/${req.params.id}/billing`);
   } catch (error) {
     res.status(400).render("error.ejs", { err: error.message });
   }

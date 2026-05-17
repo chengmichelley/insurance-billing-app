@@ -83,7 +83,7 @@
                     </div>
                     <div class="form-group">
                         <label for="dob">Date of Birth</label>
-                        <input type="tel" id="dob" name="dob" maxlength="10" placeholder="MM/DD/YYYY" data-initial-value="<%= typeof dob !== 'undefined' ? dob : '' %>" value="<%= typeof dob !== 'undefined' ? dob: '' %>" required/>
+                        <input type="tel" id="dob" name="dob" maxlength="10" placeholder="MM/DD/YYYY" data-initial-value="<%= typeof dob !== 'undefined' ? dob : '' %>" value="<%= typeof dob !== 'undefined' ? dob: '' %>" />
                     </div>
                     <div class="form-actions" style="display: flex; gap: 1rem; margin-top: 2rem;">
                         <button type="submit" class="btn btn-primary" style="flex: 1;">Find Patient Profile</button>
@@ -97,7 +97,7 @@
 
     <script src="/javascripts/dob-formatter.js" defer></script>
 
-      <%- include('partials/_footer.ejs') %>
+    <%- include('../partials/_footer.ejs') %>
       
 </body>
 </html>

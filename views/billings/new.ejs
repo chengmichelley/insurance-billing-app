@@ -47,7 +47,7 @@
         <div class="form-group">
           <label for="state">Plan State (Optional)</label>
           <select name="state" id="state">
-            <option value="">National / N/A</option>
+            <option value="" selected>National / N/A</option>
             <option value="AL">Alabama</option>
             <option value="AK">Alaska</option>
             <option value="AZ">Arizona</option>
@@ -124,20 +124,20 @@
           <input type="number" id="priority" name="priority" min="0" max="100" value="0"/>
         </div>
 
-        <div class="checkbox-group">
+        <div class="checkbox-group" style="margin: 1.5rem 0; display: flex; align-items: center; gap: 0.5rem;">
           <input type="checkbox" id="isInactivated" name="isInactivated" value="true" />
-          <label for="isInactivated">Mark as Inactive</label>
+          <label for="isInactivated" style="margin: 0; font-weight: normal; cursor: pointer;">Mark as Inactive</label>
         </div>
 
         <div class="form-actions" style="display: flex; gap: 1rem; margin-top: 2rem;">
           <button type="submit" class="btn btn-primary" style="flex: 1;">Save Insurance Plan</button>
-          <a href="/patients/<%= activePatient._id %>/billing" class="btn btn-outline" style="flex: 1;">Cancel</a>
+          <a href="/patients/<%= activePatient._id %>/billing" class="btn btn-outline" style="flex: 1; text-align: center;">Cancel</a>
         </div>
       </form>
     </div>
   </div>
 
-  <%- include('partials/_footer.ejs') %>
+  <%- include('../partials/_footer.ejs') %>
 
 </body>
 </html>

@@ -141,20 +141,20 @@
             <input type="number" id="priority" name="priority" value="<%= insurance.priority %>" min="0" max="100"/>
           </div>
 
-          <div class="checkbox-group">
+          <div class="checkbox-group" style="margin: 1.5rem 0; display: flex; align-items: center; gap: 0.5rem;">
             <input type="checkbox" id="isInactivated" name="isInactivated" value="true" <%= insurance.isInactivated ? 'checked' : '' %>/>
-            <label for="isInactivated">Inactivate this record</label>
+            <label for="isInactivated" style="margin: 0; font-weight: normal; cursor: pointer;">Inactivate this record</label>
           </div>
 
           <div class="form-actions" style="display: flex; gap: 1rem; margin-top: 2rem;">
             <button type="submit" class="btn btn-primary" style="flex: 1;">Update Insurance Plan</button>
-            <a href="/patients/<%= insurance.patient %>/billing" class="btn btn-outline" style="flex: 1;">Cancel</a>
+            <a href="/patients/<%= insurance.patient %>/billing" class="btn btn-outline" style="flex: 1; text-align: center;">Cancel</a>
           </div>
         </form>
       </div>
     </div>
 
-  <%- include('partials/_footer.ejs') %>
+    <%- include('../partials/_footer.ejs') %>
 
 </body>
 </html>

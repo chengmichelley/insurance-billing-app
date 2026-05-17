@@ -67,7 +67,7 @@
       </div>
 
       <div class="form-actions" style="display: flex; gap: 1rem; margin-top: 2rem; border-top: 1px solid var(--border); padding-top: 1.5rem; width: 100%;">
-        <a href="/patients/<%= activePatient._id %>/billing/<%= insurance._id %>/edit" class="btn btn-primary" style="flex: 1;">
+        <a href="/patients/<%= activePatient._id %>/billing/<%= insurance._id %>/edit" class="btn btn-primary" style="flex: 1; text-align: center;">
           Edit Record
         </a>
 
@@ -90,7 +90,7 @@
     </div>
   </div>
 
-  <%- include('partials/_footer.ejs') %>
+  <%- include('../partials/_footer.ejs') %>
 
 </body>
 </html>

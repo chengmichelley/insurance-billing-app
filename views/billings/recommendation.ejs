@@ -29,7 +29,7 @@
 
             <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%;">
               <div>
-                <h3 style="margin: 0; font-size: 1.25rem;"><%= r.insurance.providerName %></h3>
+                <h3 style="margin: 0; font-size: 1.25rem;"><%= r.providerName %></h3>
                 <p style="color: var(--secondary); margin: 0.25rem 0 0 0; font-size: 0.875rem;">
                   Plan Label: <strong><%= r.label %></strong>
                 </p>
@@ -43,8 +43,8 @@
               <label style="color: var(--secondary); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 0.375rem;">Billing Logic</label>
               <p style="margin: 0; font-size: 0.875rem; color: #334155; line-height: 1.5;">
                 This plan is ranked as <strong><%= r.label %></strong> because it is a 
-                <strong><%= r.insurance.coverageType %></strong> plan held by the 
-                <strong><%= r.insurance.relationship %></strong>.
+                <strong style="text-transform: capitalize;"><%= r.coverageType %></strong> plan held by the 
+                <strong style="text-transform: capitalize;"><%= r.relationship %></strong>.
               </p>
             </div>
           </div>
@@ -63,7 +63,7 @@
     </div>
   </div>
 
-  <%- include('partials/_footer.ejs') %>
+  <%- include('../partials/_footer.ejs') %>
 
 </body>
 </html>

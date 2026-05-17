@@ -71,7 +71,7 @@
                                       <form action="/user/<%= u._id %>/role?_method=PUT" method="POST" style="display: flex; align-items: center; gap: 6px; margin: 0;">
                                         <select name="role" style="height: 32px; padding: 0 0.5rem; width: 95px; font-size: 0.8rem; margin: 0;">
                                           <option value="staff" <%= u.role === 'staff' ? 'selected' : '' %>>Staff</option>
-                                          <option value="admin"<%= u.role === 'admin' ? 'selected' : '' %>>Admin</option>
+                                          <option value="admin" <%= u.role === 'admin' ? 'selected' : '' %>>Admin</option>
                                         </select>
                                         <button type="submit" class="btn btn-outline" style="height: 32px; padding: 0 0.75rem; font-size: 0.75rem;">Save</button>
                                       </form>
@@ -93,7 +93,7 @@
         </div>
     </div>
 
-  <%- include('partials/_footer.ejs') %>
+    <%- include('../partials/_footer.ejs') %>
 
 </body>
 </html>

@@ -21,15 +21,15 @@
         <% if( insurance && insurance.length > 0) { %>
           <% insurance.forEach(item => { %>
             <div class="record-card" style="padding: 1.5rem;">
-              <a href="/patients/<%= activePatient._id %>/billing/<%= item.insurance._id %>" style="text-decoration: none; display: block; width: 100%;">
+              <a href="/patients/<%= activePatient._id %>/billing/<%= item._id %>" style="text-decoration: none; display: block; width: 100%;">
                 
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
                   <span class="record-title" style="font-size: 1.1rem; font-weight: 600; color: var(--primary);">
-                    <%= item.insurance.providerName || 'Unknown Provider' %>
+                    <%= item.providerName || 'Unknown Provider' %>
                   </span>
                   
                   <div style="display: flex; gap: 5px;">
-                    <% if(item.insurance.isInactivated) { %> 
+                    <% if(item.isInactivated) { %> 
                       <span class="badge status-denied">Inactive</span> 
                     <% } else { %>
                       <span class="badge <%= item.label === 'Primary' ? 'status-paid' : 'status-pending' %>">
@@ -40,9 +40,9 @@
                 </div>
 
                 <div class="record-meta" style="font-size: 0.875rem; color: var(--secondary);">
-                  <strong style="color: var(--text-dark);">ID:</strong> <%= item.insurance.memberId %> <span style="color: var(--border); margin: 0 0.5rem;">|</span> 
-                  <strong style="color: var(--text-dark);">Type:</strong> <%= item.insurance.coverageType.toUpperCase() %> 
-                  <% if(item.insurance.state) { %> <span style="color: var(--border); margin: 0 0.5rem;">|</span> <strong style="color: var(--text-dark);">State:</strong> <%= item.insurance.state %><% } %>
+                  <strong style="color: var(--text-dark);">ID:</strong> <%= item.memberId %> <span style="color: var(--border); margin: 0 0.5rem;">|</span> 
+                  <strong style="color: var(--text-dark);">Type:</strong> <%= item.coverageType.toUpperCase() %> 
+                  <% if(item.state) { %> <span style="color: var(--border); margin: 0 0.5rem;">|</span> <strong style="color: var(--text-dark);">State:</strong> <%= item.state %><% } %>
                 </div>
               </a>
             </div>
@@ -61,6 +61,7 @@
       </div>
     </div>
 
-  <%- include('partials/_footer.ejs') %>
+    <%- include('../partials/_footer.ejs') %>
+
 </body>
 </html>

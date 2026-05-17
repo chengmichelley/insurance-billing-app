@@ -5,10 +5,16 @@ const bcrypt = require("bcryptjs");
 const authRequired = require("../middleware/authRequired");
 const isAdmin = require("../middleware/isAdmin");
 
+// =======================
+// SIGN UP (GET)
+// =======================
 router.get("/sign-up", authRequired, isAdmin, (req, res) => {
   res.render("auth/sign-up.ejs", { err: "" });
 });
 
+// =======================
+// SIGN UP (POST)
+// =======================
 router.post("/sign-up", authRequired, isAdmin, async (req, res) => {
   try {
     const { username, password, confirmPassword } = req.body;
@@ -31,17 +37,23 @@ router.post("/sign-up", authRequired, isAdmin, async (req, res) => {
     });
 
     res.redirect(
-      `/user?message=Staff member ${username} created successfully!`,
+      `/auth/sign-in?message=Staff member ${username} created successfully!`,
     );
   } catch (error) {
-    res.render("auth/sign-up", { err: error.message });
+    res.render("auth/sign-up.ejs", { err: error.message });
   }
 });
 
+// =======================
+// SIGN IN (GET)
+// =======================
 router.get("/sign-in", (req, res) => {
-  res.render("auth/sign-in", { err: "" });
+  res.render("auth/sign-in.ejs", { err: "" });
 });
 
+// =======================
+// SIGN IN (POST)
+// =======================
 router.post("/sign-in", async (req, res) => {
   const { username, password } = req.body;
   try {
@@ -73,10 +85,13 @@ router.post("/sign-in", async (req, res) => {
       res.redirect(redirectTo);
     });
   } catch (error) {
-    res.render("auth/sign-in", { err: error.message });
+    res.render("auth/sign-in.ejs", { err: error.message });
   }
 });
 
+// =======================
+// SIGN OUT (GET)
+// =======================
 router.get("/sign-out", (req, res) => {
   req.session.destroy(() => {
     res.redirect("/auth/sign-in");

@@ -15,7 +15,7 @@ const patientSchema = new mongoose.Schema(
     },
     dob: {
       type: String,
-      required: true,
+      required: false,
       index: true,
     },
     isInactivated: {

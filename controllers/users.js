@@ -7,6 +7,9 @@ const isAdmin = require("../middleware/isAdmin");
 
 router.use(authRequired);
 
+// =======================
+// PROFILE (GET)
+// =======================
 router.get("/profile", async (req, res) => {
   try {
     const user = await User.findById(req.session.user._id);
@@ -20,6 +23,9 @@ router.get("/profile", async (req, res) => {
   }
 });
 
+// =======================
+// PROFILE PASSWORD (PUT)
+// =======================
 router.put("/profile/password", async (req, res) => {
   try {
     const { currentPassword, password, confirmPassword } = req.body;
@@ -58,6 +64,9 @@ router.put("/profile/password", async (req, res) => {
 
 router.use(isAdmin);
 
+// =======================
+// ADMIN INDEX PANEL (GET)
+// =======================
 router.get("/", async (req, res) => {
   try {
     const users = await User.find();
@@ -67,15 +76,19 @@ router.get("/", async (req, res) => {
       deleteTarget = await User.findById(req.query.confirmDelete);
     }
 
-    res.render("users/index", {
+    res.render("users/index.ejs", {
       users,
       deleteTarget,
+      message: req.query.message || null,
     });
   } catch (error) {
     res.status(400).render("error.ejs", { err: error.message });
   }
 });
 
+// =======================
+// UPDATE ROLE (PUT)
+// =======================
 router.put("/:id/role", async (req, res) => {
   try {
     if (req.params.id === req.session.user._id.toString()) {
@@ -89,6 +102,9 @@ router.put("/:id/role", async (req, res) => {
   }
 });
 
+// =======================
+// DELETE USER (DELETE)
+// =======================
 router.delete("/:id", async (req, res) => {
   try {
     if (req.params.id === req.session.user._id.toString()) {

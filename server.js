@@ -7,7 +7,6 @@ const PORT = process.env.PORT || 3000;
 const methodOverride = require("method-override");
 const morgan = require("morgan");
 const helmet = require("helmet");
-const insuranceController = require("./controllers/insurances");
 const patientController = require("./controllers/patients");
 const authRoutes = require("./controllers/auth");
 const userRoutes = require("./controllers/users");
@@ -82,7 +81,6 @@ app.get("/", (req, res) => {
 });
 
 app.use("/patients", authRequired, patientController);
-app.use("/patients/:patientId/billing", authRequired, insuranceController);
 app.use("/user", authRequired, userRoutes);
 
 // =======================

@@ -55,7 +55,7 @@
               </div>
               <div class="info-item" style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; padding-bottom: 0.5rem;">
                 <label style="margin: 0;">Date of Birth</label>
-                <span style="font-size: 1.1rem; font-weight: 600;"><%= patient.dob %></span>
+                <span style="font-size: 1.1rem; font-weight: 600;"><%= patient.dob || '—' %></span>
               </div>
             </div>
           </div>
@@ -69,13 +69,13 @@
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%;">
                   <div>
                     <strong style="display: block; font-size: 1.1rem; color: var(--primary);">
-                      <%= primaryInsurance.insurance.providerName %>
+                      <%= primaryInsurance.providerName %>
                     </strong>
                     <span style="font-size: 0.85rem; color: var(--secondary); display: block; margin-top: 6px;">
-                      ID: <%= primaryInsurance.insurance.memberId %>
+                      ID: <%= primaryInsurance.memberId %>
                     </span>
                     <span style="font-size: 0.85rem; color: var(--secondary); display: block;">
-                      BIN: <%= primaryInsurance.insurance.bin %>
+                      BIN: <%= primaryInsurance.bin %>
                     </span>
                   </div>
                   <span class="badge status-paid" style="font-size: 0.75rem;">Primary</span>
@@ -124,7 +124,7 @@
     <a href="/patients/search" style="color: var(--secondary); text-decoration: none; font-size: 0.9rem; margin-left: 4px; margin-top: 1rem; display: inline-block;">← Back to Search</a>
   </div>
 
-  <%- include('partials/_footer.ejs') %>
+  <%- include('../partials/_footer.ejs') %>
 
 </body>
 </html>
