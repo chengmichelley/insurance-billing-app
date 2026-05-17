@@ -8,45 +8,27 @@ PHARMABILL is a full-stack pharmacy workflow application that automates the Coor
 
 > "Taking the guesswork out of pharmacy billing."
 
----
-
-## 🚀 Live Application
 **[View PHARMABILL on Heroku](https://pharmabill-288e20e5dbf0.herokuapp.com/)**
 
+## ⚡ Quick Start
+
+```bash
+git clone https://github.com/chengmichelley/pharmabill.git
+cd pharmabill
+npm install
+```
+
+> ⚙️ **Before continuing:** Create a `.env` file in the root directory. See `.env.example` for required variables (MongoDB URI, session secret).
+
+```bash
+node seed.js
+npm start
+```
 ---
 
-## 💻 Local Development Setup & Testing
+## 🧠 The Problem
 
-Follow these steps to seed, authenticate, and verify your local environment independently of the production Heroku instance.
-
-### 🔐 Local Demo Credentials
-Running the local initialization script populates two pre-configured staff profiles with varying permission layers to allow full testing of the authorization middleware:
-
-| Role | Username | Password | Access Capabilities |
-| :--- | :--- | :--- | :--- |
-| **Administrator** | `admin_demo` | `password123` | Full CRUD access, role management, staff deletion. |
-| **Staff Member** | `staff_demo` | `password123` | Patient lookup, billing management, restricted from admin panels. |
-
-### 🧪 Testing the Local Seed Dataset
-After executing `node seed.js` against your local `.env` database connection string, open `http://localhost:3000` and verify system behavior using these test search queries:
-
-* **Direct Profile Redirection**: Search for `John Doe`. The system will automatically skip the listings page and redirect straight to his individual patient hub.
-* **Multi-Match Layout Grid**: Search for `Jane Smith` to test how the interface stacks and displays multiple records matching identical criteria.
-* **Account Reactivation Feature**: Search for `William Davis` to view an inactive account and test the dynamic **✨ Activate** status toggle.
-
----
-
-## Background
-
-### 🧠 The Problem
-
-In retail pharmacy environments, the drop-off station is a critical bottleneck.
-
-Pharmacy staff must quickly:
-
-- Enter prescription data
-- Identify the correct insurance plan
-- Process claims with limited or inconsistent information
+In retail pharmacy environments, the drop-off station is a critical bottleneck. Pharmacy staff must quickly enter prescription data, identify the correct insurance plan, and process claims — often with limited or inconsistent information from the patient.
 
 **Key Challenges**
 
@@ -59,7 +41,9 @@ Pharmacy staff must quickly:
 
 This creates operational inefficiencies and added pressure on pharmacy staff.
 
-### 💡 The Solution
+---
+
+## 💡 The Solution
 
 PHARMABILL introduces a rule-based recommendation engine that ranks insurance plans based on real-world billing logic.
 
@@ -71,36 +55,7 @@ Instead of guessing, staff receive:
 
 ---
 
-## ✨ Core Features
-
-### 🚀 Insurance Recommendation Engine
-
-Ranks plans using weighted factors:
-- Relationship Status (Self vs Dependent)
-- Coverage Type (Commercial, Medicare, Medicaid, Coupon)
-- Manual Priority Boost
-- Automatically assigns Primary, Secondary, Tertiary labels
-
-### 👤 Patient-Centric Workflow
-
-- Search or create patient profiles
-- Manage multiple insurance plans per patient
-- Persistent Active Patient Session across views
-
-### 🛡️ Role-Based Access Control
-
-- Admin: Manage staff accounts and permissions
-- Staff: Manage patients and insurance plans
-
-### 📦 Data Integrity Features
-
-- Soft-delete (archiving) for insurance plans
-- Structured schema for consistent data entry
-- Designed to handle incomplete or ambiguous insurance data
-
----
-
-## 🧠 Billing Recommendation Logic Engine
+## ⚙️ Billing Recommendation Logic Engine
 
 PHARMABILL implements a custom weighted prioritization algorithm to automatically determine the correct billing hierarchy for patients with multiple concurrent insurance policies. This prevents Coordination of Benefits (COB) network rejection faults at the point of claim submission.
 
@@ -169,15 +124,62 @@ Once sorted, the array maps user-friendly labels to dashboard cards so staff imm
 
 ---
 
-### 🔄 Example Workflow
+## 📸 Screenshots
 
-1. Search or create a patient
-2. Add multiple insurance plans
-3. PHARMABILL ranks plans instantly
-4. Select the top recommended plan
-5. If claim fails → proceed to the next ranked option
+| Dashboard View | Patient Search |
+| :--- | :--- |
+| ![Dashboard Screenshot](./public/images/PharmaBillDashboard.png) | ![Search Screenshot](./public/images/PharmaBillPatientSearch.png) |
 
-### 🏗️ System Flow
+| Insurance Ranking | Patient Profile |
+| :--- | :--- |
+| ![Insurance Ranking Screenshot](./public/images/PharmaBillInsuranceRanking.png) | ![Profile Screenshot](./public/images/PharmaBillPatientProfile.png) |
+
+---
+
+## ✨ Core Features
+
+### 🚀 Insurance Recommendation Engine
+
+Ranks plans using weighted factors:
+- Relationship Status (Self vs Dependent)
+- Coverage Type (Commercial, Medicare, Medicaid, Coupon)
+- Manual Priority Boost
+- Automatically assigns Primary, Secondary, Tertiary labels
+
+### 👤 Patient-Centric Workflow
+
+- Search or create patient profiles
+- Manage multiple insurance plans per patient
+- Persistent Active Patient Session across views
+
+### 🛡️ Role-Based Access Control
+
+- Admin: Manage staff accounts and permissions
+- Staff: Manage patients and insurance plans
+
+### 📦 Data Integrity Features
+
+- Soft-delete (archiving) for insurance plans
+- Structured schema for consistent data entry
+- Designed to handle incomplete or ambiguous insurance data
+
+---
+
+## 🔑 Engineering Concepts Demonstrated
+
+- **Weighted ranking algorithm** — Custom scoring system with configurable penalty weights to simulate real-world COB billing logic
+- **Session state management** — Persistent active patient context maintained across all views without repeated database lookups
+- **Role-based authorization** — Middleware-enforced permission layers separating admin and staff access at the route level
+- **Soft-delete archival pattern** — Insurance plans are deactivated rather than destroyed, preserving billing history and enabling reactivation
+- **MVC routing structure** — Express routes delegate to controller logic cleanly separated from view rendering
+- **MongoDB schema modeling** — Flexible document structure accommodating incomplete insurance data common in real pharmacy workflows
+- **Server-side rendering with EJS** — Templated views with dynamic data injection, session-aware UI components, and persistent navbar state
+
+---
+
+## 🏗️ Architecture
+
+### System Flow
 
 ```
 User (Technician)
@@ -194,6 +196,65 @@ Ranked Insurance Plans → UI Display
         ↓
 User (Technician)
 ```
+
+### 🔄 Example Workflow
+
+1. Search or create a patient
+2. Add multiple insurance plans
+3. PHARMABILL ranks plans instantly
+4. Select the top recommended plan
+5. If claim fails → proceed to the next ranked option
+
+### 🛠️ Tech Stack
+
+**Frontend** — EJS (server-rendered views), HTML5, CSS3
+
+**Backend** — Node.js, Express.js, Method-Override, Dotenv
+
+**Database** — MongoDB, Mongoose ODM, Connect-Mongo
+
+**Authentication** — Session-based auth, Role-based authorization, Bcrypt.js, Express-Session
+
+---
+
+## 💻 Local Setup & Testing
+
+Follow these steps to seed, authenticate, and verify your local environment independently of the production Heroku instance.
+
+### 🔐 Local Demo Credentials
+Running the local initialization script populates two pre-configured staff profiles with varying permission layers to allow full testing of the authorization middleware:
+
+| Role | Username | Password | Access Capabilities |
+| :--- | :--- | :--- | :--- |
+| **Administrator** | `admin_demo` | `password123` | Full CRUD access, role management, staff deletion. |
+| **Staff Member** | `staff_demo` | `password123` | Patient lookup, billing management, restricted from admin panels. |
+
+### 🧪 Testing the Local Seed Dataset
+After executing `node seed.js` against your local `.env` database connection string, open `http://localhost:3000` and verify system behavior using these test search queries:
+
+* **Direct Profile Redirection**: Search for `John Doe`. The system will automatically skip the listings page and redirect straight to his individual patient hub.
+* **Multi-Match Layout Grid**: Search for `Jane Smith` to test how the interface stacks and displays multiple records matching identical criteria.
+* **Account Reactivation Feature**: Search for `William Davis` to view an inactive account and test the dynamic **✨ Activate** status toggle.
+
+### How to Use
+
+**1. Find or Create a Patient**
+* Use the **Patient Search** card to find a profile by name or date of birth.
+* If no profile exists, click **Create New Patient** to start a fresh record.
+
+**2. Manage Insurance Plans**
+* From the **Patient Profile**, click **Add New Plan**.
+* Enter the four RX identifiers found on the pharmacy benefit card (**BIN, PCN, Group, and Member ID**).
+* Select the **Relationship** (Self/Dependent) and **Coverage Type** — these fields drive the automated ranking logic.
+
+**3. View Recommendations**
+* Navigate to the **Insurance Plans** list.
+* The system automatically applies COB logic and labels plans as **Primary**, **Secondary**, or **Tertiary**.
+* Click the **Active Patient** bubble in the navbar at any time to return to the clinical summary.
+
+**4. Admin Management** *(Admin Role Only)*
+* Access the **Staff Directory** to register new pharmacy staff and assign roles.
+* Manage user accounts as personnel changes occur.
 
 ---
 
@@ -222,85 +283,13 @@ In a busy pharmacy environment, technicians frequently context-switch between pa
 
 ---
 
-## 📈 Impact
-
-PHARMABILL is designed to:
-
-* ⏱️ Reduce time spent selecting insurance plans at drop-off
-* 🔁 Decrease claim reprocessing cycles caused by incorrect plan selection
-* 🧠 Support newer technicians with guided, logic-driven decision-making
-* 😊 Improve patient wait times and overall pharmacy experience
-
----
-
-## 🛠️ How to Use
-
-### 1. Find or Create a Patient
-* Use the **Patient Search** card to find a profile by name or date of birth.
-* If no profile exists, click **Create New Patient** to start a fresh record.
-
-### 2. Manage Insurance Plans
-* From the **Patient Profile**, click **Add New Plan**.
-* Enter the four RX identifiers found on the pharmacy benefit card (**BIN, PCN, Group, and Member ID**).
-* Select the **Relationship** (Self/Dependent) and **Coverage Type** — these fields drive the automated ranking logic.
-
-### 3. Optimize Billing Rank & View Recommendations
-* From the patient profile dashboard view, click the highlighted **Optimize Billing Rank** action card.
-* The system executes the core Coordination of Benefits (COB) algorithm to display a complete, scored prioritization stack, detailing exactly why specific coverages are assigned **Primary**, **Secondary**, or **Tertiary** billing flags.
-* Click the **Active Patient** link context indicator inside the top global navigation bar at any time to return directly to the main clinical summary hub view.
-
-### 4. Admin Management *(Admin Role Only)*
-* Locate the **Staff Directory** utility links accessible directly inside the top global navigation navbar header or the lower **Administrator Tools** home dashboard grid section.
-* Register new pharmacy staff personnel profiles, toggle global system permission tiers, or permanently revoke profile access as workforce updates occur.
-
-
----
-
-## 📸 Screenshots
-
-| Dashboard View | Patient Search |
-| :--- | :--- |
-| ![Dashboard Screenshot](./public/images/PharmaBillDashboard.png) | ![Search Screenshot](./public/images/PharmaBillPatientSearch.png) |
-
-| Insurance Ranking | Patient Profile |
-| :--- | :--- |
-| ![Insurance Ranking Screenshot](./public/images/PharmaBillInsuranceRanking.png) | ![Profile Screenshot](./public/images/PharmaBillPatientProfile.png) |
-
----
-
-## 🔮 Future Improvements
+## 🔮 Future Roadmap
 
 * **Adjudication Simulator** — Simulate real claim responses (e.g., Prior Authorization Required, Refill Too Soon)
 * **Prescription Intake Module** — Support full script entry workflows including medication name, NDC, dosing, and prescriber information (NPI, DEA)
 * **Medication API Integration** — Identify generic vs. brand medications at point of entry
 * **HIPAA-Compliant Clearinghouse Integration** — Connect to a real payer network to retrieve live insurance benefit data
 * **Audit Logging** — Track billing decisions, manual overrides, and claim retry history per patient session
-
----
-
-## 🛠️ Tech Stack
-
-### Frontend
-- EJS (server-rendered views)
-- HTML5
-- CSS3
-
-### Backend
-- Node.js
-- Express.js
-- Method-Override
-- Dotenv
-
-### Database
-- MongoDB
-- Mongoose ODM
-- Connect-Mongo
-
-### Authentication
-- Session-based authentication
-- Role-based authorization
-- Bcrypt.js
-- Express-Session
 
 ---
 
