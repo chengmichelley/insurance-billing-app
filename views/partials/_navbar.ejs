@@ -1,32 +1,33 @@
 <nav>
   <div class="nav-left">
-  <a href="/" style="display: flex; align-items: center; gap: 8px; font-weight: 700; color: white;">
-    <span style="font-size: 1.5rem;">💊</span>
-    <span style="letter-spacing: 0.5px;">PHARMA<span style="color: var(--primary);">BILL</span></span>
-  </a>
-  <a href="/patients/search" style="margin-left: 10px;">Patient Search</a>
+    <a href="/">
+      <span>💊</span>
+      <span>PHARMA<span style="color: #60a5fa;">BILL</span></span>
+    </a>
+    <a href="/patients/search">Patient Search</a>
 
-  <% if(user && user.role === 'admin') { %>
-    <a href="/user">Staff Directory</a>
-  <% } %>
-</div>
+    <% if(user && user.role === 'admin') { %>
+      <a href="/user">Staff Directory</a>
+    <% } %>
+  </div>
 
   <div class="nav-center">
-  <% if(user && typeof activePatient !== 'undefined' && activePatient) { %>
-    <span class="active-content" style="padding: 0;">
-      <a href="/patients/<%= activePatient._id %>" style="color: inherit; text-decoration: none; display: inline-block; padding: 6px 16px;">
-        Active: <strong><%= activePatient.firstName %> <%= activePatient.lastName %></strong>
-        <small style="opacity: 0.8; margin-left: 5px;">(<%= activePatient.dob %>)</small>
-      </a>
-      <a href="/patients/clear-selection" style="margin-right: 12px; color: #fff; text-decoration: underline; font-size: 0.75rem;">Switch</a>
-    </span>
-  <% } %>
-</div>
+    <% if(user && typeof activePatient !== 'undefined' && activePatient) { %>
+      <div class="active-content">
+        <a href="/patients/<%= activePatient._id %>" style="color: inherit; font-weight: inherit; font-size: inherit;">
+          Active: <strong><%= activePatient.firstName %> <%= activePatient.lastName %></strong>
+          <span style="opacity: 0.8; font-size: 0.75rem; margin-left: 0.25rem;">(<%= activePatient.dob %>)</span>
+        </a>
+        <span style="color: rgba(255, 255, 255, 0.3); margin: 0 0.5rem;">|</span>
+        <a href="/patients/clear-selection" style="color: #cbd5e1; font-size: 0.75rem; text-decoration: underline;">Switch</a>
+      </div>
+    <% } %>
+  </div>
 
   <div class="nav-right">
     <% if(user) { %>
-      <a href="/user/profile" style="font-size: 0.85rem; border-right: 1px solid #475569; padding-right: 10px; margin-right: 10px;">
-        User: <strong><%= user.username.charAt(0).toUpperCase() + user.username.slice(1) %></strong>
+      <a href="/user/profile" style="border-right: 1px solid rgba(255, 255, 255, 0.15); padding-right: 0.75rem; margin-right: 0.75rem;">
+        User: <strong><%= user.username.charAt(0).toUpperCase() + user.username.slice(1).toLowerCase() %></strong>
       </a>
       <a href="/auth/sign-out" style="color: #f87171;">Logout</a>
     <% } else { %>

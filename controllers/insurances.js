@@ -60,10 +60,13 @@ router.post("/", async (req, res) => {
 // =======================
 router.get("/recommendation", async (req, res) => {
   try {
+    const activePatient = await Patient.findById(req.params.patientId);
+    if (!activePatient) throw new Error("Patient not found!");
+
     const results = await recommend(req.params.patientId);
-    res.render("billings/recommendation.ejs", { results });
+    res.render("billings/recommendation.ejs", { results, activePatient });
   } catch (error) {
-    res.render("error.ejs", { err: error.message });
+    res.status(400).render("error.ejs", { err: error.message });
   }
 });
 
@@ -80,7 +83,7 @@ router.get("/:id/edit", async (req, res) => {
 
     res.render("billings/edit.ejs", { insurance, activePatient });
   } catch (error) {
-    res.render("error.ejs", { err: error.message });
+    res.status(400).render("error.ejs", { err: error.message });
   }
 });
 
@@ -93,19 +96,7 @@ router.put("/:id", async (req, res) => {
     await Insurance.findByIdAndUpdate(req.params.id, req.body, { new: true });
     res.redirect(`/patients/${req.params.patientId}/billing/${req.params.id}`);
   } catch (error) {
-    res.render("error.ejs", { err: error.message });
-  }
-});
-
-// =======================
-// DELETE
-// =======================
-router.delete("/:id", async (req, res) => {
-  try {
-    await Insurance.findByIdAndDelete(req.params.id);
-    res.redirect(`/patients/${req.params.patientId}/billing`);
-  } catch (error) {
-    res.render("error.ejs", { err: error.message });
+    res.status(400).render("error.ejs", { err: error.message });
   }
 });
 
@@ -119,9 +110,9 @@ router.put("/:id/inactivate", async (req, res) => {
 
     insurance.isInactivated = !insurance.isInactivated;
     await insurance.save();
-    res.redirect(`/patients/${req.params.patientId}/billing`);
+    res.redirect(`/patients/${req.params.patientId}/billing/${req.params.id}`);
   } catch (error) {
-    res.render("error.ejs", { err: error.message });
+    res.status(400).render("error.ejs", { err: error.message });
   }
 });
 
@@ -135,7 +126,7 @@ router.get("/:id/confirm_delete", async (req, res) => {
 
     res.render("billings/billing_delete_confirm_cancel.ejs", { insurance });
   } catch (error) {
-    res.render("error.ejs", { err: error.message });
+    res.status(400).render("error.ejs", { err: error.message });
   }
 });
 
@@ -150,9 +141,24 @@ router.get("/:id", async (req, res) => {
     const activePatient = await Patient.findById(req.params.patientId);
     if (!activePatient) throw new Error("Patient not found.");
 
-    res.render("billings/show.ejs", { insurance, activePatient });
+    res.render("billings/show.ejs", {
+      insurance,
+      activePatient,
+    });
   } catch (error) {
-    res.render("error.ejs", { err: error.message });
+    res.status(400).render("error.ejs", { err: error.message });
+  }
+});
+
+// =======================
+// DELETE
+// =======================
+router.delete("/:id", async (req, res) => {
+  try {
+    await Insurance.findByIdAndDelete(req.params.id);
+    res.redirect(`/patients/${req.params.patientId}/billing`);
+  } catch (error) {
+    res.status(400).render("error.ejs", { err: error.message });
   }
 });
 

@@ -10,25 +10,25 @@
   <%- include('../partials/_navbar.ejs') %>
 
   <div class="main-content">
-    <div class="confirm-card" style="text-align: center;">
+    <div class="confirm-card">
       <h1 style="color: var(--danger);">Confirm Deletion</h1>
       
       <p style="margin-bottom: 2rem;">
         Are you sure you want to delete the insurance plan for 
         <strong><%= insurance.providerName %></strong>?<br>
-        <span style="color: var(--secondary); font-size: 0.9rem;">
+        <span style="color: var(--secondary); font-size: 0.875rem; display: block; margin-top: 0.5rem;">
           This will permanently remove Member ID: <%= insurance.memberId %>
         </span>
       </p>
 
-      <div class="confirm-actions" style="display: flex; flex-direction: column; gap: 1rem;">
-        <form action="/patients/<%= insurance.patient %>/billing/<%= insurance._id %>?_method=DELETE" method="POST">
+      <div class="form-actions" style="display: flex; flex-direction: column; gap: 0.75rem;">
+        <form action="/patients/<%= insurance.patient %>/billing/<%= insurance._id %>?_method=DELETE" method="POST" style="margin: 0; width: 100%;">
           <button type="submit" class="btn btn-danger btn-block">
-            Permanently Delete Insurance plan
+            Permanently Delete Insurance Plan
           </button>
         </form>
 
-        <a href="/patients/<%= insurance.patient %>/billing/<%= insurance._id %>" class="btn btn-outline btn-block">
+        <a href="/patients/<%= insurance.patient %>/billing/<%= insurance._id %>" class="btn btn-outline btn-block" style="margin-top: 0;">
           Cancel & Go Back
         </a>
       </div>

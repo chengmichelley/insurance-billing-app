@@ -47,7 +47,7 @@ router.get("/search", async (req, res) => {
     }
 
     return res.render("patients/search.ejs", {
-      results: results, 
+      results: results,
       firstName: firstName || "",
       lastName: lastName || "",
       dob: dob || "",
@@ -124,7 +124,7 @@ router.get("/:id/edit", async (req, res) => {
     if (!foundPatient) throw new Error("Patient not found");
     res.render("patients/edit.ejs", { patient: foundPatient });
   } catch (error) {
-    res.render("error.ejs", { err: error.message });
+    res.status(400).render("error.ejs", { err: error.message });
   }
 });
 
@@ -143,25 +143,27 @@ router.put("/:id", async (req, res) => {
     await Patient.findByIdAndUpdate(req.params.id, req.body);
     res.redirect(`/patients/${req.params.id}`);
   } catch (error) {
-    res.render("error.ejs", { err: error.message });
+    res.status(400).render("error.ejs", { err: error.message });
   }
 });
 
 // =======================
-// SOFT DELETE (INACTIVATE)
+// SOFT DELETE / TOGGLE ACTIVE STATUS
 // =======================
 router.put("/:id/inactivate", async (req, res) => {
   try {
-    await Patient.findByIdAndUpdate(req.params.id, { isInactivated: true });
+    const patient = await Patient.findById(req.params.id);
+    if (!patient) throw new Error("Patient not found");
+
+    patient.isInactivated = !patient.isInactivated;
+    await patient.save();
+
     res.redirect(`/patients/${req.params.id}`);
   } catch (error) {
-    res.render("error.ejs", { err: error.message });
+    res.status(400).render("error.ejs", { err: error.message });
   }
 });
 
-// =======================
-// SHOW
-// =======================
 // =======================
 // SHOW
 // =======================
@@ -173,6 +175,7 @@ router.get("/:id", async (req, res) => {
     req.session.selectedPatientId = patient._id;
 
     const ranked = await recommend(patient._id);
+    
     const primaryInsurance = ranked.length > 0 ? ranked[0] : null;
 
     res.render("patients/show.ejs", {
@@ -180,8 +183,9 @@ router.get("/:id", async (req, res) => {
       primaryInsurance,
     });
   } catch (error) {
-    res.render("error.ejs", { err: error.message });
+    res.status(400).render("error.ejs", { err: error.message });
   }
 });
+
 
 module.exports = router;

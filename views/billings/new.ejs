@@ -9,42 +9,43 @@
 <body>
   <%- include('../partials/_navbar.ejs') %>
 
-  <div class="form-container">
-    <h1>New Insurance Plan</h1>
-    <p style="color: var(--secondary); margin-bottom: 2rem;">
-      Adding coverage for: <strong><%= activePatient.firstName %> <%= activePatient.lastName %></strong>
-    </p>
+  <div class="main-content">
+    <div class="form-container">
+      <h1>New Insurance Plan</h1>
+      <p style="color: var(--secondary); margin-top: -1rem; margin-bottom: 2rem; font-size: 0.875rem;">
+        Adding coverage for: <strong><%= activePatient.firstName %> <%= activePatient.lastName %></strong>
+      </p>
 
-    <form action="/patients/<%= activePatient._id %>/billing" method="POST">
-      
-      <div class="form-group">
-        <label for="providerName">Provider Name</label>
-        <input type="text" id="providerName" name="providerName" placeholder="e.g., CVS Caremark"/>
-      </div>
-
-      <div class="form-group">
-        <label for="memberId">Member ID</label>
-        <input type="text" id="memberId" name="memberId" required placeholder="8 - 12 digits" pattern="\w{8,12}" title="Member ID must be between 8 and 12 characters"/>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group" style="flex: 1;">
-          <label for="bin">BIN</label>
-          <input type="text" id="bin" name="bin" required placeholder="6 digits" pattern="\d{6}" title="BIN must be exactly 6 digits"/>
+      <form action="/patients/<%= activePatient._id %>/billing" method="POST">
+        
+        <div class="form-group">
+          <label for="providerName">Provider Name</label>
+          <input type="text" id="providerName" name="providerName" placeholder="e.g., CVS Caremark"/>
         </div>
-        <div class="form-group" style="flex: 1;">
-          <label for="pcn">PCN</label>
-          <input type="text" id="pcn" name="pcn" required placeholder="6 - 8 characters" pattern="\w{6,8}" title="PCN must be 6 - 8 characters"/>
+
+        <div class="form-group">
+          <label for="memberId">Member ID</label>
+          <input type="text" id="memberId" name="memberId" required placeholder="8 - 12 digits" pattern="\w{8,12}" title="Member ID must be between 8 and 12 characters"/>
         </div>
-      </div>
 
-      <div class="form-group">
-        <label for="group">Group</label>
-        <input type="text" id="group" name="group" placeholder="5 - 10 digits" pattern="\d{5,10}" title="Group must be between 5 and 10 digits"/>
-      </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="bin">BIN</label>
+            <input type="text" id="bin" name="bin" required placeholder="6 digits" pattern="\d{6}" title="BIN must be exactly 6 digits"/>
+          </div>
+          <div class="form-group">
+            <label for="pcn">PCN</label>
+            <input type="text" id="pcn" name="pcn" required placeholder="6 - 8 characters" pattern="\w{6,8}" title="PCN must be 6 - 8 characters"/>
+          </div>
+        </div>
 
-      <div class="form-group">
-        <label for="state">Plan State (Optional)</label>
+        <div class="form-group">
+          <label for="group">Group</label>
+          <input type="text" id="group" name="group" placeholder="5 - 10 digits" pattern="\d{5,10}" title="Group must be between 5 and 10 digits"/>
+        </div>
+
+        <div class="form-group">
+          <label for="state">Plan State (Optional)</label>
           <select name="state" id="state">
             <option value="">National / N/A</option>
             <option value="AL">Alabama</option>
@@ -100,40 +101,40 @@
           </select>
         </div>
 
+        <div class="form-group">
+          <label for="coverageType">Coverage Type</label>
+          <select name="coverageType" id="coverageType" required>
+            <option value="commercial">Commercial (Private)</option>
+            <option value="medicare">Medicare</option>
+            <option value="medicaid">Medicaid</option>
+            <option value="coupon">Discount Coupon/GoodRx</option>
+          </select>
+        </div>
 
-      <div class="form-group">
-        <label for="coverageType">Coverage Type</label>
-        <select name="coverageType" id="coverageType" required>
-          <option value="commercial">Commercial (Private)</option>
-          <option value="medicare">Medicare</option>
-          <option value="medicaid">Medicaid</option>
-          <option value="coupon">Discount Coupon/GoodRx</option>
-        </select>
-      </div>
+        <div class="form-group">
+          <label for="relationship">Patient Relationship</label>
+          <select name="relationship" id="relationship" required>
+            <option value="self">Self (Subscriber)</option>
+            <option value="dependent">Dependent (Spouse/Child)</option>
+          </select>
+        </div>
 
-      <div class="form-group">
-        <label for="relationship">Patient Relationship</label>
-        <select name="relationship" id="relationship" required>
-          <option value="self">Self (Subscriber)</option>
-          <option value="dependent">Dependent (Spouse/Child)</option>
-        </select>
-      </div>
+        <div class="form-group">
+          <label for="priority">Manual Boost (Optional)</label>
+          <input type="number" id="priority" name="priority" min="0" max="100" value="0"/>
+        </div>
 
-      <div class="form-group">
-        <label for="priority">Manual Boost (Optional)</label>
-        <input type="number" id="priority" name="priority" min="0" max="100" value="0"/>
-      </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="isInactivated" name="isInactivated" value="true" />
+          <label for="isInactivated">Mark as Inactive</label>
+        </div>
 
-      <div class="checkbox-group">
-        <input type="checkbox" id="isInactivated" name="isInactivated" />
-        <label for="isInactivated" style="margin-bottom: 0;">Mark as Inactive</label>
-      </div>
-
-      <div class="form-actions">
-        <button type="submit" class="btn btn-primary">Save Insurance Plan</button>
-        <a href="/patients/<%= activePatient._id %>/billing" class="btn btn-outline">Cancel</a>
-      </div>
-    </form>
+        <div class="form-actions" style="display: flex; gap: 1rem; margin-top: 2rem;">
+          <button type="submit" class="btn btn-primary" style="flex: 1;">Save Insurance Plan</button>
+          <a href="/patients/<%= activePatient._id %>/billing" class="btn btn-outline" style="flex: 1;">Cancel</a>
+        </div>
+      </form>
+    </div>
   </div>
 </body>
 </html>

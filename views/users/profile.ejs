@@ -10,53 +10,68 @@
   <%- include('../partials/_navbar.ejs') %>
 
   <div class="main-content">
-    <div class="form-container" style="max-width: 500px;">
+    <div class="form-container" style="max-width: 900px; padding: 2.5rem;">
+      
       <div class="settings-header" style="margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem;">
         <h1>Account Settings</h1>
-        <p style="color: var(--secondary); text-align: center;">Manage your security and profile details.</p>
+        <p style="color: var(--secondary); margin-top: 0.25rem; font-size: 0.875rem;">Manage your security and profile details.</p>
       </div>
       
       <% if(typeof message !== 'undefined' && message) { %>
-        <div class="badge status-paid" style="display: block; text-align: center; margin-bottom: 1rem; padding: 10px;">
+        <div class="badge status-paid" style="width: 100%; padding: 0.75rem 1rem; margin-bottom: 1.5rem; border-radius: var(--radius-button);">
           <%= message %>
         </div>
       <% } %>
 
       <% if(typeof err !== 'undefined' && err) { %>
-        <div class="error-msg" style="text-align: center; margin-bottom: 1rem;">
+        <div class="error-msg" style="margin-bottom: 1.5rem;">
           <%= err %>
         </div>
       <% } %>
 
-      <div style="background: var(--bg-main); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
-        <p style="margin: 0 0 10px 0;"><strong>Username:</strong> <%= user.username %></p>
-        <p style="margin: 0;">
-          <strong>System Role:</strong> 
-          <span class="badge status-pending" style="font-size: 0.7rem; margin-left: 5px;">
-            <%= user.role.toUpperCase() %>
-          </span>
-        </p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem; align-items: start;">
+        
+        <div style="background: var(--bg-main); padding: 1.5rem; border-radius: var(--radius-card); border: 1px solid var(--border); display: flex; flex-direction: column; gap: 0.75rem;">
+          <h3 style="font-size: 1rem; margin-bottom: 0.25rem;">Profile Information</h3>
+          <p>
+            <strong>Username:</strong> 
+            <%= user.username.charAt(0).toUpperCase() + user.username.slice(1).toLowerCase() %>
+          </p>
+          <p style="display: inline-flex; align-items: center; gap: 0.5rem; margin: 0;">
+            <strong>System Role:</strong> 
+            <span class="badge status-pending">
+              <%= user.role.toUpperCase() %>
+            </span>
+          </p>
+        </div>
+
+        <div>
+          <h3 style="font-size: 1rem; margin-bottom: 1.25rem;">Security Update</h3>
+          
+          <form action="/user/profile/password?_method=PUT" method="POST" style="display: flex; flex-direction: column; gap: 1.25rem;">
+            
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="currentPassword">Current Security Password</label>
+              <input type="password" id="currentPassword" name="currentPassword" required placeholder="Verify current password">
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="password">New Security Password</label>
+              <input type="password" id="password" name="password" required placeholder="Min. 8 characters" minlength="8">
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="confirmPassword">Confirm New Password</label>
+              <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Repeat new password">
+            </div>
+
+            <div class="form-actions" style="margin-top: 0.5rem;">
+              <button type="submit" class="btn btn-primary btn-block">Update Account Password</button>
+            </div>
+          </form>
+        </div>
+
       </div>
-
-      <h3 style="font-size: 0.9rem; text-transform: uppercase; color: var(--secondary); margin-bottom: 1.5rem; text-align: center;">
-        Security Update
-      </h3>
-      
-      <form action="/user/profile/password?_method=PUT" method="POST">
-        <div class="form-group">
-          <label for="password">New Security Password</label>
-          <input type="password" id="password" name="password" required placeholder="Min. 8 characters" minlength="8">
-        </div>
-
-        <div class="form-group">
-          <label for="confirmPassword">Confirm New Password</label>
-          <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Repeat new password">
-        </div>
-
-        <div class="form-actions" style="margin-top: 2rem;">
-          <button type="submit" class="btn btn-primary btn-block">Update Account Password</button>
-        </div>
-      </form>
     </div>
   </div>
 </body>

@@ -10,26 +10,35 @@
   <%- include('./partials/_navbar.ejs') %>
 
   <div class="main-content">
-    <div class="form-container" style="max-width: 500px; text-align: center;">
+    <div class="form-container" style="text-align: center;">
       
-      <div class="error-icon" style="font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
-      <h1 style="color: var(--danger);">System Alert</h1>
+      <div class="error-icon" style="font-size: 3rem; margin-bottom: 0.5rem;">⚠️</div>
+      <h1 style="color: var(--danger); text-align: center;">System Alert</h1>
       
-      <div class="error-msg" style="text-align: left; margin: 1.5rem 0; background: #fff5f5; border-color: #feb2b2;">
-        <strong style="display: block; margin-bottom: 5px; text-transform: uppercase; font-size: 0.75rem; color: var(--danger);">Error Details:</strong>
-        <p style="margin: 0; line-height: 1.4;"><%= typeof err !== 'undefined' ? err : 'An unknown error occurred!' %></p>
+      <div class="error-msg" style="margin: 1.5rem 0; flex-direction: column; align-items: flex-start;">
+        <strong style="display: block; margin-bottom: 4px; text-transform: uppercase; font-size: 0.75rem;">Error Details:</strong>
+        <p style="margin: 0; line-height: 1.5; text-align: left;"><%= typeof err !== 'undefined' ? err : 'An unknown error occurred!' %></p>
       </div>
 
-      <div class="form-actions" style="display: flex; flex-direction: column; gap: 10px; margin-top: 2rem;">
-        <button class="btn btn-primary btn-block" onClick="window.history.back()">
-          ← Return to Previous Page
+      <div class="form-actions" style="display: flex; gap: 1rem; margin-top: 2rem;">
+        <button id="back-btn" class="btn btn-primary" style="flex: 1;">
+          ← Return Back
         </button>
-        <a href="/" class="btn btn-outline btn-block">
-          Go to Home Dashboard
+        <a href="/" class="btn btn-outline" style="flex: 1;">
+          Home Dashboard
         </a>
       </div>
       
     </div>
   </div>
+
+  <script nonce="<%= nonce %>">
+    const backBtn = document.getElementById('back-btn');
+    if (backBtn) {
+      backBtn.addEventListener('click', () => {
+        window.history.back();
+      });
+    }
+  </script>
 </body>
 </html>

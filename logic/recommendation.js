@@ -32,7 +32,6 @@ const recommend = async (patientId) => {
     score: calculateScore(ins),
   }));
 
-  // Lower score = higher billing priority
   ranked.sort((a, b) => a.score - b.score);
 
   let labelIndex = 0;

@@ -10,9 +10,9 @@
   <%- include('../partials/_navbar.ejs') %>
 
   <div class="main-content">
-    <div class="form-container" style="max-width: 450px;">
+    <div class="form-container">
       <h1>Add a New Patient</h1>
-      <p style="color: var(--secondary); margin-bottom: 2rem; text-align: center;">Enter patient details to begin insurance verification.</p>
+      <p style="color: var(--secondary); margin-top: -1rem; margin-bottom: 2rem; font-size: 0.875rem;">Enter patient details to begin insurance verification.</p>
 
       <form action="/patients/" method="POST">
         
@@ -31,43 +31,12 @@
           <input type="tel" id="dob" name="dob" placeholder="MM/DD/YYYY" maxlength="10" required/>
         </div>
 
-        <div class="form-actions" style="display: flex; flex-direction: column; gap: 10px; margin-top: 2rem;">
-          <button type="submit" class="btn btn-primary btn-block">Create Patient Profile</button>
-          <a href="/patients/search" class="btn btn-outline btn-block">Cancel</a>
+        <div class="form-actions" style="display: flex; gap: 1rem; margin-top: 2rem;">
+          <button type="submit" class="btn btn-primary" style="flex: 1;">Create Patient Profile</button>
+          <a href="/patients/search" class="btn btn-outline" style="flex: 1;">Cancel</a>
         </div>
       </form>
     </div>
   </div>
-
-  <script nonce="<%= nonce %>">
-    const dobInput = document.getElementById('dob');
-    let lastValue = '';
-
-    if (dobInput) {
-      dobInput.addEventListener('input', function() {
-        formatDate(this);
-      });
-    }
-
-    function formatDate(input) {
-      let v = input.value.replace(/\D/g, '');
-      if(input.value.length < lastValue.length) {
-        lastValue = input.value;
-        return;
-      }
-      let finalValue = '';
-      if(v.length > 0) {
-        finalValue = v.slice(0, 2); 
-        if(v.length > 2) {
-          finalValue += '/' + v.slice(2,4);
-          if(v.length > 4) {
-            finalValue += '/' + v.slice(4, 8);
-          }
-        }
-      }
-      input.value = finalValue;
-      lastValue = finalValue;
-    }
-  </script>
 </body>
 </html>

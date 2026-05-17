@@ -11,59 +11,59 @@
     <div class="main-content">
 
         <% if (typeof results !== 'undefined' && results.length > 1) { %>
-            <div style="margin-top: 1rem; width: 70%; margin-left: auto; margin-right: auto;">
-                <h1 style="text-align: center;">Find a Patient</h1>
-                <h2 style="margin-bottom: 2rem; color: var(--secondary); font-size: 1.2rem; text-align: center; text-transform: uppercase; letter-spacing: 2px;">
+            <div class="wide-wrapper" style="margin-top: 1rem;">
+                <h1>Find a Patient</h1>
+                <h2 style="margin-bottom: 2rem; color: var(--secondary); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em;">
                     Multiple Matches Found (<%= results.length %>)
                 </h2>
                 <div class="record-list">
                     <% results.forEach(p => { %>
-                        <div class="record-card">
+                        <div class="record-card" style="padding: 1.25rem 1.5rem;">
                             <div class="p-info">
-                                <strong style="font-size: 1.2rem; color: var(--primary); display: block;">
+                                <strong style="font-size: 1.1rem; color: var(--primary); display: block;">
                                     <%= p.firstName %> <%= p.lastName %>
                                 </strong>
-                                <p style="margin: 8px 0 0 0; color: var(--secondary); font-size: 1rem;">
-                                    <strong>DOB:</strong> <%= p.dob %>
-                                    <span style="margin: 0 15px; color: var(--border);">|</span>
-                                    <strong>Status:</strong>
+                                <p style="margin: 6px 0 0 0; color: var(--secondary); font-size: 0.875rem; display: flex; align-items: center; flex-wrap: wrap;">
+                                    <strong>DOB:</strong> <span style="color: var(--text-dark); margin-left: 0.25rem;"><%= p.dob %></span>
+                                    <span style="margin: 0 0.75rem; color: var(--border);">|</span>
+                                    <strong style="margin-right: 0.375rem;">Status:</strong>
                                     <span class="badge <%= p.isInactivated ? 'status-denied' : 'status-paid' %>">
                                         <%= p.isInactivated ? 'INACTIVE' : 'ACTIVE' %>
                                     </span>
                                 </p>
                             </div>
-                            <div style="display: flex; gap: 15px;">
-                                <a href="/patients/<%= p._id %>" class="btn btn-outline" style="padding: 10px 20px;">View Profile</a>
-                                <a href="/patients/<%= p._id %>/billing/new" class="btn btn-primary" style="padding: 10px 20px;">+ Add Insurance</a>
+                            <div style="display: flex; gap: 0.75rem;">
+                                <a href="/patients/<%= p._id %>" class="btn btn-outline">View Profile</a>
+                                <a href="/patients/<%= p._id %>/billing/new" class="btn btn-primary">+ Add Insurance</a>
                             </div>
                         </div>
                     <% }) %>
                 </div>
-                <div style="margin-top: 2rem; text-align: center;">
-                    <a href="/patients/search" class="btn btn-outline" style="display: inline-block; padding: 10px 20px;">← Back to Search</a>
+                <div style="margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+                    <a href="/patients/search" class="btn btn-outline">← Back to Search</a>
                 </div>
             </div>
 
         <% } else if (typeof results !== 'undefined' && results.length === 0 && (firstName || lastName || dob)) { %>
-            <div class="form-container" style="max-width: 500px; text-align: center;">
+            <div class="form-container" style="text-align: center;">
                 <h1>No Patient Found</h1>
-                <div class="error-msg" style="margin: 2rem 0; padding: 1rem; background-color: rgba(255,0,0,0.05); border-radius: 8px;">
+                <div class="error-msg" style="margin: 2rem 0;">
                     No matches found matching those search details. Check the spelling or create a new profile.
                 </div>
-                <div style="display: flex; flex-direction: column; gap: 10px;">
-                    <a href="/patients/search" class="btn btn-primary btn-block">← Try Searching Again</a>
-                    <a href="/patients/new" class="btn btn-outline btn-block">Create New Patient</a>
+                <div class="form-actions" style="display: flex; gap: 1rem;">
+                    <a href="/patients/search" class="btn btn-primary" style="flex: 1;">← Search Again</a>
+                    <a href="/patients/new" class="btn btn-outline" style="flex: 1;">Create New Patient</a>
                 </div>
             </div>
 
         <% } else { %>
-            <div class="form-container" style="max-width: 500px;">
+            <div class="form-container">
                 <h1>Find a Patient</h1>
-                <p style="color: var(--secondary); margin-bottom: 2rem; text-align: center;">
+                <p style="color: var(--secondary); margin-top: -1rem; margin-bottom: 2rem; font-size: 0.875rem;">
                     Search by name or date of birth to manage billing.
                 </p>
                 <% if(typeof message !== 'undefined' && message) { %>
-                    <div class="badge status-pending" style="display: block; text-align: center; margin-bottom: 1.5rem; width: 100%;">
+                    <div class="badge status-pending" style="width: 100%; padding: 0.75rem 1rem; margin-bottom: 1.5rem; border-radius: var(--radius-button);">
                         <%= message %>
                     </div>
                 <% } %>
@@ -85,9 +85,9 @@
                         <label for="dob">Date of Birth</label>
                         <input type="tel" id="dob" name="dob" maxlength="10" placeholder="MM/DD/YYYY" data-initial-value="<%= typeof dob !== 'undefined' ? dob : '' %>" value="<%= typeof dob !== 'undefined' ? dob: '' %>" required/>
                     </div>
-                    <div class="form-actions" style="display: flex; flex-direction: column; gap: 10px; margin-top: 2rem;">
-                        <button type="submit" class="btn btn-primary btn-block">Find Patient Profile</button>
-                        <a href="/patients/new" class="btn btn-outline btn-block">Create New Patient</a>
+                    <div class="form-actions" style="display: flex; gap: 1rem; margin-top: 2rem;">
+                        <button type="submit" class="btn btn-primary" style="flex: 1;">Find Patient Profile</button>
+                        <a href="/patients/new" class="btn btn-outline" style="flex: 1;">Create Patient</a>
                     </div>
                 </form>
             </div>

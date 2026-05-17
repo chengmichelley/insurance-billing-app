@@ -10,9 +10,8 @@
     <%- include('../partials/_navbar.ejs') %>
 
     <div class="main-content">
-      <h1>Insurance Plans for <%= activePatient.firstName %> <%= activePatient.lastName %></h1>
-      
-      <div class="header-actions" style="margin-bottom: 2rem; display: flex; gap: 1rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+        <h1 style="margin-bottom: 0;">Insurance Plans for <%= activePatient.firstName %> <%= activePatient.lastName %></h1>
         <a href="/patients/<%= activePatient._id %>/billing/new" class="btn btn-primary">
           + Add New Insurance Plan
         </a>
@@ -21,11 +20,11 @@
       <div class="record-list">
         <% if( insurance && insurance.length > 0) { %>
           <% insurance.forEach(item => { %>
-            <div class="record-card" style="margin-bottom: 1rem; position: relative;">
-              <a href="/patients/<%= activePatient._id %>/billing/<%= item.insurance._id %>" style="text-decoration: none; display: block;">
+            <div class="record-card" style="padding: 1.5rem;">
+              <a href="/patients/<%= activePatient._id %>/billing/<%= item.insurance._id %>" style="text-decoration: none; display: block; width: 100%;">
                 
-                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                  <span class="record-title" style="font-size: 1.2rem; font-weight: 700; color: var(--primary);">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
+                  <span class="record-title" style="font-size: 1.1rem; font-weight: 600; color: var(--primary);">
                     <%= item.insurance.providerName || 'Unknown Provider' %>
                   </span>
                   
@@ -40,23 +39,23 @@
                   </div>
                 </div>
 
-                <div class="record-meta">
-                  <strong>ID:</strong> <%= item.insurance.memberId %> | 
-                  <strong>Type:</strong> <%= item.insurance.coverageType.toUpperCase() %> 
-                  <% if(item.insurance.state) { %> | <strong>State:</strong> <%= item.insurance.state %><% } %>
+                <div class="record-meta" style="font-size: 0.875rem; color: var(--secondary);">
+                  <strong style="color: var(--text-dark);">ID:</strong> <%= item.insurance.memberId %> <span style="color: var(--border); margin: 0 0.5rem;">|</span> 
+                  <strong style="color: var(--text-dark);">Type:</strong> <%= item.insurance.coverageType.toUpperCase() %> 
+                  <% if(item.insurance.state) { %> <span style="color: var(--border); margin: 0 0.5rem;">|</span> <strong style="color: var(--text-dark);">State:</strong> <%= item.insurance.state %><% } %>
                 </div>
               </a>
             </div>
           <% }) %>
         <% } else { %>
-          <div class="form-container" style="text-align: center; padding: 3rem;">
-            <p>No insurance records found for this patient.</p>
+          <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-card); text-align: center; padding: 4rem 2rem; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.25rem;">
+            <p style="color: var(--secondary); margin: 0; font-size: 0.95rem;">No insurance records found for this patient.</p>
             <a href="/patients/<%= activePatient._id %>/billing/new" class="btn btn-outline">Add First Plan</a>
           </div>
         <% } %>  
       </div>
 
-      <div style="margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--border);">
+      <div style="margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); display: flex; gap: 1rem;">
         <a href="/patients/<%= activePatient._id %>" class="btn btn-outline">Back to Profile</a>
         <a href="/patients/search" class="btn btn-outline">Search Another Patient</a>
       </div>

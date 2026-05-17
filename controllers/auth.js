@@ -25,7 +25,7 @@ router.post("/sign-up", authRequired, isAdmin, async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     await User.create({
-      username,
+      username: username.toLowerCase(),
       hashedPassword,
       role: "staff",
     });

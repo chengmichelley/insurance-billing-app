@@ -7,10 +7,6 @@ const isAdmin = require("../middleware/isAdmin");
 
 router.use(authRequired);
 
-// =======================
-// PUBLIC STAFF ROUTES
-// =======================
-
 router.get("/profile", async (req, res) => {
   try {
     const user = await User.findById(req.session.user._id);
@@ -20,13 +16,25 @@ router.get("/profile", async (req, res) => {
       message: req.query.message || null,
     });
   } catch (error) {
-    res.render("error.ejs", { err: error.message });
+    res.status(400).render("error.ejs", { err: error.message });
   }
 });
 
 router.put("/profile/password", async (req, res) => {
   try {
-    const { password, confirmPassword } = req.body;
+    const { currentPassword, password, confirmPassword } = req.body;
+
+    const user = await User.findById(req.session.user._id).select(
+      "+hashedPassword",
+    );
+
+    const isMatch = await bcrypt.compare(currentPassword, user.hashedPassword);
+    if (!isMatch) {
+      throw new Error(
+        "The current security password you entered is incorrect.",
+      );
+    }
+
     if (password.length < 8) {
       throw new Error("Password must be at least 8 characters.");
     }
@@ -40,7 +48,7 @@ router.put("/profile/password", async (req, res) => {
     res.redirect("/user/profile?message=Password updated successfully!");
   } catch (error) {
     const user = await User.findById(req.session.user._id);
-    res.render("users/profile.ejs", {
+    res.status(400).render("users/profile.ejs", {
       user,
       err: error.message,
       message: null,
@@ -48,27 +56,26 @@ router.put("/profile/password", async (req, res) => {
   }
 });
 
-// =======================
-// ADMIN ONLY ROUTES
-// =======================
-
 router.use(isAdmin);
 
-// =======================
-// INDEX
-// =======================
 router.get("/", async (req, res) => {
   try {
     const users = await User.find();
-    res.render("users/index", { users });
+    let deleteTarget = null;
+
+    if (req.query.confirmDelete) {
+      deleteTarget = await User.findById(req.query.confirmDelete);
+    }
+
+    res.render("users/index", {
+      users,
+      deleteTarget,
+    });
   } catch (error) {
-    res.render("error.ejs", { err: error.message });
+    res.status(400).render("error.ejs", { err: error.message });
   }
 });
 
-// =======================
-// UPDATE ROLE
-// =======================
 router.put("/:id/role", async (req, res) => {
   try {
     if (req.params.id === req.session.user._id.toString()) {
@@ -78,13 +85,10 @@ router.put("/:id/role", async (req, res) => {
     await User.findByIdAndUpdate(req.params.id, { role: req.body.role });
     res.redirect("/user");
   } catch (error) {
-    res.render("error.ejs", { err: error.message });
+    res.status(400).render("error.ejs", { err: error.message });
   }
 });
 
-// =======================
-// DELETE
-// =======================
 router.delete("/:id", async (req, res) => {
   try {
     if (req.params.id === req.session.user._id.toString()) {
@@ -94,7 +98,7 @@ router.delete("/:id", async (req, res) => {
     await User.findByIdAndDelete(req.params.id);
     res.redirect("/user");
   } catch (error) {
-    res.render("error.ejs", { err: error.message });
+    res.status(400).render("error.ejs", { err: error.message });
   }
 });
 

@@ -9,15 +9,17 @@
   <body>
     <%- include('../partials/_navbar.ejs') %>
 
-    <div class="auth-container">
+    <div class="main-content">
       <div class="auth-card">
         <h1>Sign In</h1>
-        <p style="color: var(--secondary); text-align: center; margin-bottom: 2rem; font-size: 0.9rem;">
+        <p style="color: var(--secondary); margin-top: -1rem; margin-bottom: 2rem; font-size: 0.875rem;">
           Access the secure pharmacy billing portal.
         </p>
 
         <% if(locals.err) { %>
-          <p class="error-msg"><%= err %></p>
+          <div class="error-msg" style="margin-bottom: 1.5rem;">
+            <%= err %>
+          </div>
         <% } %>
 
         <form action="/auth/sign-in" method="POST">
@@ -31,9 +33,13 @@
             <input type="password" id="password" name="password" required placeholder="Enter your password"/>
           </div>
 
-          <button type="submit" class="btn btn-primary btn-block">Sign In to Dashboard</button>
+          <div class="form-actions" style="margin-top: 1.5rem;">
+            <button type="submit" class="btn btn-primary btn-block">Sign In to Dashboard</button>
+          </div>
         </form>
-        <p style="margin-top: 1.5rem; text-align: center; font-size: 0.85rem; color: var(--secondary);">New staff? Contact your administrator for system access.
+        
+        <p style="margin-top: 2rem; font-size: 0.8125rem; color: var(--secondary);">
+          New staff? Contact your administrator for system access.
         </p>
       </div>
     </div>

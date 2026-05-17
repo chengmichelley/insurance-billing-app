@@ -9,57 +9,57 @@
 <body>
   <%- include('partials/_navbar.ejs')%>
 
-  <div class="main-content" style="max-width: 1000px; margin: 0 auto;">
+  <div class="main-content" style="max-width: 1000px; width: 100%; margin: 0 auto; box-sizing: border-box;">
     
     <% if(user) { %>
-      <div class="hero-section" style="background: white; padding: 3rem; border-radius: 12px; border: 1px solid var(--border); text-align: center; margin-bottom: 2.5rem;">
-        <h1 style="margin-bottom: 0.5rem;">Pharmacy Billing Management</h1>
-        <p style="color: var(--secondary); font-size: 1.1rem;">
-          Welcome back, <strong><%= user.username %></strong>. 
-          Role: <span class="badge status-pending"><%= user.role.toUpperCase() %></span>
+      <div class="hero-section" style="background: white; padding: 2.5rem 2rem; border-radius: var(--radius-card); border: 1px solid var(--border); text-align: left; margin-bottom: 2.5rem; box-shadow: var(--shadow-sm);">
+        <h1 style="margin-bottom: 0.25rem;">Pharmacy Billing Management</h1>
+        <p style="color: var(--secondary); font-size: 1rem; margin: 0;">
+          Welcome back, <strong><%= user.username.charAt(0).toUpperCase() + user.username.slice(1).toLowerCase() %></strong>. 
+          Role: <span class="badge status-pending" style="margin-left: 0.25rem;"><%= user.role.toUpperCase() %></span>
         </p>
       </div>
 
       <div class="dashboard-grid">
         <a href="/patients/search" class="action-card">
-          <span style="font-size: 2.5rem; margin-bottom: 1rem; display: block;">🔍</span>
+          <span style="font-size: 2rem; margin-bottom: 0.5rem; display: block;">🔍</span>
           <h3>Patient Search</h3>
-          <p style="color: var(--secondary); font-size: 0.9rem;">Find records and manage billing plans.</p>
+          <p style="color: var(--secondary); font-size: 0.875rem;">Find records and manage billing plans.</p>
         </a>
 
         <a href="/patients/new" class="action-card">
-          <span style="font-size: 2.5rem; margin-bottom: 1rem; display: block;">👤</span>
+          <span style="font-size: 2rem; margin-bottom: 0.5rem; display: block;">👤</span>
           <h3>New Patient</h3>
-          <p style="color: var(--secondary); font-size: 0.9rem;">Create profile for insurance verification.</p>
+          <p style="color: var(--secondary); font-size: 0.875rem;">Create profile for insurance verification.</p>
         </a>
       </div>
 
       <% if(user.role === 'admin') { %>
-        <div style="margin-top: 4rem; padding-top: 2rem; border-top: 2px dashed var(--border);">
-          <h2 style="margin-bottom: 1.5rem; font-size: 1.2rem; color: var(--secondary); text-transform: uppercase;">🛡️ Administrator Tools</h2>
+        <div style="margin-top: 3.5rem; padding-top: 2rem; border-top: 1px solid var(--border);">
+          <h2 style="margin-bottom: 1.5rem; font-size: 0.85rem; color: var(--secondary); text-transform: uppercase; letter-spacing: 0.05em;">🛡️ Administrator Tools</h2>
           <div class="admin-grid">
-            <a href="/user" class="tool-card">
-              <span style="font-size: 2.5rem; margin-bottom: 1rem; display: block;">📋</span>
+            <a href="/user" class="action-card">
+              <span style="font-size: 2rem; margin-bottom: 0.5rem; display: block;">📋</span>
               <h3>Staff Directory</h3>
-              <p style="color: var(--secondary); font-size: 0.9rem;">Manage user roles and permissions.</p>
+              <p style="color: var(--secondary); font-size: 0.875rem;">Manage user roles and permissions.</p>
             </a>
-            <a href="/auth/sign-up" class="tool-card">
-              <span style="font-size: 2.5rem; margin-bottom: 1rem; display: block;">➕</span>
+            <a href="/auth/sign-up" class="action-card">
+              <span style="font-size: 2rem; margin-bottom: 0.5rem; display: block;">➕</span>
               <h3>Register Staff</h3>
-              <p style="color: var(--secondary); font-size: 0.9rem;">Add new members to the system.</p>
+              <p style="color: var(--secondary); font-size: 0.875rem;">Add new members to the system.</p>
             </a>
           </div>
         </div>
       <% } %>
     
     <% } else { %>
-      <div class="hero-section" style="background: white; padding: 5rem 2rem; border-radius: 12px; border: 1px solid var(--border); text-align: center;">
-        <h1 style="margin-bottom: 1.5rem;">Secure Billing Portal</h1>
-        <p style="margin-bottom: 2.5rem; color: var(--secondary); max-width: 500px; margin-left: auto; margin-right: auto;">
+      <div class="hero-section" style="background: white; padding: 5rem 2rem; border-radius: var(--radius-card); border: 1px solid var(--border); text-align: center; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem;">
+        <h1 style="margin: 0; text-align: center;">Secure Billing Portal</h1>
+        <p style="color: var(--secondary); max-width: 500px; margin: 0 auto 1.5rem auto; font-size: 1rem;">
           Please sign in to manage patient billing, verify insurance plans, and access sensitive clinical data.
         </p>
-        <a href="/auth/sign-in" class="btn btn-primary" style="padding: 1rem 3rem;">Sign In to Dashboard</a>
-        <p style="margin-top: 2rem; font-size: 0.85rem; color: var(--secondary);">
+        <a href="/auth/sign-in" class="btn btn-primary" style="padding: 0.75rem 2.5rem;">Sign In to Dashboard</a>
+        <p style="margin-top: 1rem; font-size: 0.8125rem; color: var(--secondary); margin-bottom: 0;">
           New staff? Contact your administrator for system access.
         </p>
       </div>

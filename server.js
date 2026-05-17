@@ -12,7 +12,8 @@ const patientController = require("./controllers/patients");
 const authRoutes = require("./controllers/auth");
 const userRoutes = require("./controllers/users");
 const session = require("express-session");
-const MongoStore = require("connect-mongo").default;
+const MongoStore = require("connect-mongo").default || require("connect-mongo");
+
 const authRequired = require("./middleware/authRequired");
 const viewData = require("./middleware/viewData");
 
@@ -37,7 +38,7 @@ app.use(
         scriptSrc: [
           "'self'",
           (req, res) => `'nonce-${res.locals.nonce}'`,
-          "'unsafe-eval'",
+          "https://unpkg.com",
         ],
         styleSrc: ["'self'", "'unsafe-inline'"],
       },
@@ -60,10 +61,16 @@ app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     store: MongoStore.create({
       mongoUrl: process.env.MONGODB_URI,
     }),
+    cookie: {
+      secure: process.env.NODE_ENV === "production",
+      httpOnly: true,
+      sameSite: "lax",
+      maxAge: 1000 * 60 * 60 * 24,
+    },
   }),
 );
 
@@ -81,8 +88,13 @@ app.use("/user", authRequired, userRoutes);
 // =======================
 // 404 CATCH ALL
 // =======================
-app.get("*path", (req, res) => {
-  res.render("error.ejs", { err: "Page Not Found" });
+app.get("/*path", (req, res) => {
+  res.status(404).render("error.ejs", { err: "Page Not Found" });
+});
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).render("error.ejs", { err: "Internal Server Error" });
 });
 
 // =======================
