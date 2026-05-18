@@ -101,13 +101,13 @@ const seedDatabase = async () => {
 
     await User.create({
       username: "admin_demo",
-      hashedPassword: adminPassword,
+      hashedPassword: password123,
       role: "admin",
       });
 
     await User.create({
       username: "staff_demo",
-      hashedPassword: staffPassword,
+      hashedPassword: password123,
       role: "staff",
       });
         
