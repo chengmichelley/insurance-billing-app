@@ -7,11 +7,12 @@ const PORT = process.env.PORT || 3000;
 const methodOverride = require("method-override");
 const morgan = require("morgan");
 const helmet = require("helmet");
+const session = require("express-session");
+const MongoStore = require("connect-mongo").default || require("connect-mongo");
+
 const patientController = require("./controllers/patients");
 const authRoutes = require("./controllers/auth");
 const userRoutes = require("./controllers/users");
-const session = require("express-session");
-const MongoStore = require("connect-mongo").default || require("connect-mongo");
 
 const authRequired = require("./middleware/authRequired");
 const viewData = require("./middleware/viewData");
@@ -55,7 +56,7 @@ app.set("view cache", true);
 app.set("trust proxy", 1);
 
 // =======================
-// ROUTES
+// SESSION CONFIGURATION 
 // =======================
 app.use(
   session({
@@ -74,6 +75,9 @@ app.use(
   }),
 );
 
+// =======================
+// ROUTES & CUSTOM MIDDLEWARE
+// =======================
 app.use(viewData);
 app.use("/auth", authRoutes);
 
